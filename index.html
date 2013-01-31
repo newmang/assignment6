@@ -38,7 +38,7 @@
 
 <body ondragstart="return false;">
 
-	<canvas id="canvas" width="250" height="425" style="border: 2px solid; -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);"></canvas>
+	<canvas id="canvas" width="250" height="425" style="border: 2px solid; -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);" ongesturestart="return false;" ongesturemove="return false;" ongestureend="return false;" ontouchmove="return false;" ontouchend="return false;"></canvas>
 
 <script type="text/javascript" src="block.js"></script>
 <script type="text/javascript" src="tetris.js"></script>
@@ -47,6 +47,7 @@
 
 var canvas = document.getElementById('canvas');
 var game = new Tetris(canvas, -1, -1);
+
 game.run();
 canvas.addEventListener("touchstart", function(e){ game.click(e); }, false);
 //canvas.addEventListener("touchstart", function(e) { game.touch(e); }, false);
