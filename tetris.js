@@ -63,7 +63,6 @@ Tetris.prototype.touch = function(e) {
 };
 
 Tetris.prototype.click = function(e) {
-/*
   // Get relative "touch" position
   var gameEventX = e.pageX - this.canvasElem.offsetLeft;
   var gameEventY = e.pageY - this.canvasElem.offsetTop;
@@ -109,7 +108,6 @@ Tetris.prototype.click = function(e) {
   else if( gameEventX > this.activeBlock.x * this.cellSize ) {
     this.move(1, 0);
     }
-*/
 };
 
 Tetris.prototype.checkLines = function() {
