@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Tetris</title>
+  <style>
+    html, body, canvas {
+      margin: 0;
+      padding: 0
+    }
+    html, body { 
+      width:100%; 
+      height:100%; 
+      overflow:hidden;
+    }
+
+    .scoreHeader {
+      font-size: 30px;
+    }
+
+    .scoreField {
+      border: 0px;
+      font-size: 30px;
+      width: 100%;
+      background-color: #CCFFFF;
+    }
+
+    .playButton {
+      font-size: 25px;
+      letter-spacing: 0.3em;
+      font-weight: bold;
+      width: 49%;
+      height: 75px;
+    }
+  </style>
+</head>
+
+<body>
+
+<table border="0">
+<tr><td rowspan="2">
+
+  <canvas id="canvas" width="250" height="425" style="border: 2px solid;"></canvas>
+
+</td><td valign="top" width="150">
+
+  <form id="scoreBoard" style="margin-top: 0; margin-bottom: 0;" class="scoreHeader">
+
+    Score:<br><input type="text" id="score" class="scoreField" /><br><br>
+    Lines:<br><input type="text" id="lines" class="scoreField" /><br><br>
+    Level:<br><input type="text" id="level" class="scoreField" />
+
+  </form>
+
+</td></tr>
+<tr><td valign="bottom">
+
+  <canvas id="canvasPreview" width="150" height="100" style="border: 2px solid;"></canvas>
+
+</td></tr>
+<tr><td colspan="2" align="center">
+<!--
+  <input type="button" value="LEFT" class="playButton" onclick="game.move(-1, 0);" />
+  <input type="button" value="RIGHT" class="playButton" onclick="game.move(1, 0);" /><br>
+  <input type="button" value="ROTATE" class="playButton" onclick="game.rotate();" />
+  <input type="button" value="DROP" class="playButton" onclick="game.move(0, 1);" />
+-->
+</td></tr>
+</table>
+
+<script type="text/javascript" src="block.js"></script>
+<script type="text/javascript" src="tetris.js"></script>
+
+<script type="text/javascript">
+
+var ctx = document.getElementById('canvas').getContext('2d');
+var ctxPreview = document.getElementById('canvasPreview').getContext('2d');
+var scoreBoard = document.getElementById('scoreBoard');
+
+var game = new Tetris(ctx, ctxPreview, scoreBoard);
+game.run();
+
+window.addEventListener("keydown", doKeyDown, true);
+
+function doKeyDown(event) {
+  switch( event.keyCode ) {
+    case 39:
+      game.move(1, 0);
+      break;
+
+    case 37:
+      game.move(-1, 0);
+      break;
+
+    case 40:
+      game.move(0, 1);
+      break;
+
+    case 32:
+      game.rotate();
+      break;
+    }
+}
+</script>
+
+</body>
+</html>
