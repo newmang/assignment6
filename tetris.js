@@ -64,8 +64,8 @@ Tetris.prototype.touch = function(e) {
 
 Tetris.prototype.click = function(e) {
   // Get relative "touch" position
-  var gameEventX = e.pageX - this.canvasElem.offsetLeft;
-  var gameEventY = e.pageY - this.canvasElem.offsetTop;
+  var gameEventX = e.originalEvent.touches[0].pageX - this.canvasElem.offsetLeft;
+  var gameEventY = e.originalEvent.touches[0].pageY - this.canvasElem.offsetTop;
 
   // Find the bounding box for the current rotation of the active block
   var boundingBox = {};
