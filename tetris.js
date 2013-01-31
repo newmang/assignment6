@@ -3,7 +3,9 @@ function Tetris(canvas, canvasPreview, scoreBoard){
   this.interval = 600;	// milliseconds
   this.width = 10;
   this.height = 17;
-  this.canvas = canvas;
+  this.canvas = canvas.getContext('2d');
+  this.canvasElem = canvas;
+
   this.nextPiece = 0;
   this.prevWidth = 6;
   this.prevHeight = 4;
@@ -24,12 +26,12 @@ function Tetris(canvas, canvasPreview, scoreBoard){
 Tetris.prototype.drawCell = function(x, y, color, canvasCtx) {
   canvasCtx.fillStyle = color;
   canvasCtx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
-}
+};
 
 Tetris.prototype.clearGrid = function(width, height, canvasCtx) {
   canvasCtx.fillStyle = "#FFCCCC";
   canvasCtx.fillRect(0, 0, width * this.cellSize, height * this.cellSize);
-}
+};
 
 Tetris.prototype.draw = function() {
   this.clearGrid(this.width, this.height, this.canvas);
@@ -48,10 +50,65 @@ Tetris.prototype.draw = function() {
 };
 
 Tetris.prototype.drawScore = function() {
+  if( this.scoreBoard == -1 )
+    return;
+
   this.scoreBoard.score.value = this.score;
   this.scoreBoard.lines.value = this.lines;
   this.scoreBoard.level.value = this.level;
-}
+};
+
+Tetris.prototype.touch = function(e) {
+  alert(e);
+};
+
+Tetris.prototype.click = function(e) {
+  // Get relative "touch" position
+  var gameEventX = e.pageX - this.canvasElem.offsetLeft;
+  var gameEventY = e.pageY - this.canvasElem.offsetTop;
+
+  // Find the bounding box for the current rotation of the active block
+  var boundingBox = {};
+  boundingBox.minX = this.width;
+  boundingBox.maxX = 0;
+  boundingBox.minY = this.height;
+  boundingBox.maxY = 0;
+
+  var blockCells = this.activeBlock.cells[this.activeBlock.r];
+
+  for( var i = 0; i < blockCells.length; i++ ) {
+    if( blockCells[i][0] < boundingBox.minX )
+      boundingBox.minX = blockCells[i][0];
+
+    if( blockCells[i][0] > boundingBox.maxX )
+      boundingBox.maxX = blockCells[i][0];
+
+    if( blockCells[i][1] < boundingBox.minY )
+      boundingBox.minY = blockCells[i][1];
+
+    if( blockCells[i][1] > boundingBox.maxY )
+      boundingBox.maxY = blockCells[i][1];
+  }
+
+  // The boundingBox is just relative game cell offsets to the active block at this point
+  // Turn them into pixels.
+  boundingBox.minX = (this.activeBlock.x + boundingBox.minX) * this.cellSize;
+  boundingBox.maxX = (this.activeBlock.x + boundingBox.maxX) * this.cellSize + this.cellSize;
+  boundingBox.minY = (this.activeBlock.y + boundingBox.minY) * this.cellSize;
+  boundingBox.maxY = (this.activeBlock.y +boundingBox.maxY) * this.cellSize + this.cellSize;
+
+  if( gameEventX > boundingBox.minX && gameEventX < boundingBox.maxX && gameEventY > boundingBox.minY && gameEventY < boundingBox.maxY )
+    this.rotate();
+  else if( gameEventY > this.canvasElem.offsetHeight - (this.canvasElem.offsetHeight/5) ) {
+    this.move(0, 1);
+    }
+  else if( gameEventX < this.activeBlock.x * this.cellSize ) {
+    this.move(-1, 0);
+    }
+  else if( gameEventX > this.activeBlock.x * this.cellSize ) {
+    this.move(1, 0);
+    }
+};
 
 Tetris.prototype.checkLines = function() {
   var lines = new Array();
@@ -106,6 +163,10 @@ Tetris.prototype.gameOver = function() {
 
 Tetris.prototype.chooseNextPiece = function() {
   this.nextPiece = this.randomBlock();
+
+  if( this.canvasPreview == -1 )
+    return;
+
   this.clearGrid(this.prevWidth, this.prevHeight, this.canvasPreview);
 
   var previewBlock = new Block(this.nextPiece);
@@ -118,7 +179,9 @@ Tetris.prototype.chooseNextPiece = function() {
   }
 
   // draw the block to the preview area
-  previewBlock.draw(this, this.canvasPreview);
+  if( this.canvasPreview != -1 ) {
+    previewBlock.draw(this, this.canvasPreview);    
+  }
 }
 
 Tetris.prototype.tick = function() {

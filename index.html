@@ -36,72 +36,21 @@
   </style>
 </head>
 
-<body>
+<body ondragstart="return false;">
 
-<table border="0">
-<tr><td rowspan="2">
-
-  <canvas id="canvas" width="250" height="425" style="border: 2px solid;"></canvas>
-
-</td><td valign="top" width="150">
-
-  <form id="scoreBoard" style="margin-top: 0; margin-bottom: 0;" class="scoreHeader">
-
-    Score:<br><input type="text" id="score" class="scoreField" /><br><br>
-    Lines:<br><input type="text" id="lines" class="scoreField" /><br><br>
-    Level:<br><input type="text" id="level" class="scoreField" />
-
-  </form>
-
-</td></tr>
-<tr><td valign="bottom">
-
-  <canvas id="canvasPreview" width="150" height="100" style="border: 2px solid;"></canvas>
-
-</td></tr>
-<tr><td colspan="2" align="center">
-<!--
-  <input type="button" value="LEFT" class="playButton" onclick="game.move(-1, 0);" />
-  <input type="button" value="RIGHT" class="playButton" onclick="game.move(1, 0);" /><br>
-  <input type="button" value="ROTATE" class="playButton" onclick="game.rotate();" />
-  <input type="button" value="DROP" class="playButton" onclick="game.move(0, 1);" />
--->
-</td></tr>
-</table>
+	<canvas id="canvas" width="250" height="425" style="border: 2px solid;"></canvas>
 
 <script type="text/javascript" src="block.js"></script>
 <script type="text/javascript" src="tetris.js"></script>
 
 <script type="text/javascript">
 
-var ctx = document.getElementById('canvas').getContext('2d');
-var ctxPreview = document.getElementById('canvasPreview').getContext('2d');
-var scoreBoard = document.getElementById('scoreBoard');
-
-var game = new Tetris(ctx, ctxPreview, scoreBoard);
+var canvas = document.getElementById('canvas');
+var game = new Tetris(canvas, -1, -1);
 game.run();
+canvas.addEventListener("click", function(e){ game.click(e); }, false);
+canvas.addEventListener("touchstart", function(e) { game.touch(e); }, false);
 
-window.addEventListener("keydown", doKeyDown, true);
-
-function doKeyDown(event) {
-  switch( event.keyCode ) {
-    case 39:
-      game.move(1, 0);
-      break;
-
-    case 37:
-      game.move(-1, 0);
-      break;
-
-    case 40:
-      game.move(0, 1);
-      break;
-
-    case 32:
-      game.rotate();
-      break;
-    }
-}
 </script>
 
 </body>
