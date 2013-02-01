@@ -18,10 +18,10 @@ function Tetris(canvas, canvasPreview, scoreBoard){
   this.timeHandle = null;
 
   // initialize the dead cell matrix (width X height)
-  this.deadCells = new Array(this.width);
-  for( var i = 0; i<this.deadCells.length; i++ ) {
-    this.deadCells[i] = new Array(this.height);
-  }
+//  this.deadCells = new Array(this.width);
+//  for( var i = 0; i<this.deadCells.length; i++ ) {
+//    this.deadCells[i] = new Array(this.height);
+//  }
 }
 
 Tetris.prototype.drawCell = function(x, y, color, canvasCtx) {
@@ -56,10 +56,6 @@ Tetris.prototype.drawScore = function() {
   this.scoreBoard.score.value = this.score;
   this.scoreBoard.lines.value = this.lines;
   this.scoreBoard.level.value = this.level;
-};
-
-Tetris.prototype.touch = function(e) {
-  alert(e);
 };
 
 Tetris.prototype.click = function(e) {
@@ -181,9 +177,21 @@ Tetris.prototype.checkLines = function() {
 };
 
 Tetris.prototype.reset = function() {
+  var testSize = window.innerWidth/this.width;
+  if( testSize * window.innerHeight < window.innerHeight )
+    this.cellSize = testSize;
+  else
+    this.cellSize = window.innerHeight/this.height;
+
+  canvas.width = this.cellSize * this.width;
+  canvas.height = this.cellSize * this.height;
+
+  // reset stuff
+  this.interval = this.originalInterval;
   this.score = 0;
+  this.lines = 0;
   this.level = 0;
-  this.interval = this.orginalInterval;
+  this.drawScore();
 
   // initialize the dead cell matrix (width X height)
   this.deadCells = new Array(this.width);
@@ -196,7 +204,6 @@ Tetris.prototype.gameOver = function() {
   // game lost
   clearInterval(this.timeHandle);
   alert("GAME OVER\nScore: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level);
-  this.reset();
   this.run();
 };
 
@@ -253,21 +260,7 @@ Tetris.prototype.randomBlock = function() {
 };
 
 Tetris.prototype.run = function() {
-  var testSize = window.innerWidth/this.width;
-  if( testSize * window.innerHeight < window.innerHeight )
-    this.cellSize = testSize;
-  else
-    this.cellSize = window.innerHeight/this.height;
-
-  canvas.width = this.cellSize * this.width;
-  canvas.height = this.cellSize * this.height;
-
-  // reset the score board
-  this.score = 0;
-  this.lines = 0;
-  this.level = 0;
-  this.drawScore();
-
+  this.reset();
   this.chooseNextPiece();
 
   this.activeBlock = new Block(this.nextPiece);
