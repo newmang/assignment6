@@ -64,8 +64,8 @@ Tetris.prototype.touch = function(e) {
 
 Tetris.prototype.click = function(e) {
   // Get relative "touch" position
-  var gameEventX = e.touches[0].pageX - this.canvasElem.offsetLeft;
-  var gameEventY = e.touches[0].pageY - this.canvasElem.offsetTop;
+  var gameEventX = Math.floor((e.touches[0].pageX - this.canvasElem.offsetLeft) / this.cellSize);
+  var gameEventY = Math.floor((e.touches[0].pageY - this.canvasElem.offsetTop) / this.cellSize);
 //  var gameEventX = Math.floor((e.pageX - this.canvasElem.offsetLeft) / this.cellSize);
 //  var gameEventY = Math.floor((e.pageY - this.canvasElem.offsetTop) / this.cellSize);
 
