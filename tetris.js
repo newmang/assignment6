@@ -168,7 +168,7 @@ Tetris.prototype.checkLines = function() {
       ++this.level;
 
       clearInterval(this.timeHandle);
-      this.interval = this.interval - (this.interval/4);
+      this.interval = this.interval - (this.interval/10);	// changed it from 1/4th faster to 1/10th faster for phones
 
       var _this = this;
       this.timeHandle = setInterval(function(){ _this.tick(); }, this.interval);
@@ -181,7 +181,6 @@ Tetris.prototype.checkLines = function() {
 };
 
 Tetris.prototype.reset = function() {
-  this.deadCells.length = 0;
   this.score = 0;
   this.level = 0;
   this.interval = this.orginalInterval;
