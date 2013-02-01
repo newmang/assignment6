@@ -1,6 +1,7 @@
 function Tetris(canvas, canvasPreview, scoreBoard){
   this.cellSize = 25;
   this.interval = 600;	// milliseconds
+  this.originalInterval = interval;
   this.width = 10;
   this.height = 17;
   this.canvas = canvas.getContext('2d');
@@ -183,6 +184,7 @@ Tetris.prototype.reset = function() {
   this.deadCells.length = 0;
   this.score = 0;
   this.level = 0;
+  this.interval = this.orginalInterval;
 
   // initialize the dead cell matrix (width X height)
   this.deadCells = new Array(this.width);
