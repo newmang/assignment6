@@ -51,8 +51,8 @@ var canvas = document.getElementById('canvas');
 var game = new Tetris(canvas, -1, -1);
 
 game.run();
-canvas.addEventListener("touchstart", function(e){ game.click(e); }, false);
-//canvas.addEventListener("touchstart", function(e) { game.touch(e); }, false);
+//canvas.addEventListener("touchstart", function(e){ game.click(e); }, false);
+canvas.addEventListener("click", function(e) { game.click(e); }, false);
 
 </script>
 

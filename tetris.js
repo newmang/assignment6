@@ -64,8 +64,10 @@ Tetris.prototype.touch = function(e) {
 
 Tetris.prototype.click = function(e) {
   // Get relative "touch" position
-  var gameEventX = e.touches[0].pageX - this.canvasElem.offsetLeft;
-  var gameEventY = e.touches[0].pageY - this.canvasElem.offsetTop;
+//  var gameEventX = e.touches[0].pageX - this.canvasElem.offsetLeft;
+  //var gameEventY = e.touches[0].pageY - this.canvasElem.offsetTop;
+  var gameEventX = Math.floor((e.pageX - this.canvasElem.offsetLeft) / this.cellSize);
+  var gameEventY = Math.floor((e.pageY - this.canvasElem.offsetTop) / this.cellSize);
 
   // Find the bounding box for the current rotation of the active block
   var boundingBox = {};
@@ -90,22 +92,37 @@ Tetris.prototype.click = function(e) {
       boundingBox.maxY = blockCells[i][1];
   }
 
-  // The boundingBox is just relative game cell offsets to the active block at this point
-  // Turn them into pixels.
-  boundingBox.minX = (this.activeBlock.x + boundingBox.minX) * this.cellSize;
-  boundingBox.maxX = (this.activeBlock.x + boundingBox.maxX) * this.cellSize + this.cellSize;
-  boundingBox.minY = (this.activeBlock.y + boundingBox.minY) * this.cellSize;
-  boundingBox.maxY = (this.activeBlock.y +boundingBox.maxY) * this.cellSize + this.cellSize;
+  // Change the bounding box from relative cell offsets to actual cells
+  boundingBox.minX += this.activeBlock.x;
+  boundingBox.maxX += this.activeBlock.x;
+  boundingBox.minY += this.activeBlock.y;
+  boundingBox.maxY += this.activeBlock.y;
 
-  if( gameEventX > boundingBox.minX && gameEventX < boundingBox.maxX && gameEventY > boundingBox.minY && gameEventY < boundingBox.maxY )
+  // Extend the bounding box 1 unit in all directions only if its min/max is not near the edge
+  if( boundingBox.minX > 1 )
+    boundingBox.minX -= 1;
+  if( boundingBox.maxX < this.width - 1 )
+    boundingBox.maxX += 1;
+  if( boundingBox.maxY < this.height - 1 )
+    boundingBox.maxY += 1;
+
+  boundingBox.minY -= 1;
+//alert(boundingBox.minX + ":" + boundingBox.maxX + "::" + boundingBox.minY + ":" + boundingBox.maxY);
+  if( gameEventX == 1 ) {
+    this.move(-1, 0);	// Always move left if touch is on 1st column
+    }
+  else if( gameEventX == this.width - 1 ) {
+    this.move(1, 0);	// Always move right if touch is on last column
+    }
+  if( gameEventX >= boundingBox.minX && gameEventX <= boundingBox.maxX && gameEventY >= boundingBox.minY && gameEventY <= boundingBox.maxY )
     this.rotate();
-  else if( gameEventY > this.canvasElem.offsetHeight - (this.canvasElem.offsetHeight/5) ) {
+  else if( gameEventX >= boundingBox.minX && gameEventX <= boundingBox.maxX && gameEventY >= boundingBox.maxY ) {
     this.move(0, 1);
     }
-  else if( gameEventX < this.activeBlock.x * this.cellSize ) {
+  else if( gameEventX <= this.activeBlock.x ) {
     this.move(-1, 0);
     }
-  else if( gameEventX > this.activeBlock.x * this.cellSize ) {
+  else if( gameEventX >= this.activeBlock.x ) {
     this.move(1, 0);
     }
 };
