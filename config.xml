@@ -7,6 +7,9 @@
 
     <!-- versionCode is optional and Android only -->
 
+    <preference name="orientation" value="portrait" />
+    <preference name="permissions" value="none"/>
+
     <name>CSE Tetris -newmang</name>
 
     <description>
