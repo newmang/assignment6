@@ -64,10 +64,10 @@ Tetris.prototype.touch = function(e) {
 
 Tetris.prototype.click = function(e) {
   // Get relative "touch" position
-//  var gameEventX = e.touches[0].pageX - this.canvasElem.offsetLeft;
-  //var gameEventY = e.touches[0].pageY - this.canvasElem.offsetTop;
-  var gameEventX = Math.floor((e.pageX - this.canvasElem.offsetLeft) / this.cellSize);
-  var gameEventY = Math.floor((e.pageY - this.canvasElem.offsetTop) / this.cellSize);
+  var gameEventX = e.touches[0].pageX - this.canvasElem.offsetLeft;
+  var gameEventY = e.touches[0].pageY - this.canvasElem.offsetTop;
+//  var gameEventX = Math.floor((e.pageX - this.canvasElem.offsetLeft) / this.cellSize);
+//  var gameEventY = Math.floor((e.pageY - this.canvasElem.offsetTop) / this.cellSize);
 
   // Find the bounding box for the current rotation of the active block
   var boundingBox = {};
@@ -107,7 +107,7 @@ Tetris.prototype.click = function(e) {
     boundingBox.maxY += 1;
 
   boundingBox.minY -= 1;
-//alert(boundingBox.minX + ":" + boundingBox.maxX + "::" + boundingBox.minY + ":" + boundingBox.maxY);
+
   if( gameEventX == 1 ) {
     this.move(-1, 0);	// Always move left if touch is on 1st column
     }
