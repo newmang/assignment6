@@ -183,7 +183,12 @@ Tetris.prototype.reset = function() {
   this.deadCells.length = 0;
   this.score = 0;
   this.level = 0;
-  this.lines = 0;
+
+  // initialize the dead cell matrix (width X height)
+  this.deadCells = new Array(this.width);
+  for( var i = 0; i<this.deadCells.length; i++ ) {
+    this.deadCells[i] = new Array(this.height);
+  }
 };
 
 Tetris.prototype.gameOver = function() {
