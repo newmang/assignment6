@@ -214,6 +214,15 @@ Tetris.prototype.randomBlock = function() {
 };
 
 Tetris.prototype.run = function() {
+  var testSize = window.innerWidth/this.width;
+  if( testSize * window.innerHeight < window.innerHeight )
+    this.cellSize = testSize;
+  else
+    this.cellSize = window.innerHeight/this.height;
+
+  canvas.width = this.cellSize * this.width;
+  canvas.height = this.cellSize * this.height;
+
   // reset the score board
   this.score = 0;
   this.lines = 0;
