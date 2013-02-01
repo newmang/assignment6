@@ -29,8 +29,7 @@ Tetris.prototype.drawCell = function(x, y, color, canvasCtx) {
 };
 
 Tetris.prototype.clearGrid = function(width, height, canvasCtx) {
-  canvasCtx.fillStyle = "#FFCCCC";
-  canvasCtx.fillRect(0, 0, width * this.cellSize, height * this.cellSize);
+  canvasCtx.clearRect(0, 0, width * this.cellSize, height * this.cellSize);
 };
 
 Tetris.prototype.draw = function() {
@@ -63,11 +62,21 @@ Tetris.prototype.touch = function(e) {
 };
 
 Tetris.prototype.click = function(e) {
-  // Get relative "touch" position
-  var gameEventX = Math.floor((e.touches[0].pageX - this.canvasElem.offsetLeft) / this.cellSize);
-  var gameEventY = Math.floor((e.touches[0].pageY - this.canvasElem.offsetTop) / this.cellSize);
-//  var gameEventX = Math.floor((e.pageX - this.canvasElem.offsetLeft) / this.cellSize);
-//  var gameEventY = Math.floor((e.pageY - this.canvasElem.offsetTop) / this.cellSize);
+var gameEventX;
+var gameEventY;
+
+// Get relative touch  position
+if( e.type == "touchstart" ) {
+  gameEventX = e.touches[0].pageX;
+  gameEventY = e.touches[0].pageY;
+  }
+else {
+  gameEventX = e.pageX;
+  gameEventY = e.pageY;
+  }
+
+gameEventX = Math.floor((gameEventX - this.canvasElem.offsetLeft) / this.cellSize);
+gameEventY = Math.floor((gameEventY - this.canvasElem.offsetTop) / this.cellSize);
 
   // Find the bounding box for the current rotation of the active block
   var boundingBox = {};
@@ -103,8 +112,6 @@ Tetris.prototype.click = function(e) {
     boundingBox.minX -= 1;
   if( boundingBox.maxX < this.width - 1 )
     boundingBox.maxX += 1;
-  if( boundingBox.maxY < this.height - 1 )
-    boundingBox.maxY += 1;
 
   boundingBox.minY -= 1;
 
@@ -172,10 +179,19 @@ Tetris.prototype.checkLines = function() {
   return linesWon;
 };
 
+Tetris.prototype.reset = function() {
+  this.deadCells.length = 0;
+  this.score = 0;
+  this.level = 0;
+  this.lines = 0;
+};
+
 Tetris.prototype.gameOver = function() {
   // game lost
   clearInterval(this.timeHandle);
-  alert("GAME OVER");
+  alert("GAME OVER\nScore: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level);
+  this.reset();
+  this.run();
 };
 
 Tetris.prototype.chooseNextPiece = function() {

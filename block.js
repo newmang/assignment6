@@ -57,7 +57,7 @@ function Block(type)
       break;
 
     case 6:
-      this.cells[0] = [ [0,-1], [1,-1], [0,0], [1,0] ];
+      this.cells[0] = [ [0,0], [1,0], [0,1], [1,1] ];
       this.cells[1] = this.cells[0];
       this.cells[2] = this.cells[0];
       this.cells[3] = this.cells[0];
