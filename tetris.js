@@ -1,7 +1,7 @@
 function Tetris(canvas, canvasPreview, scoreBoard){
   this.cellSize = 25;
   this.interval = 600;	// milliseconds
-  this.originalInterval = interval;
+  this.originalInterval = this.interval;
   this.width = 10;
   this.height = 17;
   this.canvas = canvas.getContext('2d');
