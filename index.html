@@ -72,7 +72,7 @@ document.addEventListener("backbutton", function () {
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-  setInterval(function(){ alert('hi'); navigator.accelerometer.getCurrentAcceleration(onSuccess, onError); }, 100);
+  setInterval(function(){ navigator.accelerometer.getCurrentAcceleration(onSuccess, onError); }, 100);
 }
 
 function onSuccess(acceleration) {
