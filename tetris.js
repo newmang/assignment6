@@ -118,7 +118,7 @@ gameEventY = Math.floor((gameEventY - this.canvasElem.offsetTop) / this.cellSize
   else if( gameEventX == this.width - 1 ) {
     this.move(1, 0);	// Always move right if touch is on last column
     }
-  if( gameEventX >= boundingBox.minX && gameEventX <= boundingBox.maxX && gameEventY >= boundingBox.minY && gameEventY <= boundingBox.maxY )
+  if( gameEventX >= boundingBox.minX && gameEventX <= boundingBox.maxX && gameEventY >= boundingBox.minY && gameEventY <= boundingBox.maxY && gameEventY < this.height-2 )
     this.rotate();
   else if( gameEventX >= boundingBox.minX && gameEventX <= boundingBox.maxX && gameEventY >= boundingBox.maxY ) {
     this.move(0, 1);

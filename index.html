@@ -53,6 +53,21 @@ var game = new Tetris(canvas, -1, -1);
 
 //game.run();
 canvas.addEventListener("touchstart", function(e){ game.click(e); }, false);
+document.addEventListener("backbutton", function () { 
+              navigator.notification.confirm(
+                        'Do you want to quit', 
+                        onConfirmQuit, 
+                        'QUIT TITLE', 
+                        'OK,Cancel'  
+                    );
+            }, true); 
+
+
+    function onConfirmQuit(button){
+       if(button == "1"){
+        navigator.app.exitApp(); 
+    }
+    }
 //canvas.addEventListener("click", function(e) { game.click(e); }, false);
 
 </script>
