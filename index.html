@@ -72,14 +72,15 @@ document.addEventListener("backbutton", function () {
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-  setInterval(function(){ navigator.accelerometer.getCurrentAcceleration(onSuccess, onError); }, 100);
+  var options = { frequency: 300 };
+  var watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
 }
 
 function onSuccess(acceleration) {
   document.getElementById("debugbox").value = "X: " + acceleration.x + " Y: " + acceleration.y + " Z: " + acceleration.z + " " + acceleration.timestamp;
 }
 
-function OnError() {
+function onError() {
 	// no error handling needed
 }
 //canvas.addEventListener("click", function(e) { game.click(e); }, false);
