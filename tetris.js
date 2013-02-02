@@ -11,6 +11,7 @@ function Tetris(canvas, canvasPreview, scoreBoard){
   this.prevWidth = 6;
   this.prevHeight = 4;
   this.canvasPreview = canvasPreview;
+  this.previewBlock = null;
   this.scoreBoard = scoreBoard;
   this.score = 0;
   this.level = 0;
@@ -30,7 +31,7 @@ Tetris.prototype.drawCell = function(x, y, color, canvasCtx) {
 };
 
 Tetris.prototype.clearGrid = function(width, height, canvasCtx) {
-  canvasCtx.clearRect(0, 0, width * this.cellSize, height * this.cellSize);
+  canvasCtx.clearRect(0, 2, width * this.cellSize, height * this.cellSize - 2);
 };
 
 Tetris.prototype.draw = function() {
@@ -44,6 +45,10 @@ Tetris.prototype.draw = function() {
         }
       }
   }
+
+  // draw the preview strip
+  this.canvas.fillStyle = this.previewBlock.color;
+  this.canvas.fillRect(0, 0, this.width * this.cellSize, 2);
 
   // draw the active block
   this.activeBlock.draw(this, this.canvas);
@@ -210,25 +215,26 @@ Tetris.prototype.gameOver = function() {
 Tetris.prototype.chooseNextPiece = function() {
   this.nextPiece = this.randomBlock();
 
-  if( this.canvasPreview == -1 )
+  this.previewBlock = new Block(this.nextPiece);
+
+  if( this.canvasPreview == -1 ) {
     return;
-
-  this.clearGrid(this.prevWidth, this.prevHeight, this.canvasPreview);
-
-  var previewBlock = new Block(this.nextPiece);
-  previewBlock.x = 2;
-  previewBlock.y = 2;
-
-  // certain blocks need better preview postions
-  if( !this.nextPiece !== 0 && this.nextPiece !== 6 ) {
-    --previewBlock.y;
   }
+  else {
+    this.clearGrid(this.prevWidth, this.prevHeight, this.canvasPreview);
 
-  // draw the block to the preview area
-  if( this.canvasPreview != -1 ) {
-    previewBlock.draw(this, this.canvasPreview);    
+    this.previewBlock.x = 2;
+    this.previewBlock.y = 2;
+
+    // certain blocks need better preview postions
+    if( !this.nextPiece !== 0 && this.nextPiece !== 6 ) {
+      --this.previewBlock.y;
+    }
+
+    // draw the block to the preview area
+    this.previewBlock.draw(this, this.canvasPreview);    
   }
-}
+};
 
 Tetris.prototype.tick = function() {
   if( this.activeBlock.canMove(this, 0, 1) )

@@ -40,19 +40,30 @@
 
 <center>
 	<canvas id="canvas" width="1" height="1" style="visiblity: hidden; background-color: #000000; border: 0px;" ongesturestart="return false;" ongesturemove="return false;" ongestureend="return false;" ontouchmove="return false;" ontouchend="return false;"></canvas>
-	<input type="button" id="debugbox" onclick="return false;" ontouchstart="this.style.visibility = 'visibile'; game.canvasElem.style.visibility = 'visibile'; game.run();" value="START GAME" style="position: absolute; left: 0px; top: 50%; width: 100%; height: 100px; font-size: 20px;" ongesturestart="return false;" ongesturemove="return false;" ongestureend="return false;" ontouchmove="return false;" ontouchend="return false;">
+	<input type="button" id="startButton" ontouchstart="startGame.call(this);" onclick="startGame.call(this);" value="START GAME" style="position: absolute; left: 0px; top: 50%; width: 100%; height: 100px; font-size: 20px;" ongesturestart="return false;" ongesturemove="return false;" ongestureend="return false;" ontouchmove="return false;" ontouchend="return false;">
 </center>
 
 <script type="text/javascript" src="block.js"></script>
 <script type="text/javascript" src="tetris.js"></script>
+
+<!-- required for navigator object even if cloud building -->
 <script type="text/javascript" src="phonegap.js"></script>
+
 <script type="text/javascript">
 
 var canvas = document.getElementById('canvas');
 var game = new Tetris(canvas, -1, -1);
 
-//game.run();
-canvas.addEventListener("touchstart", function(e){ game.click(e); }, false);
+// Assign controls for playing the game
+if( document.ontouchstart !== undefined ) {
+  document.getElementById("startButton").onclick = "return false;";
+  canvas.addEventListener("touchstart", function(e){ game.click(e); }, false);
+}
+else {
+  canvas.addEventListener("click", function(e){ game.click(e); }, false);
+  window.addEventListener("keydown", doKeyDown, true);
+}
+
 document.addEventListener("backbutton", function () { 
               navigator.notification.confirm(
                         'Do you want to quit', 
@@ -63,28 +74,38 @@ document.addEventListener("backbutton", function () {
             }, true); 
 
 
-    function onConfirmQuit(button){
-       if(button == "1"){
-        navigator.app.exitApp(); 
+function onConfirmQuit(button) {
+  if(button == "1") {
+    navigator.app.exitApp(); 
+  }
+}
+
+function startGame() {
+  this.style.visibility = 'hidden';
+  this.blur();
+  game.canvasElem.style.visibility = 'visibile';
+  game.run();
+}
+
+function doKeyDown(event) {
+  switch( event.keyCode ) {
+    case 39:
+      game.move(1, 0);
+      break;
+
+    case 37:
+      game.move(-1, 0);
+      break;
+
+    case 40:
+      game.move(0, 1);
+      break;
+
+    case 32:
+      game.rotate();
+      break;
     }
-    }
-
-document.addEventListener("deviceready", onDeviceReady, false);
-
-function onDeviceReady() {
-  var options = { frequency: 300 };
-  var watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
 }
-
-function onSuccess(acceleration) {
-  document.getElementById("debugbox").value = "X: " + acceleration.x + " Y: " + acceleration.y + " Z: " + acceleration.z + " " + acceleration.timestamp;
-}
-
-function onError() {
-	// no error handling needed
-}
-//canvas.addEventListener("click", function(e) { game.click(e); }, false);
-
 </script>
 
 </body>
