@@ -206,16 +206,26 @@ Tetris.prototype.reset = function() {
 };
 
 Tetris.prototype.gameOver = function() {
-  // game lost
   clearInterval(this.timeHandle);
-  alert("GAME OVER\nScore: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level);
-  this.run();
+
+  navigator.notification.alert(
+    'You are the winner!',  // message
+    this.run,         // callback
+    'Game Over',            // title
+    'Try Again'                  // buttonName
+  );
+//  alert("GAME OVER\nScore: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level);
+//  this.run();
 };
 
 Tetris.prototype.chooseNextPiece = function() {
   this.nextPiece = this.randomBlock();
 
   this.previewBlock = new Block(this.nextPiece);
+
+  // draw the preview strip
+  this.canvas.fillStyle = this.previewBlock.color;
+  this.canvas.fillRect(0, 0, this.width * this.cellSize, 2);
 
   if( this.canvasPreview == -1 ) {
     return;
