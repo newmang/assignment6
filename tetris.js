@@ -177,8 +177,7 @@ Tetris.prototype.checkLines = function() {
 
     this.drawScore();
 
-    navigator.notification.beep(linesWon);
-    navigator.notification.vibrate( 1000 * (linesWon / 4) );
+    navigator.notification.beep(1);
   }
 
   return linesWon;
