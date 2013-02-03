@@ -177,7 +177,9 @@ Tetris.prototype.checkLines = function() {
 
     this.drawScore();
 
-    navigator.notification.beep(1);
+    if( linesWon == 4 ) {
+      navigator.notification.beep(1);
+    }
   }
 
   return linesWon;
@@ -210,11 +212,9 @@ Tetris.prototype.reset = function() {
 Tetris.prototype.gameOver = function() {
   clearInterval(this.timeHandle);
 
-  var scoreText = "Score: " + this.score + "\nLines: " + this.lines + "\n Level: " + this.level;
+  var scoreText = "Score: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level;
   var _this = this;
-  navigator.notification.alert(scoreText, _this.run, "Game Over", "Try Again");
-//  alert("GAME OVER\nScore: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level);
-//  this.run();
+  navigator.notification.alert(scoreText, function(){ _this.run(); }, "Game Over", "Try Again");
 };
 
 Tetris.prototype.chooseNextPiece = function() {
