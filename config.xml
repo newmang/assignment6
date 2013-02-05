@@ -10,7 +10,7 @@
     <preference name="orientation" value="portrait" />
     <preference name="permissions" value="none"/>
 
-    <name>CSE Tetris -newmang</name>
+    <name>Newmang Blocks (lab6)</name>
 
     <description>
         A simple tetris game with basic touch screen features.
