@@ -69,7 +69,7 @@ document.addEventListener("backbutton", function () { navigator.app.exitApp(); }
 
 function removeEvents(elem) { 
 //  elem.onclick = function() { return false; };
-  elem.onclick = return false;
+  elem.onclick = "return false";
   elem.ongesturestart = function() { return false; };
   elem.ongestuermove = function() { return false; };
   elem.ongestureend = function() { return false; };
