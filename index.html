@@ -1,112 +1,88 @@
 <!DOCTYPE html>
+
+<!--
+Title: Newmang Blocks (lab6)
+Author: Elijah Newman-Gomez
+Platform: Android 4.0 Devices or higher
+GitHub Repository: https://github.com/newmang/assignment6
+
+Description:
+A Tetris-like game that uses touch screen features.
+Major changes were implementing touch-screen controls and
+redesigning the interface to look good on a portrait
+shaped screen. Also making use of the extended navigator
+object to access device features.
+
+The preview canvas has been cut out as well as the score
+board. The code has been optimized to reflect these design
+changes.
+
+The block preview is now shown as a small solid color strip
+across the top of the screen. The color of this strip
+indicates which block will be next because each type of
+block has a unique color. It may need to be adjusted to
+accommodate color-blind mode in the future.
+
+Compiled using PhoneGap Build (http://build.phonegap.com/)
+
+Controls:
+Tap to the left of the active block to move it left.
+Tap to the right of the active block to move it right.
+Tap the active block itself to rotate it.
+Tap below the active block to make it drop down some.
+
+References:
+  http://docs.phonegap.com/en/1.0.0/index.html
+-->
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Tetris</title>
-  <style>
-    html, body, canvas {
-      margin: 0;
-      padding: 0
-    }
-    html, body { 
-      width:100%; 
-      height:100%; 
-      overflow:hidden;
-    }
-
-    .scoreHeader {
-      font-size: 30px;
-    }
-
-    .scoreField {
-      border: 0px;
-      font-size: 30px;
-      width: 100%;
-      background-color: #CCFFFF;
-    }
-
-    .playButton {
-      font-size: 25px;
-      letter-spacing: 0.3em;
-      font-weight: bold;
-      width: 49%;
-      height: 75px;
-    }
-  </style>
+  <title>Newmang Blocks</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="block.js"></script>
+  <script type="text/javascript" src="tetris.js"></script>
+  <script type="text/javascript" src="phonegap.js"></script>
 </head>
 
-<body style="background: #000000;" ondragstart="return false;" ongesturestart="return false;" ongesturemove="return false;" ongestureend="return false;" ontouchmove="return false;" ontouchend="return false;">
+<body>
 
-<audio src="tetrisb.mid" preload="auto" autoplay="autoplay"></audio>
-<center>
-	<canvas id="canvas" width="1" height="1" style="visiblity: hidden; background-color: #000000; border: 0px; z-index: 1;" ongesturestart="return false;" ongesturemove="return false;" ongestureend="return false;" ontouchmove="return false;" ontouchend="return false;"></canvas>
-	<input type="button" id="startButton" ontouchstart="startGame.call(this);" onclick="startGame.call(this);" value="START GAME" style="position: absolute; left: 0px; top: 50%; width: 100%; height: 100px; font-size: 20px;" ongesturestart="return false;" ongesturemove="return false;" ongestureend="return false;" ontouchmove="return false;" ontouchend="return false;">
-</center>
-
-<script type="text/javascript" src="block.js"></script>
-<script type="text/javascript" src="tetris.js"></script>
-
-<!-- required for navigator object even if cloud building -->
-<script type="text/javascript" src="phonegap.js"></script>
+<canvas id="gameCanvas"></canvas>
+<input type="button" id="startButton" value="START GAME" />
 
 <script type="text/javascript">
+var canvas = document.getElementById("gameCanvas");
+var button = document.getElementById("startButton");
 
-var canvas = document.getElementById('canvas');
-var game = new Tetris(canvas, -1, -1);
+var game = new Tetris(canvas);
 
-// Assign controls for playing the game
-if( document.ontouchstart !== undefined ) {
-  document.getElementById("startButton").onclick = "return false;";
-  canvas.addEventListener("touchstart", function(e){ game.click(e); }, false);
-}
-else {
-  canvas.addEventListener("click", function(e){ game.click(e); }, false);
-  window.addEventListener("keydown", doKeyDown, true);
-}
+// Capturing certain events causes low-end devices to lag
+// So unneeded events get removed for important DOM objects
+removeEvents(document.body);
+removeEvents(startButton);
+removeEvents(canvas);
 
-document.addEventListener("backbutton", function () { 
-              navigator.notification.confirm(
-                        'Do you want to quit', 
-                        onConfirmQuit, 
-                        'QUIT TITLE', 
-                        'OK,Cancel'  
-                    );
-            }, true); 
+canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
+startButton.addEventListener("touchstart", function(){ startGame(); }, false);
+document.addEventListener("backbutton", function () { navigator.app.exitApp(); }, true);
 
-
-function onConfirmQuit(button) {
-  if(button == "1") {
-    navigator.app.exitApp(); 
-  }
+function removeEvents(elem) { 
+  elem.ongesturestart = function() { return false; };
+  elem.ongestuermove = function() { return false; };
+  elem.ongestureend = function() { return false; };
+  elem.ontouchmove = function() { return false; };
+  elem.ontouched = function() { return false; };
+  elem.ondragstart = function() { return false; };
+  elem.onclick = function() { return false; };
 }
 
 function startGame() {
-  this.style.visibility = 'hidden';
-  this.blur();
+  startButton.style.visibility = 'hidden';
+  startButton.blur();
 
   game.canvasElem.style.visibility = 'visibile';
   game.run();
-}
-
-function doKeyDown(event) {
-  switch( event.keyCode ) {
-    case 39:
-      game.move(1, 0);
-      break;
-
-    case 37:
-      game.move(-1, 0);
-      break;
-
-    case 40:
-      game.move(0, 1);
-      break;
-
-    case 32:
-      game.rotate();
-      break;
-    }
 }
 </script>
 
