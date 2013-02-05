@@ -68,13 +68,14 @@ startButton.addEventListener("touchstart", function(){ startGame(); }, false);
 document.addEventListener("backbutton", function () { navigator.app.exitApp(); }, true);
 
 function removeEvents(elem) { 
+//  elem.onclick = function() { return false; };
+  elem.onclick = return false;
   elem.ongesturestart = function() { return false; };
   elem.ongestuermove = function() { return false; };
   elem.ongestureend = function() { return false; };
   elem.ontouchmove = function() { return false; };
   elem.ontouched = function() { return false; };
   elem.ondragstart = function() { return false; };
-  elem.onclick = function() { return false; };
 }
 
 function startGame() {
