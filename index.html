@@ -17,7 +17,6 @@
         <div id="fb-root"></div>
         <!-- cordova -->
 <script src="phonegap.js"></script>
-<script src="cordova.js"></script>
 <!-- cordova facebook plugin -->
 <script src="cdv-plugin-fb-connect.js"></script>
 <!-- facebook js sdk -->
@@ -145,7 +144,7 @@ FB.ui(params, function(obj) { console.log(obj);});
             document.addEventListener('deviceready', function() {
                                       try {
                                       alert('Device is ready! Make sure you set your app_id below this alert.');
-                                      FB.init({ appId: "appid", nativeInterface: CDV.FB, useCachedDialogs: false });
+                                      FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
                                       document.getElementById('data').innerHTML = "";
                                       } catch (e) {
                                       alert(e);
