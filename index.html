@@ -122,6 +122,8 @@ startButton.addEventListener("touchstart", function(){ FB.getLoginStatus(); }, f
 //  }
 //}
 
+document.addEventListener('deviceready', function() { window.fbAsyncInit(); }, false);
+
 function removeEvents(elem) { 
   elem.onclick = "return false";
   elem.ongesturestart = "return false";
