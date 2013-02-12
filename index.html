@@ -105,21 +105,22 @@ removeEvents(startButton);
 removeEvents(canvas);
 
 canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
-startButton.addEventListener("touchstart", function(){ startGame(); }, false);
-document.addEventListener("backbutton", function () { 
-navigator.notification.confirm(
-        'Are you sure?',
-        onExit,
-        'Exit',
-        'No,Yes'          // buttonLabels
-    );
-}, false);
+//startButton.addEventListener("touchstart", function(){ startGame(); }, false);
+startButton.addEventListener("touchstart", function(){ FB.getLoginStatus(); }, false);
+//document.addEventListener("backbutton", function () { 
+//navigator.notification.confirm(
+//        'Are you sure?',
+//        onExit,
+//        'Exit',
+//        'No,Yes'          // buttonLabels
+//    );
+//}, false);
 
-function onExit(index) {
-  if( index == 1 ) {
-    navigator.app.exitApp();
-  }
-}
+//function onExit(index) {
+//  if( index == 1 ) {
+//    navigator.app.exitApp();
+//  }
+//}
 
 function removeEvents(elem) { 
   elem.onclick = "return false";
