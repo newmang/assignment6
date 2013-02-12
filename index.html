@@ -17,17 +17,17 @@
         <div id="fb-root"></div>
         <!-- cordova -->
 <script src="phonegap.js"></script>
+<script src="cordova.js"></script>
 <!-- cordova facebook plugin -->
 <script src="cdv-plugin-fb-connect.js"></script>
 <!-- facebook js sdk -->
 <script src="facebook_js_sdk.js"></script>
         
 <script>
-            
             if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
             if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
             if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
-            
+
             FB.Event.subscribe('auth.login', function(response) {
                                alert('auth.login event');
                                });
