@@ -44,9 +44,50 @@ References:
   <script type="text/javascript" src="block.js"></script>
   <script type="text/javascript" src="tetris.js"></script>
   <script type="text/javascript" src="phonegap.js"></script>
+  <script src="cdv-plugin-fb-connect.js"></script>
+  <script src="facebook_js_sdk.js"></script>
 </head>
 
 <body>
+
+<div id="fb-root"></div>
+<script>
+  // Additional JS functions here
+  window.fbAsyncInit = function() {
+
+    FB.init({
+      appId      : '473600756038526',
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional init code here
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        // connected
+      }
+      else if (response.status === 'not_authorized') {
+        // not_authorized
+        login();
+      }
+      else {
+        // not_logged_in
+        login();
+      }
+    });
+
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+</script>
 
 <canvas id="gameCanvas"></canvas>
 <input type="button" id="startButton" value="START GAME" />
@@ -72,7 +113,7 @@ navigator.notification.confirm(
         'Exit',
         'No,Yes'          // buttonLabels
     );
-}, true);
+}, false);
 
 function onExit(index) {
   if( index == 1 ) {
@@ -96,6 +137,25 @@ function startGame() {
 
   game.canvasElem.style.visibility = 'visibile';
   game.run();
+}
+
+function login() {
+    FB.login(function(response) {
+        if (response.authResponse) {
+          // connected
+          testAPI();
+        }
+        else {
+          // cancelled
+        }
+    });
+}
+
+function testAPI() {
+    alert('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      alert('Good to see you, ' + response.name + '.');
+      });
 }
 </script>
 
