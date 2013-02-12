@@ -1,4 +1,4 @@
-function Tetris(canvas, canvasPreview, scoreBoard){
+function Tetris(canvas){
   this.cellSize = 25;
   this.interval = 600;	// milliseconds
   this.originalInterval = this.interval;
@@ -46,7 +46,7 @@ Tetris.prototype.draw = function() {
 };
 
 Tetris.prototype.touch = function(e) {
-// Get relative touch position in PIXELS
+// Get absolute touch position in PIXELS
 var gameEventX = e.touches[0].pageX;
 var gameEventY = e.touches[0].pageY;
 
