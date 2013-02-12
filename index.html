@@ -65,7 +65,11 @@ removeEvents(canvas);
 
 canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
 startButton.addEventListener("touchstart", function(){ startGame(); }, false);
-document.addEventListener("backbutton", function () { navigator.app.exitApp(); }, true);
+document.addEventListener("backbutton", function () { 
+  if( confirm("Exit?") ) {
+    navigator.app.exitApp();
+  }
+}, true);
 
 function removeEvents(elem) { 
   elem.onclick = "return false";
