@@ -32,7 +32,7 @@ Tap the active block itself to rotate it.
 Tap below the active block to make it drop down some.
 
 References:
-  http://docs.phonegap.com/en/1.0.0/index.html
+  http://docs.phonegap.com/en/2.2.0/index.html
 -->
 
 <head>
@@ -66,10 +66,19 @@ removeEvents(canvas);
 canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
 startButton.addEventListener("touchstart", function(){ startGame(); }, false);
 document.addEventListener("backbutton", function () { 
-  if( confirm("Exit?") ) {
+navigator.notification.confirm(
+        'Are you sure?',
+        onExit,
+        'Exit',
+        'No,Yes'          // buttonLabels
+    );
+}, true);
+
+function onExit(index) {
+  if( index == 1 ) {
     navigator.app.exitApp();
   }
-}, true);
+}
 
 function removeEvents(elem) { 
   elem.onclick = "return false";
