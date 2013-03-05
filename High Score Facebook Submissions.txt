@@ -1,0 +1,18 @@
+The Facebook API has special support for posting the high scores of games.
+It requires an App Access Token to submit scores for a user.
+
+In order to get an App Access Token, your App Secret must be used in the API calls.
+To keep your App Secret.. secret, you must NOT do this from the client-side.
+PHP is perfect for obtaining an App Access Token.
+
+To allow users to submit high scores, they will have to send a GET request to
+a PHP script including their user ID and the score they achieved.
+
+The PHP script can then obtain the App Access Token and post the user's score to Facebook.
+
+Refrences:
+	Login as an App (using PHP): http://developers.facebook.com/docs/howtos/login/login-as-app/
+	Access variables of a GET request (using PHP): http://www.w3schools.com/php/php_get.asp
+	Facebook Scores API: https://developers.facebook.com/docs/howtos/scores/
+	Facebook Graph API Explorer: http://developers.facebook.com/tools/explorer
+		Note: To access the "/scores" node of the Graph API, the user needs to at least grant user_activities access to the App
