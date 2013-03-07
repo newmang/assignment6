@@ -1,108 +1,90 @@
-<!DOCTYPE html>
+<html> 
+ <head> 
 
-<!--
-Title: Newmang Blocks (lab6)
-Author: Elijah Newman-Gomez
-Platform: Android 4.0 Devices or higher
-GitHub Repository: https://github.com/newmang/assignment6
-
-Description:
-A Tetris-like game that uses touch screen features.
-Major changes were implementing touch-screen controls and
-redesigning the interface to look good on a portrait
-shaped screen. Also making use of the extended navigator
-object to access device features.
-
-The preview canvas has been cut out as well as the score
-board. The code has been optimized to reflect these design
-changes.
-
-The block preview is now shown as a small solid color strip
-across the top of the screen. The color of this strip
-indicates which block will be next because each type of
-block has a unique color. It may need to be adjusted to
-accommodate color-blind mode in the future.
-
-Compiled using PhoneGap Build (http://build.phonegap.com/)
-
-Controls:
-Tap to the left of the active block to move it left.
-Tap to the right of the active block to move it right.
-Tap the active block itself to rotate it.
-Tap below the active block to make it drop down some.
-
-References:
-  http://docs.phonegap.com/en/2.2.0/index.html
--->
-
-<head>
-  <title>Newmang Blocks</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <link href="style.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="block.js"></script>
-  <script type="text/javascript" src="tetris.js"></script>
-  <script type="text/javascript" src="phonegap.js"></script>
-  <!-- <script src="cdv-plugin-fb-connect.js"></script> -->
-  <!-- <script src="facebook_js_sdk.js"></script> -->
+  <script type="text/javascript">
+  function postCook()
+  {
+    FB.api('/me/scores', function(response) {
+      alert(response);
+    });
+  }
+  </script>
 </head>
-
 <body>
+  <div id="fb-root"></div>
+  <script>
+    var myHighScore = 0;
+    var accessToken;
 
-<canvas id="gameCanvas"></canvas>
-<input type="button" id="startButton" value="START GAME" />
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '473600756038526', // App ID
+        channelUrl : '//www.anarchyarcade.com/cse/mobile/channel.html', // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
 
-<script type="text/javascript">
-var canvas = document.getElementById("gameCanvas");
-var button = document.getElementById("startButton");
+      FB.getLoginStatus(function(response) {
+        FB.Event.subscribe('auth.login', function(response) { loginResponse(response); });
+        loginResponse(response);
+      });
+    };
 
-var game = new Tetris(canvas);
+    // Load the SDK Asynchronously
+    (function(d){
+      var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+      js = d.createElement('script'); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      d.getElementsByTagName('head')[0].appendChild(js);
+    }(document));
 
-// Capturing certain events causes low-end devices to lag
-// So unneeded events get removed for important DOM objects
-removeEvents(document.body);
-removeEvents(startButton);
-removeEvents(canvas);
+  function loginResponse(response) {
+    if( response.status === 'connected' ) {
+      UpdateHighScore();
+//      accessToken = response.authResponse.accessToken;
+    }
+    else {
+      alert("not logged in");
+    }
+  }
 
-canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
-startButton.addEventListener("touchstart", function(){ startGame(); }, false);
+function UpdateHighScore() {
+  // Get the player's high score
+  FB.api('/me/scores', function(response) {
 
-//document.addEventListener("backbutton", function () { 
-//navigator.notification.confirm(
-//        'Are you sure?',
-//        onExit,
-//        'Exit',
-//        'No,Yes'          // buttonLabels
-//    );
-//}, false);
-
-//function onExit(index) {
-//  if( index == 1 ) {
-//    navigator.app.exitApp();
-//  }
-//}
-
-document.addEventListener('deviceready', function() { window.fbAsyncInit(); }, false);
-
-function removeEvents(elem) { 
-  elem.onclick = "return false";
-  elem.ongesturestart = "return false";
-  elem.ongestuermove = "return false";
-  elem.ongestureend = "return false";
-  elem.ontouchmove = "return false";
-  elem.ontouched = "return false";
-  elem.ondragstart = "return false";
+    // Step through the player's scores until you find our App's
+    for( var i = 0; i < response.data.length; i++ ) {
+      if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
+        myHighScore = response.data[i]["score"];
+        alert(myHighScore);
+        break;
+      }
+    }
+  });
 }
 
-function startGame() {
-  startButton.style.visibility = 'hidden';
-  startButton.blur();
-
-  game.canvasElem.style.visibility = 'visibile';
-  game.run();
+function SetScore(myScore) {
+      var opts = { score : myScore };
+      FB.api('/me/scores', 'post', opts, function(response) {
+        alert(response);
+      });
 }
-</script>
+  </script>
+
+  <fb:login-button show-faces="true" width="200" max-rows="1" scope="publish_actions">
+  </fb:login-button>
+
+  <h3>Stuffed Cookies</h3>
+
+  <form>
+    <input type="button" value="Cook" onclick="postCook()" />
+  </form>
+
+<a href="javascript:UpdateHighScore();">Update High Score</A><br />
+<a href="javascript:SetScore(567);">Set score to 567</a><br />
+<a href="javascript:SetScore(420);">Set score to 420</a><br />
+
 
 </body>
 </html>
