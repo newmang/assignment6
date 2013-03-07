@@ -29,3 +29,29 @@ body {
   height: 100px;
   font-size: 20px;
 }
+
+.header {
+  letter-spacing: 0.1em;
+  font-family: sans-serif;
+  font-size: 14pt;
+}
+
+.name {
+  font-family: sans-serif;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.score {
+  color: #0000ff;
+  letter-spacing: 0.2em;
+  font-family: monospace;
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+.label {
+  font-family: serif;
+  font-size: 20pt;
+  font-weight: bold;
+}
