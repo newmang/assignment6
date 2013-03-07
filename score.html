@@ -46,13 +46,14 @@ function DrawTopScores() {
 }
 
 function login() {
-  FB.login(function(response) { alert("logging in..."); }, { scope: "publish_actions" });
+  FB.login(function(response) {}, { scope: "publish_actions" });
 }
 
 function loginResponse(response) {
   if( response.status === 'connected' ) {
-    FB.api('/me/permissions', function (response) {
-      if( response.data["publish_actions"] === undefined ) {
+    FB.api('/me/permissions', function (permissions) {
+alert(permissn.data["publish_actions"]);
+      if( permissions.data["publish_actions"] == undefined ) {
         DrawLoginButton();
       }
       else {
