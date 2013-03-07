@@ -5,8 +5,6 @@
         versionCode="1" 
         version   = "1.1.0">
 
-<plugin name="org.apache.cordova.facebook.Connect" value="org.apache.cordova.facebook.ConnectPlugin" />
-
     <gap:plugin name="FacebookConnect">
       <param name="APP_ID" value="473600756038526" />
     </gap:plugin>
