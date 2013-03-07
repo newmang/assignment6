@@ -38,21 +38,21 @@
 <script>
 
 function login() {
-  FB.login(
-    function(response) {
-      if( response.session ) {
-        alert('logged in');
-      }
-      else {
-        alert('not logged in');
-      }
-    },
-    { scope: "publish_stream" }
-    );
+  FB.login(function(response) {
+    if( response.session ) {
+      loginResponse(response);
+    }
+    else {
+      alert('not logged in');
+    }
+  }, { scope: "publish_stream" });
 }
 
 function loginResponse(response) {
+alert(JSON.stringify(response));
+FB.api('/me/permissions', function (response) {
   alert(JSON.stringify(response));
+});
 }
 
 document.addEventListener('deviceready', function() {
@@ -60,12 +60,13 @@ document.addEventListener('deviceready', function() {
 //    alert('Device is ready! Make sure you set your app_id below this alert.');
     FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
     FB.getLoginStatus(function(response) {
-      FB.Event.subscribe('auth.login', function(response) { loginResponse(response); });
-      loginResponse(response);
+      if( response.session ) {
+        loginResponse(response);
+      }
+      else {
+        login();
+      }
     });
-//    FB.api('/me/permissions', function (response) {
-//      alert(JSON.stringify(response));
-//    });
   }
   catch (e) {
     alert(e);
