@@ -185,9 +185,10 @@ Tetris.prototype.reset = function() {
 Tetris.prototype.gameOver = function() {
   clearInterval(this.timeHandle);
 
-  var scoreText = "Score: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level;
-  var _this = this;
-  navigator.notification.alert(scoreText, function(){ _this.run(); }, "Game Over", "Try Again");
+  window.location = "score.html";
+//  var scoreText = "Score: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level;
+//  var _this = this;
+//  navigator.notification.alert(scoreText, function(){ _this.run(); }, "Game Over", "Try Again");
 };
 
 Tetris.prototype.chooseNextPiece = function() {
