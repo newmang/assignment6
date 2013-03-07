@@ -37,21 +37,27 @@
         
 <script>
 
+function DrawLoginButton() {
+  alert("Draw the login button.");
+}
+
+function DrawTopScores() {
+  alert("Draw top scores.");
+}
+
 function login() {
-  FB.login(function(response) {
-    if( response.session ) {
-      loginResponse(response);
-    }
-    else {
-      alert('not logged in');
-    }
-  }, { scope: "publish_stream" });
+  FB.login(function(response) {}, { scope: "publish_actions" });
 }
 
 function loginResponse(response) {
   if( response.status === 'connected' ) {
     FB.api('/me/permissions', function (response) {
-      alert(JSON.stringify(response));
+      if( response.data["publish_actions"] === undefined ) {
+        DrawLoginButton();
+      }
+      else {
+        DrawTopScores();
+      } 
     });
   }
   else {
