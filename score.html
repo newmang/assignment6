@@ -52,8 +52,8 @@ function login() {
 function loginResponse(response) {
   if( response.status === 'connected' ) {
     FB.api('/me/permissions', function (permissions) {
-alert(permissions.data["publish_actions"]);
-      if( permissions.data["publish_actions"] == undefined ) {
+alert(JSON.stringify(permissions));
+      if( permissions.data["publish_actions"] === undefined ) {
         DrawLoginButton();
       }
       else {
