@@ -37,6 +37,20 @@
         
 <script>
 
+function login() {
+  FB.login(
+    function(response) {
+      if( response.session ) {
+        alert('logged in');
+      }
+      else {
+        alert('not logged in');
+      }
+    },
+    { scope: "publish_stream" }
+    );
+}
+
 function loginResponse(response) {
   alert(JSON.stringify(response));
 }
