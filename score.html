@@ -46,7 +46,7 @@ function DrawTopScores() {
 }
 
 function login() {
-  FB.login(function(response) {}, { scope: "publish_actions" });
+  FB.login(function(response) { alert("logging in..."); }, { scope: "publish_actions" });
 }
 
 function loginResponse(response) {
