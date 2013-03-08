@@ -250,7 +250,6 @@ function DrawHighScores(logged) {
     if( logged == 0 ) {
       // If we are not logged in, then myHighScore has the corrent value in it RIGHT NOW.
       if( window.localStorage.getItem("score") >= myHighScore ) {
-        window.localStorage.setItem("highscore", myHighScore);
         content += '<center><font class="highScore">NEW HIGH SCORE!</font></center>';
       }
     }
