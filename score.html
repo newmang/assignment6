@@ -46,13 +46,13 @@ function DrawTopScores() {
 }
 
 function login() {
-  FB.login(function(response) {}, { scope: "publish_actions" });
+  FB.login(function(response) { return; }, { scope: "publish_actions" });
 }
 
 function loginResponse(response) {
   if( response.status === 'connected' ) {
     FB.api('/me/permissions', function (permissions) {
-alert(JSON.stringify(permissions.data));
+alert(JSON.stringify(permissions.data[0]["publish_actions"));
       if( permissions.data.publish_actions === undefined ) {
         DrawLoginButton();
       }
