@@ -16,9 +16,8 @@
     <name>Newmang Squares</name>
 
     <description>
-        A simple touch screen tetris game with Facebook leaderboards.
+        A simple touch-screen puzzel game with Facebook leaderboards.
     </description>
 
     <icon src="icon.png" width="128" height="128" />
-    <gap:splash src="splash.png" />
 </widget>

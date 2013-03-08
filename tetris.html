@@ -65,6 +65,8 @@ removeEvents(canvas);
 canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
 
 document.addEventListener('deviceready', function() { 
+  document.addEventListener("pause", function() { alert('pause'); }, false);
+  document.addEventListener("resume", function() { alert('resume'); }, false);
   game.canvasElem.style.visibility = 'visibile';
   game.run();
   }, false);
