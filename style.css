@@ -50,6 +50,13 @@ body {
   font-weight: bold;
 }
 
+.scoreTitle {
+  color: #BBBBBB;
+  font-family: arial, sans-serif;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
 .label {
   font-family: serif;
   font-size: 20pt;
