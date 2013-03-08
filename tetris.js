@@ -174,6 +174,7 @@ Tetris.prototype.reset = function() {
   this.score = 0;
   this.lines = 0;
   this.level = 0;
+  window.localStorage.removeItem("submitted");
   window.localStorage.removeItem("score");
   window.localStorage.removeItem("level");
   window.localStorage.removeItem("lines");

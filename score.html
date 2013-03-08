@@ -194,12 +194,10 @@ function DrawHighScores(logged) {
     var fragment = CreateDOMFragment(content);
     elem.appendChild(fragment);
 
-    if( window.localStorage.getItem("score") > myHighScore ) {
+    if( window.localStorage.getItem("score") > myHighScore && window.localStorage.getItem("submitted") == undefined ) {
       var opts = {score: window.localStorage.getItem("score")};
       FB.api('/me/scores', 'post', opts, function(response) {
-        window.localStorage.removeItem("score");
-        window.localStorage.removeItem("level");
-        window.localStorage.removeItem("lines");
+        window.localStorage.setItem("submitted", 1);
         window.location = "score.html";
       });
     }
