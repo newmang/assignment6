@@ -188,7 +188,7 @@ function loginResponse(response) {
 }
 
 document.addEventListener('deviceready', function() {
-  FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
+  FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false, xfbml: true });
   FB.getLoginStatus(function(response) {
     FB.Event.subscribe('auth.login', function(response) { loginResponse(response); });
     loginResponse(response);
