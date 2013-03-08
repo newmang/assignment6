@@ -46,7 +46,9 @@
 <script>
 
 function DrawHighScores(logged) {
+alert("here 0");
   var elem = document.getElementById("hs-top");
+alert("here 0.1");
   ClearDiv(elem);
 
   // Draw the Top Scores of the user's friends
@@ -54,15 +56,13 @@ function DrawHighScores(logged) {
 alert("here 1");
   if( logged == 1 ) {
     FB.api('/473600756038526/scores', function(response) {
-      response.data.sort(function(a,b) {
-        return b["score"] - a["score"];
-      });
+      response.data.sort(function(a,b) { return b["score"] - a["score"]; });
 
 alert("here 2");
       content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
 
       var i = 0;
-      for( i = 0; i < response.data.length; i++ ) {
+      for( ; i < response.data.length; i++ ) {
         content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
         content += '<tr>';
         content += '<td align="center" valign="middle" style="background-color: #ffffff; width: 1px;">';
@@ -92,7 +92,7 @@ alert("here 2");
       }
 
       if( i == 0 ) {
-        content += "<br /><font class="score">None</font>";
+        content += '<br /><font class="score">None</font>';
       }
 
       content += '</div>';
