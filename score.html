@@ -52,6 +52,7 @@ function DrawHighScores(logged) {
   // Draw the Top Scores of the user's friends
   var content = '<font class="header">Top Scores</font>';
   if( logged == 1 ) {
+alert("logged in");
     FB.api('/473600756038526/scores', function(response) {
       response.data.sort(function(a,b) { return b["score"] - a["score"]; });
 
@@ -95,13 +96,14 @@ function DrawHighScores(logged) {
   }
   else
   {
+alert("logged OUT");
     content += '<br /><div class="fb-login-button" data-show-faces="true" data-width="100%" data-max-rows="1"></div>';
   }
 
   content += '<br />';
   var fragment = CreateDOMFragment(content);
   elem.appendChild(fragment);
-alert('boo');
+
   elem = document.getElementById("hs-middle");
   ClearDiv(elem);
 
