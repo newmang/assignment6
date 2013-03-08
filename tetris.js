@@ -186,7 +186,12 @@ Tetris.prototype.reset = function() {
 Tetris.prototype.gameOver = function() {
   clearInterval(this.timeHandle);
 
-  window.localStorage.setItem("myScore", {"score": this.score, "lines": this.lines, "level": this.level});
+  var myScore = new Array();
+  myScore["score"] = this.score;
+  myScore["lines"] = this.lines;
+  myScore["level"] = this.level;
+
+  window.localStorage.setItem("myScore", myScore);
   window.location = "score.html";
 
 //  var scoreText = "Score: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level;
