@@ -174,6 +174,7 @@ Tetris.prototype.reset = function() {
   this.score = 0;
   this.lines = 0;
   this.level = 0;
+  window.localStorage.setItem("myScore", 0);
 
   // initialize the dead cell matrix (width X height)
   this.deadCells = new Array(this.width);
@@ -185,7 +186,9 @@ Tetris.prototype.reset = function() {
 Tetris.prototype.gameOver = function() {
   clearInterval(this.timeHandle);
 
+  window.localStorage.setItem("myScore", this.score);
   window.location = "score.html";
+
 //  var scoreText = "Score: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level;
 //  var _this = this;
 //  navigator.notification.alert(scoreText, function(){ _this.run(); }, "Game Over", "Try Again");
