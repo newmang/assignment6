@@ -109,11 +109,6 @@ function DrawHighScores(logged) {
       elem.appendChild(fragment);
   }
 
-/*
-  elem = document.getElementById("hs-middle");
-  ClearDiv(elem);
-
-  content = '<font class="header">Your Best Score</font>';
   if( logged == 1 ) {
     FB.api('/me/scores', function(response) {
       // Step through the player's scores until you find our App's
@@ -125,6 +120,10 @@ function DrawHighScores(logged) {
       }
 
       if( i < response.data.length ) {
+        var elem = document.getElementById("hs-top");
+        ClearDiv(elem);
+
+        var content = '<font class="header">Your Best Score</font>';
         content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
         content += '<tr>';
         content += '<td style="width: 50px; margin-bottom: 0;">';
@@ -146,18 +145,24 @@ function DrawHighScores(logged) {
         content += '</td>';
         content += '</tr>';
         content += '</table>';
+
+        content += '<br />';
+        var fragment = CreateDOMFragment(content);
+        elem.appendChild(fragment);
       }
       else {
+        var elem = document.getElementById("hs-top");
+        ClearDiv(elem);
+
+        var content = '<font class="header">Your Best Score</font>';
         content += '<br /><font class="score">None</font>';
+
+        content += '<br />';
+        var fragment = CreateDOMFragment(content);
+        elem.appendChild(fragment);
       }
     });
   }
-
-  content += '<br />';
-
-  fragment = CreateDOMFragment(content);
-  elem.appendChild(fragment);
-*/
 }
 
 function login() {
