@@ -183,6 +183,7 @@ function DrawHighScores(logged) {
   }
 
   if( window.localStorage.getItem("myScore") != undefined ) {
+    var myScore = window.localStorage.getItem("myScore");
     var elem = document.getElementById("hs-current");
     ClearDiv(elem);
 
@@ -192,17 +193,17 @@ function DrawHighScores(logged) {
     content += '<td align="center">';
     content += '<font class="scoreTitle">SCORE</font>';
     content += '<font class="score">';
-    content += window.localStorage.getItem("myScore")["score"];
+    content += myScore["score"];
     content += '</font>';
     content += '</td><td align="center">';
     content += '<font class="scoreTitle">LINES</font>';
     content += '<font class="score">';
-    content += window.localStorage.getItem("myScore")["lines"];
+    content += myScore["lines"];
     content += '</font>';
     content += '</td><td align="center">';
     content += '<font class="scoreTitle">LEVELS</font>';
     content += '<font class="score">';
-    content += window.localStorage.getItem("myScore")["level"];
+    content += myScore["level"];
     content += '</font>';
     content += '</td>';
     content += '</tr>';
