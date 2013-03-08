@@ -120,7 +120,7 @@ function DrawHighScores(logged) {
       }
 
       if( i < response.data.length ) {
-        var elem = document.getElementById("hs-top");
+        var elem = document.getElementById("hs-middle");
         ClearDiv(elem);
 
         var content = '<font class="header">Your Best Score</font>';
@@ -151,7 +151,7 @@ function DrawHighScores(logged) {
         elem.appendChild(fragment);
       }
       else {
-        var elem = document.getElementById("hs-top");
+        var elem = document.getElementById("hs-middle");
         ClearDiv(elem);
 
         var content = '<font class="header">Your Best Score</font>';
