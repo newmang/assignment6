@@ -177,14 +177,14 @@ function DrawHighScores(logged) {
         var elem = document.getElementById("hs-current");
         var fragment = CreateDOMFragment(content);
         elem.appendChild(fragment);
-      }
 
-      if( scoreSubmitted == 0 ) {
-        scoreSubmitted = 1;
-        var opts = {score: window.localStorage.getItem("score")};
-        FB.api('/me/scores', 'post', opts, function(response) {
-          DrawHighScores(1);
-        });
+        if( scoreSubmitted == 0 ) {
+          scoreSubmitted = 1;
+          var opts = {score: window.localStorage.getItem("score")};
+          FB.api('/me/scores', 'post', opts, function(response) {
+            DrawHighScores(1);
+          });
+        }
       }
     });
   }
