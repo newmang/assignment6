@@ -199,6 +199,10 @@ function DrawHighScores(logged) {
       var fragment = CreateDOMFragment(content);
       elem.appendChild(fragment);
     }
+    else {
+      var elem = document.getElementById("hs-middle");
+      ClearDiv(elem);
+    }
   }
 
   if( window.localStorage.getItem("score") != undefined ) {
@@ -229,7 +233,7 @@ function DrawHighScores(logged) {
       window.localStorage.setItem("highscore", myHighScore);
       content += '<font class="highScore">NEW HIGH SCORE!</font>';
       if( logged == 1 ) {
-        content += '<a class="greenButton" href="javascript:share();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>';
+        content += '<br /><a class="greenButton" href="javascript:share();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>';
       }
     }
 

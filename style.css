@@ -63,6 +63,14 @@ body {
   font-weight: bold;
 }
 
+.highScore {
+  color: #ff0000;
+  letter-spacing: 0.2em;
+  font-family: monospace;
+  font-size: 20pt;
+  font-weight: bold;
+}
+
 .greenButton{
     background:#6da952 url(../images/btt-bg.png) no-repeat 0px -96px;
     border:1px solid #3b6e22;
