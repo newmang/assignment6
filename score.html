@@ -28,6 +28,8 @@
   <button onclick="login()">Login</button>
   <div id="fb-root"></div>
 
+  <div id="hs-top"></div>
+
   <!-- cordova -->
   <script src="phonegap.js"></script>
   <!-- cordova facebook plugin -->
@@ -43,6 +45,12 @@ function DrawLoginButton() {
 
 function DrawTopScores() {
   alert("Draw top scores.");
+  FB.api('/473600756038526/scores', function(response) {
+    response.data.sort(function(a,b) {
+      return b["score"] - a["score"];
+    });
+    alert(JSON.stringify(response.data[0]));
+  });
 }
 
 function login() {
