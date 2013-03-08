@@ -154,7 +154,7 @@ function DrawHighScores(logged) {
         var elem = document.getElementById("hs-middle");
         ClearDiv(elem);
 
-        var content = '<font class="header">Your Best Score</font>';
+        var content = '<font class="header">Your Best Score</font> (<a href="javascript:logout();">logout</a>)';
         content += '<br /><font class="score">None</font>';
 
         content += '<br />';
@@ -170,7 +170,7 @@ function login() {
 }
 
 function logout() {
-  FB.logout(function(response) { return; });
+  FB.logout(function(response) { window.location = "score.html"; });
 }
 
 function loginResponse(response) {
@@ -191,7 +191,7 @@ function loginResponse(response) {
 }
 
 document.addEventListener('deviceready', function() {
-  FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false, xfbml: true });
+  FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
   FB.getLoginStatus(function(response) {
     FB.Event.subscribe('auth.login', function(response) { loginResponse(response); });
     loginResponse(response);
