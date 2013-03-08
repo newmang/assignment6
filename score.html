@@ -31,7 +31,6 @@
 
 <body style="background-color: #ffffff;">
 
-  <button onclick="login()">Login</button>
   <div id="fb-root"></div>
 
   <div id="hs-top"></div>
@@ -46,111 +45,120 @@
         
 <script>
 
-function DrawLoginButton() {
-  alert("Draw the login button.");
-}
+function DrawHighScores(logged) {
+  var elem = document.getElementById("hs-top");
+  ClearDiv(elem);
 
-function DrawTopScores() {
-  FB.api('/473600756038526/scores', function(response) {
-    response.data.sort(function(a,b) {
-      return b["score"] - a["score"];
-    });
+  // Draw the Top Scores of the user's friends
+  var content = '<font class="header">Top Scores</font>';
+  if( logged ) {
+    FB.api('/473600756038526/scores', function(response) {
+      response.data.sort(function(a,b) {
+        return b["score"] - a["score"];
+      });
 
-    var elem = document.getElementById("hs-top");
+      var elem = document.getElementById("hs-top");
+      ClearDiv(elem);
 
-    ClearDiv(elem);
+      var content = '<font class="header">Top Scores</font>';
+      content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
 
-    var content = '<font class="header">Top Scores</font>';
-    content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
-
-    var i = 0;
-    for( ; i < response.data.length; i++ ) {
-      content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-      content += '<tr>';
-      content += '<td align="center" valign="middle" style="background-color: #ffffff; width: 1px;">';
-      content += '<font class="label">';
-      content += i+1;
-      content += '</font>';
-      content += '</td>';
-      content += '<td style="width: 50px; margin-bottom: 0;">';
-      content += '<img src="http://graph.facebook.com/';
-      content += response.data[i]["user"]["id"];
-      content += '/picture?type=square" style="width: 50px; display: block;" />';
-      content += '</td>';
-      content += '<td valign="top" width="1">';
-      content += '<div style="position: relative; width: 0; height: 0;">';
-      content += '<font class="name" style="position: absolute;"><nobr>';
-      content += response.data[i]["user"]["name"];
-      content += '</nobr></font>';
-      content += '</div>';
-      content += '</td>';
-      content += '<td valign="bottom" align="right">';
-      content += '<font class="score">';
-      content += response.data[i]["score"];
-      content += '</font>';
-      content += '</td>';
-      content += '</tr>';
-      content += '</table>';
-    }
-
-    if( i == 0 ) {
-      content += "none";
-    }
-
-    content += '</div>';
-
-    var fragment = CreateDOMFragment(content);
-    elem.appendChild(fragment);
-  });
-
-
-  FB.api('/me/scores', function(response) {
-    var elem = document.getElementById("hs-middle");
-    ClearDiv(elem);
-
-    var content = '<font class="header">Your Best Score</font>';
-    content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
-
-    // Step through the player's scores until you find our App's
-    var i = 0;
-    for( ; i < response.data.length; i++ ) {
-      if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
-        break;
+      var i = 0;
+      for( ; i < response.data.length; i++ ) {
+        content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+        content += '<tr>';
+        content += '<td align="center" valign="middle" style="background-color: #ffffff; width: 1px;">';
+        content += '<font class="label">';
+        content += i+1;
+        content += '</font>';
+        content += '</td>';
+        content += '<td style="width: 50px; margin-bottom: 0;">';
+        content += '<img src="http://graph.facebook.com/';
+        content += response.data[i]["user"]["id"];
+        content += '/picture?type=square" style="width: 50px; display: block;" />';
+        content += '</td>';
+        content += '<td valign="top" width="1">';
+        content += '<div style="position: relative; width: 0; height: 0;">';
+        content += '<font class="name" style="position: absolute;"><nobr>';
+        content += response.data[i]["user"]["name"];
+        content += '</nobr></font>';
+        content += '</div>';
+        content += '</td>';
+        content += '<td valign="bottom" align="right">';
+        content += '<font class="score">';
+        content += response.data[i]["score"];
+        content += '</font>';
+        content += '</td>';
+        content += '</tr>';
+        content += '</table>';
       }
-    }
 
-    if( i < response.data.length ) {
-      content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-      content += '<tr>';
-      content += '<td style="width: 50px; margin-bottom: 0;">';
-      content += '<img src="http://graph.facebook.com/';
-      content += response.data[i]["user"]["id"];
-      content += '/picture?type=square" style="width: 50px; display: block;" />';
-      content += '</td>';
-      content += '<td valign="top" width="1">';
-      content += '<div style="position: relative; width: 0; height: 0;">';
-      content += '<font class="name" style="position: absolute;"><nobr>';
-      content += response.data[i]["user"]["name"];
-      content += '</nobr></font>';
+      if( i == 0 ) {
+        content += "None";
+      }
+
       content += '</div>';
-      content += '</td>';
-      content += '<td valign="bottom" align="right">';
-      content += '<font class="score">';
-      content += response.data[i]["score"];
-      content += '</font>';
-      content += '</td>';
-      content += '</tr>';
-      content += '</table>';
-    }
-    else {
-      content += 'None';
-    }
+    });
+  }
+  else
+  {
+    content += '<br /><div class="fb-login-button" data-show-faces="true" data-width="100%" data-max-rows="1"></div>';
+  }
 
-    content += '</div>';
+  content += '<br />';
+  var fragment = CreateDOMFragment(content);
+  elem.appendChild(fragment);
 
-    var fragment = CreateDOMFragment(content);
-    elem.appendChild(fragment);
-  });
+  if( logged ) {
+    FB.api('/me/scores', function(response) {
+      var elem = document.getElementById("hs-middle");
+      ClearDiv(elem);
+
+      var content = '<font class="header">Your Best Score</font>';
+      content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
+
+      // Step through the player's scores until you find our App's
+      var i = 0;
+      for( ; i < response.data.length; i++ ) {
+        if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
+          break;
+        }
+      }
+
+      if( i < response.data.length ) {
+        content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+        content += '<tr>';
+        content += '<td style="width: 50px; margin-bottom: 0;">';
+        content += '<img src="http://graph.facebook.com/';
+        content += response.data[i]["user"]["id"];
+        content += '/picture?type=square" style="width: 50px; display: block;" />';
+        content += '</td>';
+        content += '<td valign="top" width="1">';
+        content += '<div style="position: relative; width: 0; height: 0;">';
+        content += '<font class="name" style="position: absolute;"><nobr>';
+        content += response.data[i]["user"]["name"];
+        content += '</nobr></font>';
+        content += '</div>';
+        content += '</td>';
+        content += '<td valign="bottom" align="right">';
+        content += '<font class="score">';
+        content += response.data[i]["score"];
+        content += '</font>';
+        content += '</td>';
+        content += '</tr>';
+        content += '</table>';
+      }
+      else {
+        content += 'None';
+      }
+
+      content += '</div>';
+      content += '<br />';
+
+      var fragment = CreateDOMFragment(content);
+      elem.appendChild(fragment);
+    });
+  }
 }
 
 function login() {
@@ -161,10 +169,10 @@ function loginResponse(response) {
   if( response.status === 'connected' ) {
     FB.api('/me/permissions', function (permissions) {
       if( permissions.data[0]["publish_actions"] === undefined ) {
-        DrawLoginButton();
+        DrawHighScores(false);
       }
       else {
-        DrawTopScores();
+        DrawHighScores(true);
       } 
     });
   }
