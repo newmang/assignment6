@@ -52,7 +52,7 @@ function DrawTopScores() {
 
     var elem = document.getElementById("hs-top");
 
-    ClearDiv("hs-top");
+    ClearDiv(elem);
 
     var content = '<font class="header">Top Scores</font>';
     content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
@@ -87,9 +87,9 @@ function DrawTopScores() {
     }
 
     content += '</div>';
-alert(content);
+alert("here");
     var fragment = CreateDOMFragment(content);
-    document.getElementById("hs-top").appendChild(fragment);
+    elem.appendChild(fragment);
   });
 }
 
