@@ -35,6 +35,7 @@
 
   <div id="hs-top"></div>
   <div id="hs-middle"></div>
+  <div id="hs-current"></div>
 
   <!-- cordova -->
   <script src="phonegap.js"></script>
@@ -162,6 +163,26 @@ function DrawHighScores(logged) {
         elem.appendChild(fragment);
       }
     });
+  }
+
+  if( window.localStorage.getItem("myScore") != undefined ) {
+    var elem = document.getElementById("hs-current");
+    ClearDiv(elem);
+
+    var content = '<font class="header">Current Score</font>';
+    content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+    content += '<tr>';
+    content += '<td>';
+    content += '<font class="score">';
+    content += window.localStorage.getItem("myScore");
+    content += '</font>';
+    content += '</td>';
+    content += '</tr>';
+    content += '</table>';
+
+    content += '<br />';
+    var fragment = CreateDOMFragment(content);
+    elem.appendChild(fragment);
   }
 }
 
