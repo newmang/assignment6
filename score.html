@@ -103,7 +103,16 @@ function DrawHighScores(logged) {
       var elem = document.getElementById("hs-top");
       ClearDiv(elem);
 
-      var content = '<br /><a href="javascript:login();">Login with Facebook</a>';
+      var content = '<font class="header">Top Scores</font>';
+      content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+      content += '<tr>';
+      content += '<td>';
+      content += '<font class="score">';
+      content += '<a href="javascript:login();">Login with Facebook</a>';
+      content += '</font>';
+      content += '</td>';
+      content += '</tr>';
+      content += '</table>';
 
       content += '<br />';
       var fragment = CreateDOMFragment(content);
@@ -156,7 +165,15 @@ function DrawHighScores(logged) {
         ClearDiv(elem);
 
         var content = '<font class="header">Your Best Score</font> (<a href="javascript:logout();">logout</a>)';
-        content += '<br /><font class="score">None</font>';
+        content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+        content += '<tr>';
+        content += '<td>';
+        content += '<font class="score">';
+        content += 'None';
+        content += '</font>';
+        content += '</td>';
+        content += '</tr>';
+        content += '</table>';
 
         content += '<br />';
         var fragment = CreateDOMFragment(content);
