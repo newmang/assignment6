@@ -231,10 +231,11 @@ function DrawHighScores(logged) {
 
     if( window.localStorage.getItem("score") >= myHighScore ) {
       window.localStorage.setItem("highscore", myHighScore);
-      content += '<font class="highScore">NEW HIGH SCORE!</font>';
+      content += '<center><font class="highScore">NEW HIGH SCORE!</font>';
       if( logged == 1 ) {
         content += '<br /><a class="greenButton" href="javascript:share();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>';
       }
+      content += '<center>';
     }
 
     var elem = document.getElementById("hs-current");
