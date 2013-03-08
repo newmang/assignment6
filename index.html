@@ -197,6 +197,11 @@ function DrawHighScores(logged) {
         window.localStorage.setItem("highScore", 0);
       }
     }
+    else {
+      if( window.localStorage.getItem("score") != undefined && window.localStorage.getItem("score") >= window.localStorage.getItem("highScore") ) {
+        window.localStorage.setItem("highScore", window.localStorage.getItem("score"));
+      }
+    }
 
     myHighScore = window.localStorage.getItem("highScore");
 
