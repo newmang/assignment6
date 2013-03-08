@@ -57,6 +57,7 @@
 var scoreSubmitted = 0;
 var myHighScore = -1;
 function DrawHighScores(logged) {
+alert('1');
   // Draw the Top Scores of the user's friends
   if( logged == 1 ) {
     FB.api('/473600756038526/scores', function(response) {
@@ -124,7 +125,7 @@ function DrawHighScores(logged) {
       var fragment = CreateDOMFragment(content);
       elem.appendChild(fragment);
   }
-
+alert('2');
   if( logged == 1 ) {
     FB.api('/me/scores', function(response) {
       // Step through the player's scores until you find our App's
@@ -168,7 +169,6 @@ function DrawHighScores(logged) {
       var fragment = CreateDOMFragment(content);
       elem.appendChild(fragment);
 
-
       if( scoreSubmitted == 0 ) {
         var opts = {score: window.localStorage.getItem("score")};
         FB.api('/me/scores', 'post', opts, function(response) {
@@ -200,7 +200,7 @@ function DrawHighScores(logged) {
       elem.appendChild(fragment);
     }
   }
-
+alert('3');
   if( window.localStorage.getItem("score") != undefined ) {
     var content = '<font class="header">Last Game</font>';
     content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
