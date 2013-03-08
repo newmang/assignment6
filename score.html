@@ -107,7 +107,7 @@ function DrawHighScores(logged) {
       content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
       content += '<tr>';
       content += '<td align="center" style="font-size: 20px; font-family: arial, sans-serif;">';
-      content += '<a class="blueButton" href="javascript:login();" style="float: left;"><span class="blueButtonText" style="font-size: 25px;">Login</span></a> with Facebook to access the leaderboards.';
+      content += '<a class="blueButton" href="javascript:login();" style="float: left;"><span class="blueButtonText" style="font-size: 28px;">Login</span></a> with Facebook to access the leaderboards.';
       content += '</td>';
       content += '</tr>';
       content += '</table>';
@@ -131,7 +131,7 @@ function DrawHighScores(logged) {
         var elem = document.getElementById("hs-middle");
         ClearDiv(elem);
 
-        var content = '<font class="header">Your Best Score</font>';
+        var content = '<font class="header">Your Best</font>';
         content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
         content += '<tr>';
         content += '<td style="width: 50px; margin-bottom: 0;">';
@@ -159,10 +159,11 @@ function DrawHighScores(logged) {
         elem.appendChild(fragment);
       }
       else {
+/* do nothing if the user has no high score posted
         var elem = document.getElementById("hs-middle");
         ClearDiv(elem);
 
-        var content = '<font class="header">Your Best Score</font> (<a href="javascript:logout();">logout</a>)';
+        var content = '<font class="header">Your Best</font>';
         content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
         content += '<tr>';
         content += '<td>';
@@ -176,6 +177,7 @@ function DrawHighScores(logged) {
         content += '<br />';
         var fragment = CreateDOMFragment(content);
         elem.appendChild(fragment);
+*/
       }
     });
   }
