@@ -53,6 +53,7 @@ References:
 <!-- <input type="button" id="startButton" value="START GAME" /> -->
 
 <script type="text/javascript">
+document.addEventListener("pause", function() { alert('resume'); }, false);
 
 var canvas = document.getElementById("gameCanvas");
 var game = new Tetris(canvas);
@@ -65,8 +66,6 @@ removeEvents(canvas);
 canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
 
 document.addEventListener('deviceready', function() { 
-  document.addEventListener("pause", function() { alert('pause'); }, false);
-  document.addEventListener("resume", function() { alert('resume'); }, false);
   game.canvasElem.style.visibility = 'visibile';
   game.run();
   }, false);
