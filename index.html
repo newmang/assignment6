@@ -126,7 +126,7 @@ function DrawHighScores(logged) {
       elem.appendChild(fragment);
   }
 
-  var myHighScore = 0;
+  var myHighScore = -1;
   if( logged == 1 ) {
     FB.api('/me/scores', function(response) {
       // Step through the player's scores until you find our App's
@@ -139,9 +139,6 @@ function DrawHighScores(logged) {
 
       if( i < response.data.length ) {
         myHighScore = response.data[i]["score"];
-
-        var elem = document.getElementById("hs-middle");
-        ClearDiv(elem);
 
         var content = '<font class="header">Your Best</font>';
         content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
@@ -165,26 +162,44 @@ function DrawHighScores(logged) {
         content += '</td>';
         content += '</tr>';
         content += '</table>';
-
         content += '<br />';
-        var fragment = CreateDOMFragment(content);
-        elem.appendChild(fragment);
+      }
 
-        if( window.localStorage.getItem("score") > myHighScore && scoreSubmitted == 0 ) {
-          if( logged == 1 ) {
-            var opts = {score: window.localStorage.getItem("score")};
-            FB.api('/me/scores', 'post', opts, function(response) {
-              scoreSubmitted = 1;
-              DrawHighScores(1);
-            });
-          }
-        }
+      var elem = document.getElementById("hs-middle");
+      ClearDiv(elem);
+
+      var fragment = CreateDOMFragment(content);
+      elem.appendChild(fragment);
+
+
+      if( scoreSubmitted == 0 ) {
+        var opts = {score: window.localStorage.getItem("score")};
+        FB.api('/me/scores', 'post', opts, function(response) {
+          scoreSubmitted = 1;
+          DrawHighScores(1);
+        });
       }
     });
   }
   else {
     var elem = document.getElementById("hs-middle");
     ClearDiv(elem);
+
+    if( window.localStorage.getItem("highScore") != undefined ) {
+      myHighScore = window.localStorage.getItem("highScore");
+
+      var content = '<font class="header">Today's Best</font>';
+      content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+      content += '<tr>';
+      content += '<td>';
+      content += '<font class="score">';
+      content += myHighScore;
+      content += '</font>';
+      content += '</td>';
+      content += '</tr>';
+      content += '</table>';
+      content += '<br />';
+    }
   }
 
   if( window.localStorage.getItem("score") != undefined ) {
@@ -212,8 +227,14 @@ function DrawHighScores(logged) {
     content += '</td>';
     content += '</tr>';
     content += '</table>';
-
     content += '<br />';
+
+    if( window.localStorage.getItem("score") >= myHighScore ) {
+      content += '<font class="highScore">NEW HIGH SCORE!</font>';
+      if( logged == 1 ) {
+        content += '<a class="greenButton" href="javascript:share();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>';
+      }
+    }
     var fragment = CreateDOMFragment(content);
     elem.appendChild(fragment);
   }
