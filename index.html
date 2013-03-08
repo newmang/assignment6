@@ -170,6 +170,10 @@ function DrawHighScores(logged) {
       }
     });
   }
+  else {
+    var elem = document.getElementById("hs-middle");
+    ClearDiv(elem);
+  }
 
   if( window.localStorage.getItem("score") != undefined ) {
     var elem = document.getElementById("hs-current");
@@ -205,8 +209,6 @@ function DrawHighScores(logged) {
       var opts = {score: window.localStorage.getItem("score")};
       FB.api('/me/scores', 'post', opts, function(response) {
         scoreSubmitted = 1;
-//        window.localStorage.setItem("submitted", "yes");
-//        window.location = "index.html";
         DrawHighScores(1);
       });
     }
@@ -220,7 +222,6 @@ function login() {
 function logout() {
   FB.logout(function(response) {
     DrawHighScores(0);
-//    window.location = "index.html";
   });
 }
 
