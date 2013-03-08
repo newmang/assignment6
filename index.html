@@ -55,7 +55,7 @@
 <script>
 
 var scoreSubmitted = 0;
-var myHighScore = -1;
+var myHighScore = 0;
 function DrawHighScores(logged) {
 alert('1');
   // Draw the Top Scores of the user's friends
@@ -162,12 +162,12 @@ alert('2');
         content += '</tr>';
         content += '</table>';
         content += '<br />';
-      }
 
-      var elem = document.getElementById("hs-middle");
-      ClearDiv(elem);
-      var fragment = CreateDOMFragment(content);
-      elem.appendChild(fragment);
+        var elem = document.getElementById("hs-middle");
+        ClearDiv(elem);
+        var fragment = CreateDOMFragment(content);
+        elem.appendChild(fragment);
+      }
 
       if( scoreSubmitted == 0 ) {
         var opts = {score: window.localStorage.getItem("score")};
@@ -249,13 +249,14 @@ function logout() {
 }
 
 function share() {
+  var buf = 'New Person Best: ' + myHighScore;
   var params = {
     method: 'feed',
     name: 'Global Leaderboards',
     link: 'https://developers.facebook.com/docs/reference/dialogs/',
     picture: 'http://fbrell.com/f8.jpg',
     caption: 'How do you stack up?',
-    description: 'New Personal Best: ' + myHighScore
+    description: buf
   };
 
   FB.ui(params, function(obj) { return; });
