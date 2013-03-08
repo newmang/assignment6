@@ -1,92 +1,263 @@
 <!DOCTYPE html>
 <html>
-<!--
-Title: Newmang Blocks (lab6)
-Author: Elijah Newman-Gomez
-Platform: Android 4.0 Devices or higher
-GitHub Repository: https://github.com/newmang/assignment6
+  <head>
+    <script>
+    // Module Name: scores.html
+    // Elijah Newman-Gomez
+    // Assignment X
+    // CSE 594
+    //
+    // Description:
+    // This page acts as the start screen and the end-game screen for Newmang Squares.
+    // In either case, it will display the top scores of the user's Facebook friends.
+    // It will also show the user's personal best high score.
+    //
+    // If there is a score in the window.localStorage key labeled "myScore", then it
+    // is displayed as the last game's score.
+    //
+    // If the "myScore" value is higher than the user's current high score on Facebook,
+    // then their high score on Facebook gets updated and the user has the option to
+    // post their new high score to their Facebook wall as well.
+    //
+    // The bottom of this page has the main menu buttons for Newmang Squares.
+    </script>
 
-Description:
-A Tetris-like game that uses touch screen features.
-Major changes were implementing touch-screen controls and
-redesigning the interface to look good on a portrait
-shaped screen. Also making use of the extended navigator
-object to access device features.
+    <title>Newmang Blocks</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
 
-The preview canvas has been cut out as well as the score
-board. The code has been optimized to reflect these design
-changes.
+<body style="background-color: #ffffff;">
 
-The block preview is now shown as a small solid color strip
-across the top of the screen. The color of this strip
-indicates which block will be next because each type of
-block has a unique color. It may need to be adjusted to
-accommodate color-blind mode in the future.
+  <div id="fb-root"></div>
 
-Compiled using PhoneGap Build (http://build.phonegap.com/)
+  <div id="hs-top"></div>
+  <div id="hs-middle"></div>
+  <div id="hs-current"></div>
 
-Controls:
-Tap to the left of the active block to move it left.
-Tap to the right of the active block to move it right.
-Tap the active block itself to rotate it.
-Tap below the active block to make it drop down some.
+  <div style="position: absolute; bottom: 0; width: 100%;">
+    <a class="blueButton" href="tetris.html" style="width: 100%;"><span class="blueButtonText" style="font-size: 32px;">New Game</span></a>
+  </div>
 
-References:
-  http://docs.phonegap.com/en/2.2.0/index.html
--->
+  <!-- cordova -->
+  <script src="phonegap.js"></script>
+  <!-- cordova facebook plugin -->
+  <script src="cdv-plugin-fb-connect.js"></script>
+  <!-- facebook js sdk -->
+  <script src="facebook-js-sdk.js"></script>
+        
+<script>
 
-<head>
-  <title>Newmang Blocks</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <link href="style.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="block.js"></script>
-  <script type="text/javascript" src="tetris.js"></script>
-  <script type="text/javascript" src="phonegap.js"></script>
-</head>
+function DrawHighScores(logged) {
+  // Draw the Top Scores of the user's friends
+  if( logged == 1 ) {
+    FB.api('/473600756038526/scores', function(response) {
+      response.data.sort(function(a,b) { return b["score"] - a["score"]; });
 
-<body>
+      var elem = document.getElementById("hs-top");
+      ClearDiv(elem);
 
-<canvas id="gameCanvas"></canvas>
+      var content = '<font class="header">Top Scores</font><a class="grayButton" href="javascript:logout();" style="float: right;"><span class="grayButtonText" style="font-size: 18px;">Logout</span></a>';
+      content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
 
-<input type="button" id="startButton" value="START GAME" />
+      for( var i = 0; i < response.data.length; i++ ) {
+        content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+        content += '<tr>';
+        content += '<td align="center" valign="middle" style="background-color: #ffffff; width: 1px;">';
+        content += '<font class="label">';
+        content += i+1;
+        content += '</font>';
+        content += '</td>';
+        content += '<td style="width: 50px; margin-bottom: 0;">';
+        content += '<img src="http://graph.facebook.com/';
+        content += response.data[i]["user"]["id"];
+        content += '/picture?type=square" style="width: 50px; display: block;" />';
+        content += '</td>';
+        content += '<td valign="top" width="1">';
+        content += '<div style="position: relative; width: 0; height: 0;">';
+        content += '<font class="name" style="position: absolute;"><nobr>';
+        content += response.data[i]["user"]["name"];
+        content += '</nobr></font>';
+        content += '</div>';
+        content += '</td>';
+        content += '<td valign="bottom" align="right">';
+        content += '<font class="score">';
+        content += response.data[i]["score"];
+        content += '</font>';
+        content += '</td>';
+        content += '</tr>';
+        content += '</table>';
+      }
 
-<script type="text/javascript">
-var canvas = document.getElementById("gameCanvas");
-var button = document.getElementById("startButton");
+      if( response.data.length == 0 ) {
+        content += '<br /><font class="score">None</font>';
+      }
 
-var game = new Tetris(canvas);
+      content += '</div>';
 
-// Capturing certain events causes low-end devices to lag
-// So unneeded events get removed for important DOM objects
-removeEvents(document.body);
-removeEvents(startButton);
-removeEvents(canvas);
+      content += '<br />';
+      var fragment = CreateDOMFragment(content);
+      elem.appendChild(fragment);
+    });
+  }
+  else
+  {
+      var elem = document.getElementById("hs-top");
+      ClearDiv(elem);
 
-canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
-startButton.addEventListener("touchstart", function(){ startGame(); }, false);
+      var content = '<font class="header">Top Scores</font>';
+      content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+      content += '<tr>';
+      content += '<td align="center" style="font-size: 20px; font-family: arial, sans-serif;">';
+      content += '<a class="greenButton" href="javascript:login();" style="float: left;"><span class="greenButtonText" style="font-size: 32px;">Login</span></a> with Facebook to access the leaderboards.';
+      content += '</td>';
+      content += '</tr>';
+      content += '</table>';
 
-document.addEventListener('deviceready', function() { window.fbAsyncInit(); }, false);
+      content += '<br />';
+      var fragment = CreateDOMFragment(content);
+      elem.appendChild(fragment);
+  }
 
-function removeEvents(elem) { 
-  elem.onclick = "return false";
-  elem.ongesturestart = "return false";
-  elem.ongestuermove = "return false";
-  elem.ongestureend = "return false";
-  elem.ontouchmove = "return false";
-  elem.ontouched = "return false";
-  elem.ondragstart = "return false";
+  var myHighScore = 0;
+  if( logged == 1 ) {
+    FB.api('/me/scores', function(response) {
+      // Step through the player's scores until you find our App's
+      var i = 0;
+      for( ; i < response.data.length; i++ ) {
+        if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
+          break;
+        }
+      }
+
+      if( i < response.data.length ) {
+        myHighScore = response.data[i]["score"];
+
+        var elem = document.getElementById("hs-middle");
+        ClearDiv(elem);
+
+        var content = '<font class="header">Your Best</font>';
+        content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+        content += '<tr>';
+        content += '<td style="width: 50px; margin-bottom: 0;">';
+        content += '<img src="http://graph.facebook.com/';
+        content += response.data[i]["user"]["id"];
+        content += '/picture?type=square" style="width: 50px; display: block;" />';
+        content += '</td>';
+        content += '<td valign="top" width="1">';
+        content += '<div style="position: relative; width: 0; height: 0;">';
+        content += '<font class="name" style="position: absolute;"><nobr>';
+        content += response.data[i]["user"]["name"];
+        content += '</nobr></font>';
+        content += '</div>';
+        content += '</td>';
+        content += '<td valign="bottom" align="right">';
+        content += '<font class="score">';
+        content += response.data[i]["score"];
+        content += '</font>';
+        content += '</td>';
+        content += '</tr>';
+        content += '</table>';
+
+        content += '<br />';
+        var fragment = CreateDOMFragment(content);
+        elem.appendChild(fragment);
+      }
+    });
+  }
+
+  if( window.localStorage.getItem("score") != undefined ) {
+    var elem = document.getElementById("hs-current");
+    ClearDiv(elem);
+
+    var content = '<font class="header">Last Game</font>';
+    content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+    content += '<tr>';
+    content += '<td align="center">';
+    content += '<font class="scoreTitle">SCORE</font>';
+    content += '<font class="score">';
+    content += window.localStorage.getItem("score");
+    content += '</font>';
+    content += '</td><td align="center">';
+    content += '<font class="scoreTitle">LINES</font>';
+    content += '<font class="score">';
+    content += window.localStorage.getItem("lines");
+    content += '</font>';
+    content += '</td><td align="center">';
+    content += '<font class="scoreTitle">LEVEL</font>';
+    content += '<font class="score">';
+    content += window.localStorage.getItem("level");
+    content += '</font>';
+    content += '</td>';
+    content += '</tr>';
+    content += '</table>';
+
+    content += '<br />';
+    var fragment = CreateDOMFragment(content);
+    elem.appendChild(fragment);
+
+    if( window.localStorage.getItem("score") > myHighScore && window.localStorage.getItem("submitted") == undefined ) {
+      var opts = {score: window.localStorage.getItem("score")};
+      FB.api('/me/scores', 'post', opts, function(response) {
+        window.localStorage.setItem("submitted", "yes");
+        window.location = "index.html";
+      });
+    }
+  }
 }
 
-function startGame() {
-  startButton.style.visibility = 'hidden';
-  startButton.blur();
-
-  game.canvasElem.style.visibility = 'visibile';
-  game.run();
+function login() {
+  FB.login(function(response) { return; }, { scope: "publish_actions" });
 }
+
+function logout() {
+  FB.logout(function(response) { window.location = "index.html"; });
+}
+
+function loginResponse(response) {
+  if( response.status === 'connected' ) {
+    FB.api('/me/permissions', function (permissions) {
+      if( permissions.data[0]["publish_actions"] === undefined ) {
+        DrawHighScores(0);
+      }
+      else {
+        DrawHighScores(1);
+      } 
+    });
+  }
+  else {
+    DrawHighScores(0);
+  }
+}
+
+document.addEventListener('deviceready', function() {
+  FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
+  FB.getLoginStatus(function(response) {
+    FB.Event.subscribe('auth.login', function(response) { loginResponse(response); });
+    loginResponse(response);
+  });
+}, false);
+
+function ClearDiv(elem){
+  while( elem.hasChildNodes() ){
+    elem.removeChild(elem.lastChild);
+  }
+}
+
+function CreateDOMFragment(htmlStr) {
+  var frag = document.createDocumentFragment();
+  var temp = document.createElement('div');
+
+  temp.innerHTML = htmlStr;
+  while( temp.firstChild ) {
+    frag.appendChild(temp.firstChild);
+  }
+
+  return frag;
+}
+
 </script>
-
 </body>
 </html>

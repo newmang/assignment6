@@ -64,9 +64,9 @@ body {
 }
 
 .greenButton{
-    background:#6da952 url(../images/btt-bg.png) no-repeat 0px -48px;
-    border:1px solid #29447e;
-    border-bottom-color:#1a356e;
+    background:#6da952 url(../images/btt-bg.png) no-repeat 0px -96px;
+    border:1px solid #3b6e22;
+    border-bottom-color:#2c5115;
     box-shadow:0 1px 0 rgba(0, 0, 0, .1);
     cursor:pointer;
     display:-moz-inline-box;
@@ -81,12 +81,10 @@ body {
     white-space:nowrap;
     color:#fff;
 }
-
 .greenButton:active{
-    background:#4f6aa3;
+    background:#609946;
     border-bottom-color:#999;
 }
-
 .greenButton .greenButtonText,.greenButton input{
     background:none;
     border:0;
