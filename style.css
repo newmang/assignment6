@@ -14,7 +14,7 @@ body {
 }
 
 #gameCanvas {
-  visiblity: hidden;
+  visibility: hidden;
   background-color: #000000;
   border: 0;
   margin-left: auto;
