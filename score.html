@@ -117,6 +117,7 @@ function DrawHighScores(logged) {
       elem.appendChild(fragment);
   }
 
+  var myHighScore = 0;
   if( logged == 1 ) {
     FB.api('/me/scores', function(response) {
       // Step through the player's scores until you find our App's
@@ -128,6 +129,8 @@ function DrawHighScores(logged) {
       }
 
       if( i < response.data.length ) {
+        myHighScore = response.data[i]["score"];
+
         var elem = document.getElementById("hs-middle");
         ClearDiv(elem);
 
@@ -157,27 +160,6 @@ function DrawHighScores(logged) {
         content += '<br />';
         var fragment = CreateDOMFragment(content);
         elem.appendChild(fragment);
-      }
-      else {
-/* do nothing if the user has no high score posted
-        var elem = document.getElementById("hs-middle");
-        ClearDiv(elem);
-
-        var content = '<font class="header">Your Best</font>';
-        content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-        content += '<tr>';
-        content += '<td>';
-        content += '<font class="score">';
-        content += 'None';
-        content += '</font>';
-        content += '</td>';
-        content += '</tr>';
-        content += '</table>';
-
-        content += '<br />';
-        var fragment = CreateDOMFragment(content);
-        elem.appendChild(fragment);
-*/
       }
     });
   }
@@ -211,6 +193,13 @@ function DrawHighScores(logged) {
     content += '<br />';
     var fragment = CreateDOMFragment(content);
     elem.appendChild(fragment);
+
+    if( window.localStorage.getItem("score") > myHighScore ) {
+      var opts = {score: window.localStorage.getItem("score")};
+      FB.api('/me/scores', 'post', opts, function(response) {
+        window.location = "score.html";
+      });
+    }
   }
 }
 
