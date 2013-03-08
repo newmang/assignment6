@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.newmangsquares.release"
+        versionCode="1" 
+        version   = "1.0.0">
+
+    <gap:plugin name="FacebookConnect">
+      <param name="APP_ID" value="473600756038526" />
+    </gap:plugin>
+
+    <preference name="orientation" value="portrait" />
+    <preference name="permissions" value="none" />
+    <preference name="webviewbounce" value="false" />
+
+    <name>Newmang Squares</name>
+
+    <description>
+        A simple touch screen tetris game with Facebook leaderboards.
+    </description>
+
+    <icon src="icon.png" width="128" height="128" />
+    <gap:splash src="splash.png" />
+</widget>
