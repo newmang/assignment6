@@ -169,7 +169,7 @@ function DrawHighScores(logged) {
         elem.appendChild(fragment);
       }
 
-      if( scoreSubmitted == 0 ) {
+      if( scoreSubmitted == 0 && window.localStorage.getItem("score") > myHighScore ) {
         var opts = {score: window.localStorage.getItem("score")};
         FB.api('/me/scores', 'post', opts, function(response) {
           scoreSubmitted = 1;
@@ -311,8 +311,6 @@ function CreateDOMFragment(htmlStr) {
 
 </script>
 
-<iframe class="youtube-player" type="text/html" width="1" height="1" src="http://www.youtube.com/embed/VCrxWHTCNo8?autoplay=1&loop=1" frameborder="0" style="width: 1px; height: 1px; visibility: hidden;">
-</iframe>
-
+<iframe width="560" height="315" src="http://www.youtube.com/embed/VCrxWHTCNo8?autoplay=1&loop=1" frameborder="0" style="width: 1px; height: 1px; visibility: hidden;"></iframe>
 </body>
 </html>
