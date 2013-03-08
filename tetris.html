@@ -46,28 +46,31 @@ References:
   <script type="text/javascript" src="phonegap.js"></script>
 </head>
 
-<body>
+<body style="overflow: hidden;">
 
 <canvas id="gameCanvas"></canvas>
 
-<input type="button" id="startButton" value="START GAME" />
+<!-- <input type="button" id="startButton" value="START GAME" /> -->
 
 <script type="text/javascript">
 var canvas = document.getElementById("gameCanvas");
-var button = document.getElementById("startButton");
+//var button = document.getElementById("startButton");
 
 var game = new Tetris(canvas);
 
 // Capturing certain events causes low-end devices to lag
 // So unneeded events get removed for important DOM objects
 removeEvents(document.body);
-removeEvents(startButton);
+//removeEvents(startButton);
 removeEvents(canvas);
 
 canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
-startButton.addEventListener("touchstart", function(){ startGame(); }, false);
+//startButton.addEventListener("touchstart", function(){ startGame(); }, false);
 
-document.addEventListener('deviceready', function() { window.fbAsyncInit(); }, false);
+document.addEventListener('deviceready', function() { 
+  game.canvasElem.style.visibility = 'visibile';
+  game.run();
+  }, false);
 
 function removeEvents(elem) { 
   elem.onclick = "return false";
@@ -80,8 +83,8 @@ function removeEvents(elem) {
 }
 
 function startGame() {
-  startButton.style.visibility = 'hidden';
-  startButton.blur();
+//  startButton.style.visibility = 'hidden';
+//  startButton.blur();
 
   game.canvasElem.style.visibility = 'visibile';
   game.run();
