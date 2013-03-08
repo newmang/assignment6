@@ -57,14 +57,10 @@ function DrawHighScores(logged) {
         return b["score"] - a["score"];
       });
 
-      var elem = document.getElementById("hs-top");
-      ClearDiv(elem);
-
-      var content = '<font class="header">Top Scores</font>';
       content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
 
       var i = 0;
-      for( ; i < response.data.length; i++ ) {
+      for( i = 0; i < response.data.length; i++ ) {
         content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
         content += '<tr>';
         content += '<td align="center" valign="middle" style="background-color: #ffffff; width: 1px;">';
