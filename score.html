@@ -51,12 +51,14 @@ function DrawHighScores(logged) {
 
   // Draw the Top Scores of the user's friends
   var content = '<font class="header">Top Scores</font>';
+alert("here 1");
   if( logged == 1 ) {
     FB.api('/473600756038526/scores', function(response) {
       response.data.sort(function(a,b) {
         return b["score"] - a["score"];
       });
 
+alert("here 2");
       content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
 
       var i = 0;
