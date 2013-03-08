@@ -51,7 +51,7 @@ function DrawHighScores(logged) {
 
   // Draw the Top Scores of the user's friends
   var content = '<font class="header">Top Scores</font>';
-  if( logged == true ) {
+  if( logged == 1 ) {
     FB.api('/473600756038526/scores', function(response) {
       response.data.sort(function(a,b) {
         return b["score"] - a["score"];
@@ -94,7 +94,7 @@ function DrawHighScores(logged) {
       }
 
       if( i == 0 ) {
-        content += "None";
+        content += "<br /><font class="score">None</font>";
       }
 
       content += '</div>';
@@ -113,7 +113,7 @@ function DrawHighScores(logged) {
   ClearDiv(elem);
 
   content = '<font class="header">Your Best Score</font>';
-  if( logged == true ) {
+  if( logged == 1 ) {
     FB.api('/me/scores', function(response) {
       // Step through the player's scores until you find our App's
       var i = 0;
@@ -147,7 +147,7 @@ function DrawHighScores(logged) {
         content += '</table>';
       }
       else {
-        content += 'None';
+        content += '<br /><font class="score">None</font>';
       }
     });
   }
@@ -166,10 +166,10 @@ function loginResponse(response) {
   if( response.status === 'connected' ) {
     FB.api('/me/permissions', function (permissions) {
       if( permissions.data[0]["publish_actions"] === undefined ) {
-        DrawHighScores(false);
+        DrawHighScores(0);
       }
       else {
-        DrawHighScores(true);
+        DrawHighScores(1);
       } 
     });
   }
