@@ -197,6 +197,9 @@ function DrawHighScores(logged) {
     if( window.localStorage.getItem("score") > myHighScore ) {
       var opts = {score: window.localStorage.getItem("score")};
       FB.api('/me/scores', 'post', opts, function(response) {
+        window.localStorage.removeItem("score");
+        window.localStorage.removeItem("level");
+        window.localStorage.removeItem("lines");
         window.location = "score.html";
       });
     }
