@@ -37,6 +37,10 @@
   <div id="hs-middle"></div>
   <div id="hs-current"></div>
 
+  <div style="position: absolute; bottom: 0; width: 100%;">
+    <a class="blueButton" href="javascript:login();" style="width: 100%;"><span class="blueButtonText" style="font-size: 32px;">New Game</span></a>
+  </div>
+
   <!-- cordova -->
   <script src="phonegap.js"></script>
   <!-- cordova facebook plugin -->
@@ -107,7 +111,7 @@ function DrawHighScores(logged) {
       content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
       content += '<tr>';
       content += '<td align="center" style="font-size: 20px; font-family: arial, sans-serif;">';
-      content += '<a class="blueButton" href="javascript:login();" style="float: left;"><span class="blueButtonText" style="font-size: 32px;">Login</span></a> with Facebook to access the leaderboards.';
+      content += '<a class="greenButton" href="javascript:login();" style="float: left;"><span class="greenButtonText" style="font-size: 32px;">Login</span></a> with Facebook to access the leaderboards.';
       content += '</td>';
       content += '</tr>';
       content += '</table>';
@@ -197,7 +201,7 @@ function DrawHighScores(logged) {
     if( window.localStorage.getItem("score") > myHighScore && window.localStorage.getItem("submitted") == undefined ) {
       var opts = {score: window.localStorage.getItem("score")};
       FB.api('/me/scores', 'post', opts, function(response) {
-        window.localStorage.setItem("submitted", 1);
+        window.localStorage.setItem("submitted", "yes");
         window.location = "score.html";
       });
     }
