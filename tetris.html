@@ -48,8 +48,7 @@ References:
 
 <body style="overflow: hidden;">
 
-<iframe width="100%" height="100%" src="http://www.youtube.com/embed/VCrxWHTCNo8?autoplay=1" frameborder="0" style="z-index: 1; position: absolute;" id="backgroundWall"></iframe>
-<canvas id="gameCanvas" style="z-index: 10;"></canvas>
+<canvas id="gameCanvas"></canvas>
 
 <!-- <input type="button" id="startButton" value="START GAME" /> -->
 
@@ -62,7 +61,6 @@ var game = new Tetris(canvas);
 // So unneeded events get removed for important DOM objects
 removeEvents(document.body);
 removeEvents(canvas);
-removeEvents(document.getElementById("backgroundWall"));
 
 canvas.addEventListener("touchstart", function(e){ game.touch(e); }, false);
 
