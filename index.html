@@ -52,6 +52,7 @@
         
 <script>
 
+var scoreSubmitted = 0;
 function DrawHighScores(logged) {
   // Draw the Top Scores of the user's friends
   if( logged == 1 ) {
@@ -200,11 +201,13 @@ function DrawHighScores(logged) {
     var fragment = CreateDOMFragment(content);
     elem.appendChild(fragment);
 
-    if( window.localStorage.getItem("score") > myHighScore && window.localStorage.getItem("submitted") == undefined ) {
+    if( window.localStorage.getItem("score") > myHighScore && scoreSubmitted == 0 ) {
       var opts = {score: window.localStorage.getItem("score")};
       FB.api('/me/scores', 'post', opts, function(response) {
-        window.localStorage.setItem("submitted", "yes");
-        window.location = "index.html";
+        scoreSubmitted = 1;
+//        window.localStorage.setItem("submitted", "yes");
+//        window.location = "index.html";
+        DrawHighScores(1);
       });
     }
   }
@@ -215,7 +218,10 @@ function login() {
 }
 
 function logout() {
-  FB.logout(function(response) { window.location = "index.html"; });
+  FB.logout(function(response) {
+    DrawHighScores(0);
+//    window.location = "index.html";
+  });
 }
 
 function loginResponse(response) {
