@@ -215,6 +215,7 @@ function DrawHighScores(logged) {
     var elem = document.getElementById("hs-middle");
     ClearDiv(elem);
     var fragment = CreateDOMFragment(content);
+    elem.appendChild(fragment);
   }
 
   if( window.localStorage.getItem("score") != undefined ) {
