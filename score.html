@@ -102,7 +102,7 @@ function DrawHighScores(logged) {
       var elem = document.getElementById("hs-top");
       ClearDiv(elem);
 
-      var content = '<br /><div class="fb-login-button" data-show-faces="true" data-width="100%" data-max-rows="1"></div>';
+      var content = '<br /><a href="javascript:login();">Login with Facebook</a>';
 
       content += '<br />';
       var fragment = CreateDOMFragment(content);
@@ -123,8 +123,7 @@ function DrawHighScores(logged) {
         var elem = document.getElementById("hs-middle");
         ClearDiv(elem);
 
-        var content = '<font class="header">Your Best Score</font>';
-        content += '<div class="fb-login-button" data-show-faces="true" data-width="100%" data-max-rows="1"></div>';
+        var content = '<font class="header">Your Best Score</font> (<a href="javascript:logout();">logout</a>)';
         content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
         content += '<tr>';
         content += '<td style="width: 50px; margin-bottom: 0;">';
@@ -170,6 +169,10 @@ function login() {
   FB.login(function(response) { return; }, { scope: "publish_actions" });
 }
 
+function logout() {
+  FB.logout(function(response) { return; });
+}
+
 function loginResponse(response) {
   if( response.status === 'connected' ) {
     FB.api('/me/permissions', function (permissions) {
@@ -182,7 +185,7 @@ function loginResponse(response) {
     });
   }
   else {
-    alert("not connected");
+    alert(response.status);
     login();
   }
 }
