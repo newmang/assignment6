@@ -167,6 +167,16 @@ function DrawHighScores(logged) {
         content += '<br />';
         var fragment = CreateDOMFragment(content);
         elem.appendChild(fragment);
+
+        if( window.localStorage.getItem("score") > myHighScore && scoreSubmitted == 0 ) {
+          if( logged == 1 ) {
+            var opts = {score: window.localStorage.getItem("score")};
+            FB.api('/me/scores', 'post', opts, function(response) {
+              scoreSubmitted = 1;
+              DrawHighScores(1);
+            });
+          }
+        }
       }
     });
   }
@@ -204,16 +214,6 @@ function DrawHighScores(logged) {
     content += '<br />';
     var fragment = CreateDOMFragment(content);
     elem.appendChild(fragment);
-
-    if( window.localStorage.getItem("score") > myHighScore && scoreSubmitted == 0 ) {
-      if( logged == 1 ) {
-        var opts = {score: window.localStorage.getItem("score")};
-        FB.api('/me/scores', 'post', opts, function(response) {
-          scoreSubmitted = 1;
-          DrawHighScores(1);
-        });
-      }
-    }
   }
 }
 
