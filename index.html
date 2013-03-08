@@ -53,8 +53,6 @@
   <script src="facebook-js-sdk.js"></script>
         
 <script>
-document.addEventListener("pause", function() { alert('resume'); }, false);
-
 var scoreSubmitted = 0;
 var myHighScore = 0;
 function DrawHighScores(logged) {
@@ -285,6 +283,8 @@ function loginResponse(response) {
 }
 
 document.addEventListener('deviceready', function() {
+  document.addEventListener("backbutton", function() { return; }, false);
+
   FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
   FB.getLoginStatus(function(response) {
     FB.Event.subscribe('auth.login', function(response) { loginResponse(response); });
