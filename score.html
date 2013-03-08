@@ -51,7 +51,7 @@ function DrawHighScores(logged) {
 
   // Draw the Top Scores of the user's friends
   var content = '<font class="header">Top Scores</font>';
-  if( logged ) {
+  if( logged == true ) {
     FB.api('/473600756038526/scores', function(response) {
       response.data.sort(function(a,b) {
         return b["score"] - a["score"];
@@ -109,14 +109,12 @@ function DrawHighScores(logged) {
   var fragment = CreateDOMFragment(content);
   elem.appendChild(fragment);
 
-  if( logged ) {
+  elem = document.getElementById("hs-middle");
+  ClearDiv(elem);
+
+  content = '<font class="header">Your Best Score</font>';
+  if( logged == true ) {
     FB.api('/me/scores', function(response) {
-      var elem = document.getElementById("hs-middle");
-      ClearDiv(elem);
-
-      var content = '<font class="header">Your Best Score</font>';
-      content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
-
       // Step through the player's scores until you find our App's
       var i = 0;
       for( ; i < response.data.length; i++ ) {
@@ -151,14 +149,13 @@ function DrawHighScores(logged) {
       else {
         content += 'None';
       }
-
-      content += '</div>';
-      content += '<br />';
-
-      var fragment = CreateDOMFragment(content);
-      elem.appendChild(fragment);
     });
   }
+
+  content += '<br />';
+
+  fragment = CreateDOMFragment(content);
+  elem.appendChild(fragment);
 }
 
 function login() {
