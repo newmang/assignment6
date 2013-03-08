@@ -46,15 +46,15 @@
 <script>
 
 function DrawHighScores(logged) {
-  var elem = document.getElementById("hs-top");
-  ClearDiv(elem);
-
   // Draw the Top Scores of the user's friends
-  var content = '<font class="header">Top Scores</font>';
   if( logged == 1 ) {
     FB.api('/473600756038526/scores', function(response) {
       response.data.sort(function(a,b) { return b["score"] - a["score"]; });
 
+      var elem = document.getElementById("hs-top");
+      ClearDiv(elem);
+
+      var content += '<font class="header">Top Scores</font>';
       content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
 
       for( var i = 0; i < response.data.length; i++ ) {
@@ -92,17 +92,23 @@ function DrawHighScores(logged) {
 
       content += '</div>';
 
-      alert(content);
+      content += '<br />';
+      var fragment = CreateDOMFragment(content);
+      elem.appendChild(fragment);
     });
   }
   else
   {
-    content += '<br /><div class="fb-login-button" data-show-faces="true" data-width="100%" data-max-rows="1"></div>';
+      var elem = document.getElementById("hs-top");
+      ClearDiv(elem);
+
+      var content += '<br /><div class="fb-login-button" data-show-faces="true" data-width="100%" data-max-rows="1"></div>';
+
+      content += '<br />';
+      var fragment = CreateDOMFragment(content);
+      elem.appendChild(fragment);
   }
 
-  content += '<br />';
-  var fragment = CreateDOMFragment(content);
-  elem.appendChild(fragment);
 /*
   elem = document.getElementById("hs-middle");
   ClearDiv(elem);
