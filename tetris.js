@@ -192,7 +192,7 @@ Tetris.prototype.gameOver = function() {
   window.localStorage.setItem("score", this.score);
   window.localStorage.setItem("level", this.level);
   window.localStorage.setItem("lines", this.lines);
-  window.location = "score.html";
+  window.location = "index.html";
 
 //  var scoreText = "Score: " + this.score + "\nLines: " + this.lines + "\nLevel: " + this.level;
 //  var _this = this;
