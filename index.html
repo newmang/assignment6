@@ -55,14 +55,12 @@
 <script>
 
 var scoreSubmitted = 0;
+var myHighScore = -1;
 function DrawHighScores(logged) {
   // Draw the Top Scores of the user's friends
   if( logged == 1 ) {
     FB.api('/473600756038526/scores', function(response) {
       response.data.sort(function(a,b) { return b["score"] - a["score"]; });
-
-      var elem = document.getElementById("hs-top");
-      ClearDiv(elem);
 
       var content = '<font class="header">Top Scores</font><a class="grayButton" href="javascript:logout();" style="float: right;"><span class="grayButtonText" style="font-size: 18px;">Logout</span></a>';
       content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
@@ -101,17 +99,16 @@ function DrawHighScores(logged) {
       }
 
       content += '</div>';
-
       content += '<br />';
+
+      var elem = document.getElementById("hs-top");
+      ClearDiv(elem);
       var fragment = CreateDOMFragment(content);
       elem.appendChild(fragment);
     });
   }
   else
   {
-      var elem = document.getElementById("hs-top");
-      ClearDiv(elem);
-
       var content = '<font class="header">Top Scores</font>';
       content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
       content += '<tr>';
@@ -120,13 +117,14 @@ function DrawHighScores(logged) {
       content += '</td>';
       content += '</tr>';
       content += '</table>';
-
       content += '<br />';
+
+      var elem = document.getElementById("hs-top");
+      ClearDiv(elem);
       var fragment = CreateDOMFragment(content);
       elem.appendChild(fragment);
   }
 
-  var myHighScore = -1;
   if( logged == 1 ) {
     FB.api('/me/scores', function(response) {
       // Step through the player's scores until you find our App's
@@ -167,7 +165,6 @@ function DrawHighScores(logged) {
 
       var elem = document.getElementById("hs-middle");
       ClearDiv(elem);
-
       var fragment = CreateDOMFragment(content);
       elem.appendChild(fragment);
 
@@ -182,9 +179,6 @@ function DrawHighScores(logged) {
     });
   }
   else {
-    var elem = document.getElementById("hs-middle");
-    ClearDiv(elem);
-
     if( window.localStorage.getItem("highScore") != undefined ) {
       myHighScore = window.localStorage.getItem("highScore");
 
@@ -199,13 +193,15 @@ function DrawHighScores(logged) {
       content += '</tr>';
       content += '</table>';
       content += '<br />';
+
+      var elem = document.getElementById("hs-middle");
+      ClearDiv(elem);
+      var fragment = CreateDOMFragment(content);
+      elem.appendChild(fragment);
     }
   }
 
   if( window.localStorage.getItem("score") != undefined ) {
-    var elem = document.getElementById("hs-current");
-    ClearDiv(elem);
-
     var content = '<font class="header">Last Game</font>';
     content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
     content += '<tr>';
@@ -235,6 +231,8 @@ function DrawHighScores(logged) {
         content += '<a class="greenButton" href="javascript:share();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>';
       }
     }
+    var elem = document.getElementById("hs-current");
+    ClearDiv(elem);
     var fragment = CreateDOMFragment(content);
     elem.appendChild(fragment);
   }
@@ -248,6 +246,19 @@ function logout() {
   FB.logout(function(response) {
     DrawHighScores(0);
   });
+}
+
+function share() {
+  var params = {
+    method: 'feed',
+    name: 'Global Leaderboards',
+    link: 'https://developers.facebook.com/docs/reference/dialogs/',
+    picture: 'http://fbrell.com/f8.jpg',
+    caption: 'How do you stack up?',
+    description: 'New Personal Best: ' + myHighScore
+  };
+
+  FB.ui(params, function(obj) { return; });
 }
 
 function loginResponse(response) {
