@@ -55,7 +55,7 @@ function DrawHighScores(logged) {
       var elem = document.getElementById("hs-top");
       ClearDiv(elem);
 
-      var content = '<font class="header">Top Scores</font>';
+      var content = '<font class="header">Top Scores</font><a class="blueButton" href="javascript:logout();" style="float: right;"><span class="blueButtonText">Logout</span></a>';
       content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
 
       for( var i = 0; i < response.data.length; i++ ) {
