@@ -168,40 +168,52 @@ function DrawHighScores(logged) {
         elem.appendChild(fragment);
       }
 
-      if( scoreSubmitted == 0 && window.localStorage.getItem("score") > myHighScore ) {
+      if( window.localStorage.getItem("score") >= myHighScore ) {
+        window.localStorage.setItem("highscore", myHighScore);
+        var content = '<center><font class="highScore">NEW HIGH SCORE!</font>';
+        content += '<br /><a class="greenButton" href="javascript:share();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>';
+        content += '<center>';
+
+        var elem = document.getElementById("hs-current");
+        var fragment = CreateDOMFragment(content);
+        elem.appendChild(fragment);
+
+      if( scoreSubmitted == 0 ) {
+        scoreSubmitted = 1;
         var opts = {score: window.localStorage.getItem("score")};
         FB.api('/me/scores', 'post', opts, function(response) {
-          scoreSubmitted = 1;
           DrawHighScores(1);
         });
       }
     });
   }
   else {
-    if( window.localStorage.getItem("highScore") != undefined ) {
-      myHighScore = window.localStorage.getItem("highScore");
-
-      var content = '<font class="header">Today\'s Best</font>';
-      content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-      content += '<tr>';
-      content += '<td>';
-      content += '<font class="score">';
-      content += myHighScore;
-      content += '</font>';
-      content += '</td>';
-      content += '</tr>';
-      content += '</table>';
-      content += '<br />';
-
-      var elem = document.getElementById("hs-middle");
-      ClearDiv(elem);
-      var fragment = CreateDOMFragment(content);
-      elem.appendChild(fragment);
+    if( window.localStorage.getItem("highScore") == undefined ) {
+      if( window.localStorage.getItem("score") != undefined ) {
+        window.localStorage.setItem("highScore", window.localStorage.getitem("score"));
+      }
+      else {
+        window.localStorage.setItem("highScore", 0);
+      }
     }
-    else {
-      var elem = document.getElementById("hs-middle");
-      ClearDiv(elem);
-    }
+
+    myHighScore = window.localStorage.getItem("highScore");
+
+    var content = '<font class="header">Today\'s Best</font>';
+    content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
+    content += '<tr>';
+    content += '<td>';
+    content += '<font class="score">';
+    content += myHighScore;
+    content += '</font>';
+    content += '</td>';
+    content += '</tr>';
+    content += '</table>';
+    content += '<br />';
+
+    var elem = document.getElementById("hs-middle");
+    ClearDiv(elem);
+    var fragment = CreateDOMFragment(content);
   }
 
   if( window.localStorage.getItem("score") != undefined ) {
@@ -228,13 +240,12 @@ function DrawHighScores(logged) {
     content += '</table>';
     content += '<br />';
 
-    if( window.localStorage.getItem("score") >= myHighScore ) {
-      window.localStorage.setItem("highscore", myHighScore);
-      content += '<center><font class="highScore">NEW HIGH SCORE!</font>';
-      if( logged == 1 ) {
-        content += '<br /><a class="greenButton" href="javascript:share();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>';
+    if( logged == 0 ) {
+      // If we are not logged in, then myHighScore has the corrent value in it RIGHT NOW.
+      if( window.localStorage.getItem("score") >= myHighScore ) {
+        window.localStorage.setItem("highscore", myHighScore);
+        content += '<center><font class="highScore">NEW HIGH SCORE!</font></center>';
       }
-      content += '<center>';
     }
 
     var elem = document.getElementById("hs-current");
