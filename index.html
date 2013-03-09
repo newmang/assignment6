@@ -111,21 +111,23 @@ function GameManager() {
   ';
 }
 
-GameManager.prototype.update = function(object) {
-alert("draw update");
-  if( object.busy == 1 ) {
+GameManager.prototype.update = function() {
+  alert("draw update");
+  var _this = this;	// Async calls change the regular "this" pointer
+
+  if( _this.busy == 1 ) {
     return;
   }
 
-  object.busy = 1;
+  _this.busy = 1;
 
   // These variables are ready right away
-  object.scoreSubmitted = window.localStorage.getItem("scoreSubmitted");
-  object.scoreShared = window.localStorage.getItem("scoreShared");
-  object.todaysHighScore = window.localStorage.getItem("todaysHighScore");
-  object.currentScore = window.localStorage.getItem("currentScore");
-  object.currentLines = window.localStorage.getItem("currentLines");
-  object.currentLevel = window.localStorage.getItem("currentLevel");
+  _this.scoreSubmitted = window.localStorage.getItem("scoreSubmitted");
+  _this.scoreShared = window.localStorage.getItem("scoreShared");
+  _this.todaysHighScore = window.localStorage.getItem("todaysHighScore");
+  _this.currentScore = window.localStorage.getItem("currentScore");
+  _this.currentLines = window.localStorage.getItem("currentLines");
+  _this.currentLevel = window.localStorage.getItem("currentLevel");
 
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
@@ -133,7 +135,7 @@ alert("draw update");
       FB.api('/me/permissions?fields=publish_actions', function(response) {
         if( response.data[0]["publish_actions"] == 1 ) {
           FB.api('/me?fields=name', function(response) {
-            this.player = response;
+            _this.player = response;
             FB.api('/me/scores', function(response) {
               var foundPlayerScore = 0;
               for( var i = 0; i < response.data.length; i++ ) {
@@ -143,38 +145,44 @@ alert("draw update");
                 }
               }
               if( foundPlayerScore == 1 ) {
-                object.playerScore = response.data[i]["score"];
-                object.playerScore.sort(function(a,b) { return b["score"] - a["score"]; });
+                _this.playerScore = response.data[i]["score"];
+                _this.playerScore.sort(function(a,b) { return b["score"] - a["score"]; });
                 FB.api('/473600756038526/scores?fields=user,score', function(response) {
-                  object.highScores = response.data;
-                  object.drawUpdateFB();
+                  _this.highScores = response.data;
+                  _this.drawUpdateFB();
                 });
               }
               else {
-                object.drawUpdate();
+                _this.drawUpdate();
               }
             });
           });
         }
         else {
-          object.drawUpdate();
+          _this.drawUpdate();
         }
       });
     }
     else {
-      object.drawUpdate();
+      _this.drawUpdate();
     }
   });
 };
   
 GameManager.prototype.drawUpdateFB = function() {
   alert("Draw Facebook");
+
+  // All async calls have completed
+  this.busy = 0;
 };
 
 GameManager.prototype.drawUpdate = function() {
   alert("Draw non-Facebook");
   var content = this.prepTemplate(this.templates["highscores_nofb"]);
   this.writeElement(document.getElementById("highscores"), content);
+
+  // All async calls have completed
+  this.busy = 0;
 };
 
 GameManager.prototype.loginFB = function() {
@@ -185,9 +193,10 @@ GameManager.prototype.loginFB = function() {
   }, { scope: "publish_actions" });
 };
 
-GameManager.prototype.logoutFB = function(object) {
+GameManager.prototype.logoutFB = function() {
+  var _this = this;
   FB.logout(function(response) {
-    object.update();
+    _this.update();
   });
 }
 
@@ -295,7 +304,7 @@ var gMyGameManager = new GameManager;
 document.addEventListener('deviceready', function() {
   document.addEventListener("backbutton", function() { return; }, false);
   FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
-  gMyGameManager.update(gMyGameManager);
+  gMyGameManager.update();
 }, false);
 
 </script>
