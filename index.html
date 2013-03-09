@@ -167,9 +167,11 @@ GameManager.prototype.shareFB = function(score) {
 GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
   var result = template;
   var buf = undefined;
-
+alert('a');
   if( a !== undefined ) {
-    while( 1 ) {
+alert('b');
+    while( 1 === 1 ) {
+alert('c');
       buf = result.replace("$1", a);
       if( buf === result ) {
         break;
