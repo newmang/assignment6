@@ -142,6 +142,25 @@ function GameManager() {
     </table>\
     <br />\
   ';
+
+  this.templates["lastgame"] = '\
+    <font class="header">Last Game</font>\
+    <table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">\
+      <tr>\
+        <td align="center">\
+          <font class="scoreTitle">SCORE</font>\
+         <font class="score">$1</font>\
+       </td><td align="center">\
+         <font class="scoreTitle">LINES</font>\
+         <font class="score">$2</font>\
+       </td><td align="center">\
+         <font class="scoreTitle">LEVEL</font>\
+         <font class="score">$3</font>\
+       </td>\
+     </tr>\
+    </table>\
+    <br />\
+  ';
 }
 
 GameManager.prototype.update = function() {
@@ -237,6 +256,10 @@ GameManager.prototype.drawUpdate = function() {
   }
 
   this.writeElement(document.getElementById("highscores"), content);
+
+  if( this.currentScore !== null ) {
+    content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
+  }
 
   // All async calls have completed
   this.busy = 0;
