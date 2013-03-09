@@ -176,6 +176,7 @@ function GameManager() {
 }
 
 GameManager.prototype.update = function() {
+alert("update");
   var _this, foundPlayerScore;
 
   _this = this;	// Async calls change the regular "this" pointer
@@ -240,6 +241,7 @@ GameManager.prototype.update = function() {
 };
   
 GameManager.prototype.drawUpdateFB = function() {
+alert("Draw Facebook Update");
   var i, content, opts, _this;
 
   content = this.prepTemplate(this.templates["highscores_fb_prefix"]);
@@ -279,6 +281,8 @@ GameManager.prototype.drawUpdateFB = function() {
 };
 
 GameManager.prototype.drawUpdate = function() {
+alert("Draw Update");
+
   var content;
 
   content = this.prepTemplate(this.templates["highscores_nofb"]);
