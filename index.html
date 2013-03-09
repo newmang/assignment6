@@ -168,12 +168,16 @@ GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
   var result = template;
   var buf = undefined;
 
+alert('a');
   if( a !== undefined ) {
+alert('b');
     buf = undefined;
     while( buf !== result ) {
+alert('c');
       buf = result.replace("$1", a);
     }
     result = buf;
+alert('d');
   }
 
   if( b !== undefined ) {
@@ -207,7 +211,7 @@ GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
     }
     result = buf;
   }
-
+alert('f');
   return result;
 };
 
