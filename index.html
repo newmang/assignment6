@@ -53,16 +53,16 @@
 <script>
 
 function GameManager() {
-  this.scoreSubmitted = undefined;
-  this.scoreShared = undefined;
-  this.todaysBest = undefined;
-  this.currentScore = undefined;
-  this.currentLines = undefined;
-  this.currentLevel = undefined;
+  this.scoreSubmitted = null;
+  this.scoreShared = null;
+  this.todaysBest = null;
+  this.currentScore = null;
+  this.currentLines = null;
+  this.currentLevel = null;
 
-  this.player = undefined;
-  this.playerScore = undefined;
-  this.highScores = undefined;
+  this.player = null;
+  this.playerScore = null;
+  this.highScores = null;
 
   this.busy = 0;
 
@@ -141,7 +141,7 @@ GameManager.prototype.update = function() {
   _this.currentLines = window.localStorage.getItem("currentLines");
   _this.currentLevel = window.localStorage.getItem("currentLevel");
 
-  if( _this.todaysBest !== undefined && _this.currentScore !== undefined && _this.todaysBest < _this.currentScore ) {
+  if( _this.todaysBest !== null && _this.currentScore !== null && _this.todaysBest < _this.currentScore ) {
     window.localStorage.setItem("todaysBest", _this.currentScore);
   }
   _this.todaysBest = window.localStorage.getItem("todaysBest");
@@ -208,7 +208,7 @@ GameManager.prototype.drawUpdate = function() {
   alert("Draw non-Facebook");
   var content = this.prepTemplate(this.templates["highscores_nofb"]);
 
-  if( this.todaysBest !== undefined ) {
+  if( this.todaysBest !== null ) {
     content += this.prepTemplate(this.templates["todaysbest"], this.todaysBest);
   }
 
