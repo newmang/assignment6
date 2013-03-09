@@ -131,12 +131,18 @@ GameManager.prototype.update = function() {
 
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
+alert('1');
     if( response.status === 'connected' ) {
+alert('2');
       FB.api('/me/permissions?fields=publish_actions', function(response) {
+alert('3');
         if( response.data[0]["publish_actions"] == 1 ) {
+alert('4');
           FB.api('/me?fields=name', function(response) {
+alert('5');
             _this.player = response;
             FB.api('/me/scores', function(response) {
+alert('6');
               var foundPlayerScore = 0;
               for( var i = 0; i < response.data.length; i++ ) {
                 if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
@@ -145,11 +151,12 @@ GameManager.prototype.update = function() {
                 }
               }
               if( foundPlayerScore == 1 ) {
+alert('7');
                 _this.playerScore = response.data[i]["score"];
                 _this.playerScore.sort(function(a,b) { return b["score"] - a["score"]; });
                 FB.api('/473600756038526/scores?fields=user,score', function(response) {
+alert('8');
                   _this.highScores = response.data;
-alert('beta');
                   _this.drawUpdateFB();
                 });
               }
