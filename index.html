@@ -112,6 +112,7 @@ function GameManager() {
 }
 
 GameManager.prototype.update = function(object) {
+alert("draw update");
   if( object.busy == 1 ) {
     return;
   }
@@ -179,6 +180,7 @@ GameManager.prototype.drawUpdate = function() {
 GameManager.prototype.loginFB = function() {
   var _this = this;
   FB.login(function(response) {
+    alert("login response");
     _this.update();
   }, { scope: "publish_actions" });
 };
