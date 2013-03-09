@@ -67,6 +67,7 @@ function GameManager() {
   this.busy = 0;
 
   this.templates = new Array();
+
   this.templates["highscores_nofb"] = '\
     <font class="header">Top Scores</font>\
     <table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">\
@@ -107,6 +108,18 @@ function GameManager() {
 
   this.templates["highscores_fb_postfix"] = '\
     </div>\
+    <br />\
+  ';
+
+  this.templates["todaysbest"] = '\
+    <font class="header">Today\'s Best</font>\
+    <table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">\
+      <tr>\
+        <td>\
+          <font class="score">$1</font>\
+        </td>\
+      </tr>\
+    </table>\
     <br />\
   ';
 }
@@ -190,6 +203,8 @@ GameManager.prototype.drawUpdateFB = function() {
 GameManager.prototype.drawUpdate = function() {
   alert("Draw non-Facebook");
   var content = this.prepTemplate(this.templates["highscores_nofb"]);
+  content += this.prepTemplate(this.templates["todaysbest"], this.todaysHighScore);
+
   this.writeElement(document.getElementById("highscores"), content);
 
   // All async calls have completed
