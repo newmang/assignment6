@@ -33,9 +33,7 @@
 
   <div id="fb-root"></div>
 
-  <div id="hs-top"></div>
-  <div id="hs-middle"></div>
-  <div id="hs-current"></div>
+  <div id="highscores"></div>
 
   <div style="position: absolute; bottom: 0; width: 100%; overflow: hidden;">
     <center>
@@ -53,279 +51,135 @@
   <script src="facebook-js-sdk.js"></script>
         
 <script>
-var scoreSubmitted = 0;
-function DrawHighScores(logged) {
-  var myHighScore = 0;
 
-  // Draw the Top Scores of the user's friends
-  if( logged == 1 ) {
-    FB.api('/473600756038526/scores', function(response) {
-      response.data.sort(function(a,b) { return b["score"] - a["score"]; });
+function GameManager() {
+  this.scoreSubmitted = undefined;
+  this.scoreShared = undefined;
+  this.todaysHighScore = undefined;
+  this.currentScore = undefined;
+  this.currentLines = undefined;
+  this.currentLevel = undefined;
 
-      var content = '<font class="header">Top Scores</font><a class="grayButton" href="javascript:logout();" style="float: right;"><span class="grayButtonText" style="font-size: 18px;">Logout</span></a>';
-      content += '<div style="width: 100%; max-height: 162px; background-color: #ffffff; overflow-x: hidden; overflow-y: auto;">';
+  this.player = undefined;
+  this.playerScore = undefined;
+  this.highScores = undefined;
 
-      for( var i = 0; i < response.data.length; i++ ) {
-        content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-        content += '<tr>';
-        content += '<td align="center" valign="middle" style="background-color: #ffffff; width: 1px;">';
-        content += '<font class="label">';
-        content += i+1;
-        content += '</font>';
-        content += '</td>';
-        content += '<td style="width: 50px; margin-bottom: 0;">';
-        content += '<img src="http://graph.facebook.com/';
-        content += response.data[i]["user"]["id"];
-        content += '/picture?type=square" style="width: 50px; display: block;" />';
-        content += '</td>';
-        content += '<td valign="top" width="1">';
-        content += '<div style="position: relative; width: 0; height: 0;">';
-        content += '<font class="name" style="position: absolute;"><nobr>';
-        content += response.data[i]["user"]["name"];
-        content += '</nobr></font>';
-        content += '</div>';
-        content += '</td>';
-        content += '<td valign="bottom" align="right">';
-        content += '<font class="score">';
-        content += response.data[i]["score"];
-        content += '</font>';
-        content += '</td>';
-        content += '</tr>';
-        content += '</table>';
-      }
+  this.busy = 0;
+  this.update();
+}
 
-      if( response.data.length == 0 ) {
-        content += '<br /><font class="score">None</font>';
-      }
-
-      content += '</div>';
-      content += '<br />';
-
-      var elem = document.getElementById("hs-top");
-      ClearDiv(elem);
-      var fragment = CreateDOMFragment(content);
-      elem.appendChild(fragment);
-    });
-  }
-  else
-  {
-      var content = '<font class="header">Top Scores</font>';
-      content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-      content += '<tr>';
-      content += '<td align="center" style="font-size: 20px; font-family: arial, sans-serif;">';
-      content += '<a class="greenButton" href="javascript:login();" style="float: left;"><span class="greenButtonText" style="font-size: 32px;">Login</span></a> with Facebook to access the leaderboards.';
-      content += '</td>';
-      content += '</tr>';
-      content += '</table>';
-      content += '<br />';
-
-      var elem = document.getElementById("hs-top");
-      ClearDiv(elem);
-      var fragment = CreateDOMFragment(content);
-      elem.appendChild(fragment);
+GameManager.prototype.update = function() {
+  if( this.busy == 1 ) {
+    return;
   }
 
-  if( logged == 1 ) {
-    FB.api('/me/scores', function(response) {
-      // Step through the player's scores until you find our App's
-      var i = 0;
-      for( ; i < response.data.length; i++ ) {
-        if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
-          break;
-        }
-      }
+  this.busy = 1;
 
-      if( i < response.data.length ) {
-        myHighScore = response.data[i]["score"];
+  // These variables are ready right away
+  this.scoreSubmitted = window.localStorage.getItem("scoreSubmitted");
+  this.scoreShared = window.localStorage.getItem("scoreShared");
+  this.todaysHighScore = window.localStorage.getItem("todaysHighScore");
+  this.currentScore = window.localStorage.getItem("currentScore");
+  this.currentLines = window.localStorage.getItem("currentLines");
+  this.currentLevel = window.localStorage.getItem("currentLevel");
 
-        var content = '<font class="header">Your Best</font>';
-        content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-        content += '<tr>';
-        content += '<td style="width: 50px; margin-bottom: 0;">';
-        content += '<img src="http://graph.facebook.com/';
-        content += response.data[i]["user"]["id"];
-        content += '/picture?type=square" style="width: 50px; display: block;" />';
-        content += '</td>';
-        content += '<td valign="top" width="1">';
-        content += '<div style="position: relative; width: 0; height: 0;">';
-        content += '<font class="name" style="position: absolute;"><nobr>';
-        content += response.data[i]["user"]["name"];
-        content += '</nobr></font>';
-        content += '</div>';
-        content += '</td>';
-        content += '<td valign="bottom" align="right">';
-        content += '<font class="score">';
-        content += response.data[i]["score"];
-        content += '</font>';
-        content += '</td>';
-        content += '</tr>';
-        content += '</table>';
-        content += '<br />';
-
-        var elem = document.getElementById("hs-middle");
-        ClearDiv(elem);
-        var fragment = CreateDOMFragment(content);
-        elem.appendChild(fragment);
-      }
-
-      if( window.localStorage.getItem("score") >= myHighScore ) {
-        window.localStorage.setItem("highscore", myHighScore);
-        var content = '<center><font class="highScore">NEW HIGH SCORE!</font>';
-        content += '<br /><a class="greenButton" href="javascript:share();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>';
-        content += '<center>';
-
-        var elem = document.getElementById("hs-current");
-        var fragment = CreateDOMFragment(content);
-        elem.appendChild(fragment);
-
-        if( scoreSubmitted == 0 ) {
-          scoreSubmitted = 1;
-          var opts = {score: window.localStorage.getItem("score")};
-          FB.api('/me/scores', 'post', opts, function(response) {
-            DrawHighScores(1);
+  // These variables require async Facebook API calls
+  FB.getLoginStatus(function(response) {
+    if( response.status === 'connected' ) {
+      FB.api('/me/permissions?fields=publish_actions', function(response) {
+        if( response.data[0]["publish_actions"] == 1 ) {
+          FB.api('/me?fields=name', function(response) {
+            this.player = response;
+            FB.api('/me/scores', function(response) {
+              var foundPlayerScore = 0;
+              for( var i = 0; i < response.data.length; i++ ) {
+                if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
+                  foundPlayerScore = 1;
+                  break;
+                }
+              }
+              if( foundPlayerScore == 1 ) {
+                this.playerScore = response.data[i]["score"];
+                FB.api('/473600756038526/scores?fields=user,score', function(response) {
+                  this.highScores = response.data;
+                  this.drawUpdateFB();
+                });
+              }
+              else {
+                this.drawUpdate();
+              }
+            });
           });
         }
-      }
-    });
-  }
-  else {
-    if( window.localStorage.getItem("highScore") == undefined ) {
-      if( window.localStorage.getItem("score") != undefined ) {
-        window.localStorage.setItem("highScore", window.localStorage.getItem("score"));
-      }
-      else {
-        window.localStorage.setItem("highScore", 0);
-      }
+        else {
+          this.drawUpdate();
+        }
+      });
     }
     else {
-      if( window.localStorage.getItem("score") != undefined && window.localStorage.getItem("score") >= window.localStorage.getItem("highScore") ) {
-        window.localStorage.setItem("highScore", window.localStorage.getItem("score"));
-      }
+      this.drawUpdate();
     }
+  });
+};
+  
+GameManager.prototype.drawUpdateFB = function() {
+  alert("Draw Facebook");
+};
 
-    myHighScore = window.localStorage.getItem("highScore");
+GameManager.prototype.drawUpdate = function() {
+  alert("Draw non-Facebook");
+};
 
-    var content = '<font class="header">Today\'s Best</font>';
-    content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-    content += '<tr>';
-    content += '<td>';
-    content += '<font class="score">';
-    content += myHighScore;
-    content += '</font>';
-    content += '</td>';
-    content += '</tr>';
-    content += '</table>';
-    content += '<br />';
+GameManager.prototype.loginFB = function() {
+  FB.login(function(response) {
+    this.update();
+  }, { scope: "publish_actions" });
+};
 
-    var elem = document.getElementById("hs-middle");
-    ClearDiv(elem);
-    var fragment = CreateDOMFragment(content);
-    elem.appendChild(fragment);
-  }
-
-  if( window.localStorage.getItem("score") != undefined ) {
-    var content = '<font class="header">Last Game</font>';
-    content += '<table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">';
-    content += '<tr>';
-    content += '<td align="center">';
-    content += '<font class="scoreTitle">SCORE</font>';
-    content += '<font class="score">';
-    content += window.localStorage.getItem("score");
-    content += '</font>';
-    content += '</td><td align="center">';
-    content += '<font class="scoreTitle">LINES</font>';
-    content += '<font class="score">';
-    content += window.localStorage.getItem("lines");
-    content += '</font>';
-    content += '</td><td align="center">';
-    content += '<font class="scoreTitle">LEVEL</font>';
-    content += '<font class="score">';
-    content += window.localStorage.getItem("level");
-    content += '</font>';
-    content += '</td>';
-    content += '</tr>';
-    content += '</table>';
-    content += '<br />';
-
-    if( logged == 0 ) {
-      // If we are not logged in, then myHighScore has the corrent value in it RIGHT NOW.
-      if( window.localStorage.getItem("score") >= myHighScore ) {
-        content += '<center><font class="highScore">NEW HIGH SCORE!</font></center>';
-      }
-    }
-
-    var elem = document.getElementById("hs-current");
-    ClearDiv(elem);
-    var fragment = CreateDOMFragment(content);
-    elem.appendChild(fragment);
-  }
-}
-
-function login() {
-  FB.login(function(response) { return; }, { scope: "publish_actions" });
-}
-
-function logout() {
+GameManager.prototype.logoutFB = function() {
   FB.logout(function(response) {
-    DrawHighScores(0);
+    this.update();
   });
 }
 
-function share() {
-  var buf = myHighScore;
+GameManager.prototype.shareFB = function(score) {
   var params = {
     method: 'feed',
     name: 'NEW HIGH SCORE',
-    picture: 'http://www.anarchyarcade.com/cse/mobile/tetris_logo.png',
-    caption: buf
+    picture: 'http://www.anarchyarcade.com/cse/mobile/icon.png',
+    caption: score
   };
 
-  FB.ui(params, function(obj) { return; });
-}
-
-function loginResponse(response) {
-  if( response.status === 'connected' ) {
-    FB.api('/me/permissions', function (permissions) {
-      if( permissions.data[0]["publish_actions"] === undefined ) {
-        DrawHighScores(0);
-      }
-      else {
-        DrawHighScores(1);
-      } 
-    });
-  }
-  else {
-    DrawHighScores(0);
-  }
-}
-
-document.addEventListener('deviceready', function() {
-  document.addEventListener("backbutton", function() { return; }, false);
-
-  FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
-  FB.getLoginStatus(function(response) {
-    FB.Event.subscribe('auth.login', function(response) { loginResponse(response); });
-    loginResponse(response);
+  FB.ui(params, function(response) {
+    this.scoreShared = 1;
+    this.update();
   });
-}, false);
+};
 
-function ClearDiv(elem){
+GameManager.prototype.writeElement = function(elem, content) {
+  // Empty the nodes of the element
   while( elem.hasChildNodes() ){
     elem.removeChild(elem.lastChild);
   }
-}
 
-function CreateDOMFragment(htmlStr) {
+  // Convert our HTML into nodes
   var frag = document.createDocumentFragment();
   var temp = document.createElement('div');
 
-  temp.innerHTML = htmlStr;
+  temp.innerHTML = content;	// Note that "temp" is NOT in the active DOM
   while( temp.firstChild ) {
     frag.appendChild(temp.firstChild);
   }
 
-  return frag;
-}
+  // Append the new nodes to the element
+  elem.appendChild(frag);
+};
+
+document.addEventListener('deviceready', function() {
+  document.addEventListener("backbutton", function() { return; }, false);
+  FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
+  myGameManager = new GameManager;
+}, false);
 
 </script>
 
