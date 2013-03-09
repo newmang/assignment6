@@ -122,6 +122,26 @@ function GameManager() {
     </table>\
     <br />\
   ';
+
+  this.templates["playerScore"] = '\
+    <font class="header">Your Best</font>\
+    <table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">\
+      <tr>\
+        <td style="width: 50px; margin-bottom: 0;">\
+          <img src="http://graph.facebook.com/$1/picture?type=square" style="width: 50px; display: block;" />\
+        </td>\
+        <td valign="top" width="1">\
+          <div style="position: relative; width: 0; height: 0;">\
+            <font class="name" style="position: absolute;"><nobr>$2</nobr></font>\
+          </div>\
+        </td>\
+        <td valign="bottom" align="right">\
+          <font class="score">$3</font>\
+        </td>\
+      </tr>\
+    </table>\
+    <br />\
+  ';
 }
 
 GameManager.prototype.update = function() {
@@ -198,6 +218,10 @@ GameManager.prototype.drawUpdateFB = function() {
 
   content += this.prepTemplate(this.templates["highscores_fb_postfix"]);
 
+  if( this.playerScore !== null ) {
+    content += this.prepTemplate(this.templates["playerScore"], this.player["id"], this.player["name"], this.playerScore);
+  }
+
   this.writeElement(document.getElementById("highscores"), content);
 
   // All async calls have completed
@@ -213,8 +237,6 @@ GameManager.prototype.drawUpdate = function() {
   }
 
   this.writeElement(document.getElementById("highscores"), content);
-
-alert('done');
 
   // All async calls have completed
   this.busy = 0;
