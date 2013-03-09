@@ -193,6 +193,7 @@ GameManager.prototype.update = function() {
   _this.todaysBest = window.localStorage.getItem("todaysBest");
 
   if( _this.currentScore !== null && (_this.todaysBest === null || _this.todaysBest < _this.currentScore) ) {
+    _this.todaysBest = _this.currentScore;
     window.localStorage.setItem("todaysBest", _this.currentScore);
   }
 
@@ -257,6 +258,16 @@ GameManager.prototype.drawUpdateFB = function() {
 
     if( this.playerScore !== null && this.playerScore <= this.currentScore ) {
       content += this.prepTempalte(this.templates["newhigh_fb"]);
+
+      if( this.playerScore !== this.currentScore ) {
+        content += "(saving...)<br />";
+
+        var opts = {score: this.currentScore};
+        var _this = this;
+        FB.api('/me/scores', 'post', opts, function(response) {
+          _this.update();
+        });
+      }
     }
   }
 
@@ -277,7 +288,7 @@ GameManager.prototype.drawUpdate = function() {
   if( this.currentScore !== null ) {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
 
-    if( this.currentScore >= this.todaysBest ) {
+    if( this.currentScore === this.todaysBest ) {
       content += this.prepTemplate(this.templates["newhigh"]);
     }
   }
