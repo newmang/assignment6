@@ -241,6 +241,10 @@ GameManager.prototype.drawUpdateFB = function() {
     content += this.prepTemplate(this.templates["yourbest"], this.player["id"], this.player["name"], this.playerScore);
   }
 
+  if( this.currentScore !== null ) {
+    content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
+  }
+
   this.writeElement(document.getElementById("highscores"), content);
 
   // All async calls have completed
@@ -255,12 +259,11 @@ GameManager.prototype.drawUpdate = function() {
     content += this.prepTemplate(this.templates["todaysbest"], this.todaysBest);
   }
 
-  this.writeElement(document.getElementById("highscores"), content);
-
-alert(this.currentScore);
   if( this.currentScore !== null ) {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
   }
+
+  this.writeElement(document.getElementById("highscores"), content);
 
   // All async calls have completed
   this.busy = 0;
