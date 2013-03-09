@@ -202,19 +202,18 @@ alert("update");
 
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
-alert('1');
+alert(JSON.stringify(response));
     if( response.status === 'connected' ) {
-alert('2');
+alert('1');
       FB.api('/me/permissions?fields=publish_actions', function(response) {
-alert('3');
 alert(JSON.stringify(response));
         if( response.data[0]["publish_actions"] == 1 ) {
-alert('4');
+alert('2');
           FB.api('/me?fields=name', function(response) {
-alert('5');
+alert(JSON.stringify(response));
             _this.player = response;
             FB.api('/me/scores', function(response) {
-alert('6');
+alert(JSON.stringify(response));
               foundPlayerScore = 0;
               for( var i = 0; i < response.data.length; i++ ) {
                 if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
@@ -227,7 +226,7 @@ alert('7');
 alert('8');
                 _this.playerScore = response.data[i]["score"];
                 FB.api('/473600756038526/scores?fields=user,score', function(response) {
-alert('9');
+alert(JSON.stringify(response));
                   _this.highScores = response.data;
                   _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
                   _this.drawUpdateFB();
