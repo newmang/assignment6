@@ -175,8 +175,9 @@ function GameManager() {
 }
 
 GameManager.prototype.update = function() {
-  alert("draw update");
-  var _this = this;	// Async calls change the regular "this" pointer
+  var _this, foundPlayerScore;
+
+  _this = this;	// Async calls change the regular "this" pointer
 
   if( _this.busy === 1 ) {
     return;
@@ -205,7 +206,7 @@ GameManager.prototype.update = function() {
           FB.api('/me?fields=name', function(response) {
             _this.player = response;
             FB.api('/me/scores', function(response) {
-              var foundPlayerScore = 0;
+              foundPlayerScore = 0;
               for( var i = 0; i < response.data.length; i++ ) {
                 if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
                   foundPlayerScore = 1;
@@ -238,10 +239,9 @@ GameManager.prototype.update = function() {
 };
   
 GameManager.prototype.drawUpdateFB = function() {
-  alert("Draw Facebook");
-  var i;
+  var i, content, opts, _this;
 
-  var content = this.prepTemplate(this.templates["highscores_fb_prefix"]);
+  content = this.prepTemplate(this.templates["highscores_fb_prefix"]);
 
   for( i = 0; i < this.highScores.length; i++ ) {
     content += this.prepTemplate(this.templates["highscores_fb"], i+1, this.highScores[i]["user"]["id"], this.highScores[i]["user"]["name"], this.highScores[i]["score"]);
@@ -262,8 +262,8 @@ GameManager.prototype.drawUpdateFB = function() {
       if( this.playerScore !== this.currentScore ) {
         content += "(saving...)<br />";
 
-        var opts = {score: this.currentScore};
-        var _this = this;
+        opts = {score: this.currentScore};
+        _this = this;
         FB.api('/me/scores', 'post', opts, function(response) {
           _this.update();
         });
@@ -278,8 +278,9 @@ GameManager.prototype.drawUpdateFB = function() {
 };
 
 GameManager.prototype.drawUpdate = function() {
-  alert("Draw non-Facebook");
-  var content = this.prepTemplate(this.templates["highscores_nofb"]);
+  var content;
+
+  content = this.prepTemplate(this.templates["highscores_nofb"]);
 
   if( this.todaysBest !== null ) {
     content += this.prepTemplate(this.templates["todaysbest"], this.todaysBest);
@@ -300,21 +301,27 @@ GameManager.prototype.drawUpdate = function() {
 };
 
 GameManager.prototype.loginFB = function() {
-  var _this = this;
+  var _this;
+
+  _this = this;
   FB.login(function(response) {
     _this.update();
   }, { scope: "publish_actions" });
 };
 
 GameManager.prototype.logoutFB = function() {
-  var _this = this;
+  var _this;
+
+  _this = this;
   FB.logout(function(response) {
     _this.update();
   });
 }
 
 GameManager.prototype.shareFB = function(score) {
-  var params = {
+  var params;
+
+  params = {
     method: 'feed',
     name: 'NEW HIGH SCORE',
     picture: 'http://www.anarchyarcade.com/cse/mobile/icon.png',
@@ -328,8 +335,9 @@ GameManager.prototype.shareFB = function(score) {
 };
 
 GameManager.prototype.prepTemplate = function(template) {
-  var result = template;
-  var buf, i;
+  var result, buf, i;
+
+  result = template;
 
   for( i = 1; i < arguments.length; i++ ) {
     while( 1 ) {
@@ -347,14 +355,16 @@ GameManager.prototype.prepTemplate = function(template) {
 };
 
 GameManager.prototype.writeElement = function(elem, content) {
+  var frag, temp;
+
   // Empty the nodes of the element
   while( elem.hasChildNodes() ){
     elem.removeChild(elem.lastChild);
   }
 
   // Convert our HTML into nodes
-  var frag = document.createDocumentFragment();
-  var temp = document.createElement('div');
+  frag = document.createDocumentFragment();
+  temp = document.createElement('div');
 
   temp.innerHTML = content;	// Note that "temp" is NOT in the active DOM
   while( temp.firstChild ) {
