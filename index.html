@@ -207,6 +207,7 @@ alert('1');
 alert('2');
       FB.api('/me/permissions?fields=publish_actions', function(response) {
 alert('3');
+alert(JSON.stringify(response));
         if( response.data[0]["publish_actions"] == 1 ) {
 alert('4');
           FB.api('/me?fields=name', function(response) {
