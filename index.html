@@ -167,13 +167,13 @@ GameManager.prototype.shareFB = function(score) {
 GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
   var result = template;
   var buf = undefined;
-
+alert('hey');
   if( a !== undefined ) {
     do {
       buf = result;
       buf = buf.replace("$1", a);
     }
-    while ( buf !== result );
+    while ( buf != result );
     result = buf;
   }
 
@@ -182,7 +182,7 @@ GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
       buf = result;
       buf = buf.replace("$2", b);
     }
-    while ( buf !== result );
+    while ( buf != result );
     result = buf;
   }
 
@@ -191,7 +191,7 @@ GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
       buf = result;
       buf = buf.replace("$3", c);
     }
-    while ( buf !== result );
+    while ( buf != result );
     result = buf;
   }
 
@@ -200,7 +200,7 @@ GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
       buf = result;
       buf = buf.replace("$4", d);
     }
-    while ( buf !== result );
+    while ( buf != result );
     result = buf;
   }
 
@@ -209,10 +209,10 @@ GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
       buf = result;
       buf = buf.replace("$5", e);
     }
-    while ( buf !== result );
+    while ( buf != result );
     result = buf;
   }
-
+alert('bye');
   return result;
 };
 
