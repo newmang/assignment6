@@ -65,7 +65,6 @@ function GameManager() {
   this.highScores = undefined;
 
   this.busy = 0;
-  this.update();
 }
 
 GameManager.prototype.update = function() {
@@ -175,10 +174,11 @@ GameManager.prototype.writeElement = function(elem, content) {
   elem.appendChild(frag);
 };
 
+var gMyGameManager = new GameManager;
 document.addEventListener('deviceready', function() {
   document.addEventListener("backbutton", function() { return; }, false);
   FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
-  myGameManager = new GameManager;
+  gMyGameManager.loginFB();
 }, false);
 
 </script>
