@@ -169,48 +169,65 @@ GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
   var buf = undefined;
 
   if( a !== undefined ) {
-    while( 1 === 1 ) {
-      buf = result.replace("\$1", a);
-      alert(buf);
+    while( 1 ) {
+      buf = result.replace("$1", a);
       if( buf === result ) {
         break;
       }
+      else {
+        result = buf;
+      }
     }
-    result = buf;
   }
-alert('d');
+
   if( b !== undefined ) {
-    buf = undefined;
-    while( buf !== result ) {
+    while( 1 ) {
       buf = result.replace("$2", b);
+      if( buf === result ) {
+        break;
+      }
+      else {
+        result = buf;
+      }
     }
-    result = buf;
   }
 
   if( c !== undefined ) {
-    buf = undefined;
-    while( buf !== result ) {
+    while( 1 ) {
       buf = result.replace("$3", c);
+      if( buf === result ) {
+        break;
+      }
+      else {
+        result = buf;
+      }
     }
-    result = buf;
   }
 
   if( d !== undefined ) {
-    buf = undefined;
-    while( buf !== result ) {
+    while( 1 ) {
       buf = result.replace("$4", d);
+      if( buf === result ) {
+        break;
+      }
+      else {
+        result = buf;
+      }
     }
-    result = buf;
   }
 
   if( e !== undefined ) {
-    buf = undefined;
-    while( buf !== result ) {
+    while( 1 ) {
       buf = result.replace("$5", e);
+      if( buf === result ) {
+        break;
+      }
+      else {
+        result = buf;
+      }
     }
-    result = buf;
   }
-alert('f');
+
   return result;
 };
 
