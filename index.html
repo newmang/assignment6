@@ -149,7 +149,6 @@ GameManager.prototype.update = function() {
                 FB.api('/473600756038526/scores?fields=user,score', function(response) {
                   _this.highScores = response.data;
                   _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
-
                   _this.drawUpdateFB();
                 });
               }
@@ -172,6 +171,17 @@ GameManager.prototype.update = function() {
   
 GameManager.prototype.drawUpdateFB = function() {
   alert("Draw Facebook");
+  var i;
+
+  var content = this.prepTemplate(this.templates["highscores_fb_prefix"]);
+
+  for( i = 0; i < this.highScores.length; i++ ) {
+    content += this.prepTemplate(this.templates["highscores_fb"], i+1, this.player["id"], this.player["name"], this.playerScore);
+  }
+
+  content += this.prepTemplate(this.templates["highscores_fb_postfix"]);
+
+  this.writeElement(document.getElementById("highscores"), content);
 
   // All async calls have completed
   this.busy = 0;
@@ -189,7 +199,6 @@ GameManager.prototype.drawUpdate = function() {
 GameManager.prototype.loginFB = function() {
   var _this = this;
   FB.login(function(response) {
-    alert("login response");
     _this.update();
   }, { scope: "publish_actions" });
 };
