@@ -123,7 +123,7 @@ function GameManager() {
     <br />\
   ';
 
-  this.templates["playerScore"] = '\
+  this.templates["yourbest"] = '\
     <font class="header">Your Best</font>\
     <table border=0 cellspacing=0 cellpadding=0 style="border: 2px dashed #9999ff; width: 100%;">\
       <tr>\
@@ -161,7 +161,7 @@ GameManager.prototype.update = function() {
   _this.currentLines = window.localStorage.getItem("currentLines");
   _this.currentLevel = window.localStorage.getItem("currentLevel");
 
-  if( _this.todaysBest !== null && _this.currentScore !== null && _this.todaysBest < _this.currentScore ) {
+  if( _this.currentScore !== null && (_this.todaysBest === null || _this.todaysBest < _this.currentScore) ) {
     window.localStorage.setItem("todaysBest", _this.currentScore);
   }
   _this.todaysBest = window.localStorage.getItem("todaysBest");
@@ -219,7 +219,7 @@ GameManager.prototype.drawUpdateFB = function() {
   content += this.prepTemplate(this.templates["highscores_fb_postfix"]);
 
   if( this.playerScore !== null ) {
-    content += this.prepTemplate(this.templates["playerScore"], this.player["id"], this.player["name"], this.playerScore);
+    content += this.prepTemplate(this.templates["yourbest"], this.player["id"], this.player["name"], this.playerScore);
   }
 
   this.writeElement(document.getElementById("highscores"), content);
