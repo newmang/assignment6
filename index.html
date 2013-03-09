@@ -65,6 +65,11 @@ function GameManager() {
   this.highScores = undefined;
 
   this.busy = 0;
+
+  this.templates = new Array();
+  this.templates["highscores_fb"] = '
+    High <u>score</u> template!
+  ';
 }
 
 GameManager.prototype.update = function(object) {
@@ -81,19 +86,15 @@ GameManager.prototype.update = function(object) {
   object.currentScore = window.localStorage.getItem("currentScore");
   object.currentLines = window.localStorage.getItem("currentLines");
   object.currentLevel = window.localStorage.getItem("currentLevel");
-alert('1');
+
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
-alert('2');
     if( response.status === 'connected' ) {
       FB.api('/me/permissions?fields=publish_actions', function(response) {
-alert('3');
         if( response.data[0]["publish_actions"] == 1 ) {
           FB.api('/me?fields=name', function(response) {
-alert('4');
             this.player = response;
             FB.api('/me/scores', function(response) {
-alert('5');
               var foundPlayerScore = 0;
               for( var i = 0; i < response.data.length; i++ ) {
                 if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
@@ -104,7 +105,6 @@ alert('5');
               if( foundPlayerScore == 1 ) {
                 object.playerScore = response.data[i]["score"];
                 FB.api('/473600756038526/scores?fields=user,score', function(response) {
-alert('6');
                   object.highScores = response.data;
                   object.drawUpdateFB();
                 });
@@ -132,6 +132,7 @@ GameManager.prototype.drawUpdateFB = function() {
 
 GameManager.prototype.drawUpdate = function() {
   alert("Draw non-Facebook");
+  this.writeElement(document.getElementById("highscores"), this.templates["highscores_fb"]);
 };
 
 GameManager.prototype.loginFB = function() {
