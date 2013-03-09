@@ -190,11 +190,11 @@ GameManager.prototype.update = function() {
   _this.currentScore = window.localStorage.getItem("currentScore");
   _this.currentLines = window.localStorage.getItem("currentLines");
   _this.currentLevel = window.localStorage.getItem("currentLevel");
+  _this.todaysBest = window.localStorage.getItem("todaysBest");
 
   if( _this.currentScore !== null && (_this.todaysBest === null || _this.todaysBest < _this.currentScore) ) {
     window.localStorage.setItem("todaysBest", _this.currentScore);
   }
-  _this.todaysBest = window.localStorage.getItem("todaysBest");
 
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
