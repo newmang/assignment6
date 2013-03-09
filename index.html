@@ -168,18 +168,16 @@ GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
   var result = template;
   var buf = undefined;
 
-alert('a');
   if( a !== undefined ) {
-alert('b');
-    buf = undefined;
-    while( buf !== result ) {
-alert('c');
+    while( 1 ) {
       buf = result.replace("$1", a);
+      if( buf === result ) {
+        break;
+      }
     }
     result = buf;
-alert('d');
   }
-
+alert('d');
   if( b !== undefined ) {
     buf = undefined;
     while( buf !== result ) {
