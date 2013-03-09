@@ -171,9 +171,9 @@ alert('a');
   if( a !== undefined ) {
 alert('b');
     while( 1 === 1 ) {
-alert('c');
       buf = result.replace("$1", a);
-      if( buf === result ) {
+      alert(buf + ":" + result);
+      if( buf == result ) {
         break;
       }
     }
