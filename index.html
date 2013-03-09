@@ -67,20 +67,20 @@ function GameManager() {
   this.busy = 0;
 }
 
-GameManager.prototype.update = function() {
-  if( this.busy == 1 ) {
+GameManager.prototype.update = function(object) {
+  if( object.busy == 1 ) {
     return;
   }
 
-  this.busy = 1;
+  object.busy = 1;
 
   // These variables are ready right away
-  this.scoreSubmitted = window.localStorage.getItem("scoreSubmitted");
-  this.scoreShared = window.localStorage.getItem("scoreShared");
-  this.todaysHighScore = window.localStorage.getItem("todaysHighScore");
-  this.currentScore = window.localStorage.getItem("currentScore");
-  this.currentLines = window.localStorage.getItem("currentLines");
-  this.currentLevel = window.localStorage.getItem("currentLevel");
+  object.scoreSubmitted = window.localStorage.getItem("scoreSubmitted");
+  object.scoreShared = window.localStorage.getItem("scoreShared");
+  object.todaysHighScore = window.localStorage.getItem("todaysHighScore");
+  object.currentScore = window.localStorage.getItem("currentScore");
+  object.currentLines = window.localStorage.getItem("currentLines");
+  object.currentLevel = window.localStorage.getItem("currentLevel");
 alert('1');
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
@@ -102,27 +102,26 @@ alert('5');
                 }
               }
               if( foundPlayerScore == 1 ) {
-                this.playerScore = response.data[i]["score"];
+                object.playerScore = response.data[i]["score"];
                 FB.api('/473600756038526/scores?fields=user,score', function(response) {
 alert('6');
-                  this.highScores = response.data;
-                  this.drawUpdateFB();
+                  object.highScores = response.data;
+                  object.drawUpdateFB();
                 });
               }
               else {
-                this.drawUpdate();
+                object.drawUpdate();
               }
             });
           });
         }
         else {
-          this.drawUpdate();
+          object.drawUpdate();
         }
       });
     }
     else {
-alert("call draw update");
-      this.drawUpdate();
+      object.drawUpdate();
     }
   });
 };
@@ -184,7 +183,7 @@ var gMyGameManager = new GameManager;
 document.addEventListener('deviceready', function() {
   document.addEventListener("backbutton", function() { return; }, false);
   FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
-  gMyGameManager.update();
+  gMyGameManager.update(gMyGameManager);
 }, false);
 
 </script>
