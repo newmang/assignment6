@@ -134,8 +134,8 @@ GameManager.prototype.drawUpdateFB = function() {
 
 GameManager.prototype.drawUpdate = function() {
   alert("Draw non-Facebook");
-  this.prepTemplate(this.templates["highscores_fb"], "Rumple Stiltskin");
-  this.writeElement(document.getElementById("highscores"), this.templates["highscores_fb"]);
+  var content = this.prepTemplate(this.templates["highscores_fb"], "Rumple Stiltskin");
+  this.writeElement(document.getElementById("highscores"), content);
 };
 
 GameManager.prototype.loginFB = function() {
@@ -167,52 +167,47 @@ GameManager.prototype.shareFB = function(score) {
 GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
   var result = template;
   var buf = undefined;
-alert('hey');
+
   if( a !== undefined ) {
-    do {
-      buf = result;
-      buf = buf.replace("$1", a);
+    buf = undefined;
+    while( buf !== result ) {
+      buf = result.replace("$1", a);
     }
-    while ( buf != result );
     result = buf;
   }
 
   if( b !== undefined ) {
-    do {
-      buf = result;
-      buf = buf.replace("$2", b);
+    buf = undefined;
+    while( buf !== result ) {
+      buf = result.replace("$2", b);
     }
-    while ( buf != result );
     result = buf;
   }
 
   if( c !== undefined ) {
-    do {
-      buf = result;
-      buf = buf.replace("$3", c);
+    buf = undefined;
+    while( buf !== result ) {
+      buf = result.replace("$3", c);
     }
-    while ( buf != result );
     result = buf;
   }
 
   if( d !== undefined ) {
-    do {
-      buf = result;
-      buf = buf.replace("$4", d);
+    buf = undefined;
+    while( buf !== result ) {
+      buf = result.replace("$4", d);
     }
-    while ( buf != result );
     result = buf;
   }
 
   if( e !== undefined ) {
-    do {
-      buf = result;
-      buf = buf.replace("$5", e);
+    buf = undefined;
+    while( buf !== result ) {
+      buf = result.replace("$5", e);
     }
-    while ( buf != result );
     result = buf;
   }
-alert('bye');
+
   return result;
 };
 
