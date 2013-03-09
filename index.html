@@ -209,11 +209,12 @@ GameManager.prototype.drawUpdate = function() {
   var content = this.prepTemplate(this.templates["highscores_nofb"]);
 
   if( this.todaysBest !== undefined ) {
-alert(this.todaysBest);
     content += this.prepTemplate(this.templates["todaysbest"], this.todaysBest);
   }
 
   this.writeElement(document.getElementById("highscores"), content);
+
+alert('done');
 
   // All async calls have completed
   this.busy = 0;
