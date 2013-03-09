@@ -176,7 +176,7 @@ GameManager.prototype.drawUpdateFB = function() {
   var content = this.prepTemplate(this.templates["highscores_fb_prefix"]);
 
   for( i = 0; i < this.highScores.length; i++ ) {
-    content += this.prepTemplate(this.templates["highscores_fb"], i+1, this.player["id"], this.player["name"], this.playerScore);
+    content += this.prepTemplate(this.templates["highscores_fb"], i+1, this.highScores[i]["user"]["id"], this.highScores[i]["user"]["name"], this.highScores[i]["score"]);
   }
 
   content += this.prepTemplate(this.templates["highscores_fb_postfix"]);
