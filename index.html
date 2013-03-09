@@ -214,66 +214,18 @@ GameManager.prototype.shareFB = function(score) {
   });
 };
 
-GameManager.prototype.prepTemplate = function(template, a, b, c, d, e) {
+GameManager.prototype.prepTemplate = function(template) {
   var result = template;
-  var buf = undefined;
+  var buf, i;
 
-  if( a !== undefined ) {
+  for( i = 1; i < arguments.length; i++ ) {
     while( 1 ) {
-      buf = result.replace("$1", a);
-      if( buf === result ) {
-        break;
-      }
-      else {
+      buf = result.replace("$" + i, arguments[i]);
+      if( buf !== result ) {
         result = buf;
       }
-    }
-  }
-
-  if( b !== undefined ) {
-    while( 1 ) {
-      buf = result.replace("$2", b);
-      if( buf === result ) {
-        break;
-      }
       else {
-        result = buf;
-      }
-    }
-  }
-
-  if( c !== undefined ) {
-    while( 1 ) {
-      buf = result.replace("$3", c);
-      if( buf === result ) {
         break;
-      }
-      else {
-        result = buf;
-      }
-    }
-  }
-
-  if( d !== undefined ) {
-    while( 1 ) {
-      buf = result.replace("$4", d);
-      if( buf === result ) {
-        break;
-      }
-      else {
-        result = buf;
-      }
-    }
-  }
-
-  if( e !== undefined ) {
-    while( 1 ) {
-      buf = result.replace("$5", e);
-      if( buf === result ) {
-        break;
-      }
-      else {
-        result = buf;
       }
     }
   }
