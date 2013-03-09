@@ -177,14 +177,15 @@ GameManager.prototype.drawUpdate = function() {
 };
 
 GameManager.prototype.loginFB = function() {
+  var _this = this;
   FB.login(function(response) {
-    this.update();
+    _this.update();
   }, { scope: "publish_actions" });
 };
 
-GameManager.prototype.logoutFB = function() {
+GameManager.prototype.logoutFB = function(object) {
   FB.logout(function(response) {
-    this.update();
+    object.update();
   });
 }
 
