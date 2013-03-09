@@ -161,6 +161,17 @@ function GameManager() {
     </table>\
     <br />\
   ';
+
+  this.templates["newhigh"] = '\
+    <center><font class="highScore">NEW HIGH SCORE!</font></center>\
+  ';
+
+  this.templates["newhigh_fb"] = '\
+    <center>\
+     <font class="highScore">NEW HIGH SCORE!</font><br />\
+     <a class="greenButton" href="javascript:gMyGameManager.shareFB();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>\
+   </center>\
+  ';
 }
 
 GameManager.prototype.update = function() {
@@ -243,6 +254,10 @@ GameManager.prototype.drawUpdateFB = function() {
 
   if( this.currentScore !== null ) {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
+
+    if( this.playerScore !== null && this.playerScore <= this.currentScore ) {
+      content += this.prepTempalte(this.templates["newhigh_fb"]);
+    }
   }
 
   this.writeElement(document.getElementById("highscores"), content);
@@ -261,6 +276,10 @@ GameManager.prototype.drawUpdate = function() {
 
   if( this.currentScore !== null ) {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
+
+    if( this.currentScore >= this.todaysBest ) {
+      content += this.prepTemplate(this.templates["newhigh"]);
+    }
   }
 
   this.writeElement(document.getElementById("highscores"), content);
