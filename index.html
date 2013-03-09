@@ -257,6 +257,7 @@ GameManager.prototype.drawUpdate = function() {
 
   this.writeElement(document.getElementById("highscores"), content);
 
+alert(this.currentScore);
   if( this.currentScore !== null ) {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
   }
