@@ -137,7 +137,7 @@ GameManager.prototype.update = function() {
   // These variables are ready right away
   _this.scoreSubmitted = window.localStorage.getItem("scoreSubmitted");
   _this.scoreShared = window.localStorage.getItem("scoreShared");
-  _this.todaysHighScore = window.localStorage.getItem("todaysHighScore");
+  _this.todaysBest = window.localStorage.getItem("todaysBest");
   _this.currentScore = window.localStorage.getItem("currentScore");
   _this.currentLines = window.localStorage.getItem("currentLines");
   _this.currentLevel = window.localStorage.getItem("currentLevel");
@@ -203,7 +203,10 @@ GameManager.prototype.drawUpdateFB = function() {
 GameManager.prototype.drawUpdate = function() {
   alert("Draw non-Facebook");
   var content = this.prepTemplate(this.templates["highscores_nofb"]);
-  content += this.prepTemplate(this.templates["todaysbest"], this.todaysHighScore);
+
+  if( this.todaysBest !== undefined ) {
+    content += this.prepTemplate(this.templates["todaysbest"], this.todaysBest);
+  }
 
   this.writeElement(document.getElementById("highscores"), content);
 
