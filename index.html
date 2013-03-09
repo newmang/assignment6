@@ -137,10 +137,14 @@ GameManager.prototype.update = function() {
   // These variables are ready right away
   _this.scoreSubmitted = window.localStorage.getItem("scoreSubmitted");
   _this.scoreShared = window.localStorage.getItem("scoreShared");
-  _this.todaysBest = window.localStorage.getItem("todaysBest");
   _this.currentScore = window.localStorage.getItem("currentScore");
   _this.currentLines = window.localStorage.getItem("currentLines");
   _this.currentLevel = window.localStorage.getItem("currentLevel");
+
+  if( _this.todaysBest !== undefined && _this.currentScore !== undefined && _this.todaysBest < _this.currentScore ) {
+    window.localStorage.setItem("todaysBest", _this.currentScore);
+  }
+  _this.todaysBest = window.localStorage.getItem("todaysBest");
 
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
@@ -205,6 +209,7 @@ GameManager.prototype.drawUpdate = function() {
   var content = this.prepTemplate(this.templates["highscores_nofb"]);
 
   if( this.todaysBest !== undefined ) {
+alert(this.todaysBest);
     content += this.prepTemplate(this.templates["todaysbest"], this.todaysBest);
   }
 
