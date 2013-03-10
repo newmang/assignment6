@@ -204,10 +204,12 @@ alert('update');
   if( response === undefined ) {
     FB.getLoginStatus(function(response) {
       FB.Event.subscribe('auth.login', function(response) { alert('callback'); _this.updateAsync(response); });
+alert('alpha');
       _this.updateAsync(response);
     });
   }
   else {
+alert('zeta');
     _this.updateAsync(response);
   }
 };
