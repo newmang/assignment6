@@ -175,7 +175,7 @@ function GameManager() {
   ';
 }
 
-GameManager.prototype.update = function(checkStatus) {
+GameManager.prototype.update = function(response) {
 alert('update');
   var _this;
 
@@ -201,13 +201,13 @@ alert('update');
   }
 
   // These variables require async Facebook API calls
-  if( checkStatus === 1 ) {
+  if( response === undefined ) {
     FB.getLoginStatus(function(response) {
       _this.updateAsync(response);
     });
   }
   else {
-    _this.updateAsync();
+    _this.updateAsync(response);
   }
 };
 
