@@ -176,7 +176,7 @@ function GameManager() {
 }
 
 GameManager.prototype.update = function() {
-  var _this, foundPlayerScore, opts;
+  var _this;
 
   _this = this;	// Async calls change the regular "this" pointer
 
@@ -201,41 +201,49 @@ GameManager.prototype.update = function() {
 
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
-    if( response.status === 'connected' ) {
-      FB.api('/me?fields=name', function(response) {
-        _this.player = response;
-        FB.api('/me/scores', function(response) {
-          foundPlayerScore = 0;
-          for( var i = 0; i < response.data.length; i++ ) {
-            if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
-              foundPlayerScore = 1;
-              break;
-            }
-          }
-          if( foundPlayerScore === 1 ) {
-            _this.playerScore = response.data[i]["score"];
-            if( _this.currentScore !== null && _this.currentScore > _this.playerScore ) {
-              _this.playerScore = _this.currentScore;
-              opts = {score: this.currentScore};
-              FB.api('/me/scores', 'post', opts, function(response) {
-                FB.api('/473600756038526/scores?fields=user,score', function(response) {
-                  _this.highScores = response.data;
-                  _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
-                  _this.drawUpdateFB();
-                });
-              });
-            }
-          }
-          else {
-            _this.drawUpdate();
-          }
-        });
-      });
-    }
-    else {
-      _this.drawUpdate();
-    }
+    _this.updateAsync();
   });
+};
+
+GameManager.prototype.updateAsync = function() {
+  var _this, foundPlayerScore, opts;
+
+  _this = this;
+
+  if( response.status === 'connected' ) {
+    FB.api('/me?fields=name', function(response) {
+      _this.player = response;
+      FB.api('/me/scores', function(response) {
+        foundPlayerScore = 0;
+        for( var i = 0; i < response.data.length; i++ ) {
+          if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
+            foundPlayerScore = 1;
+            break;
+          }
+        }
+        if( foundPlayerScore === 1 ) {
+          _this.playerScore = response.data[i]["score"];
+          if( _this.currentScore !== null && _this.currentScore > _this.playerScore ) {
+            _this.playerScore = _this.currentScore;
+            opts = {score: this.currentScore};
+            FB.api('/me/scores', 'post', opts, function(response) {
+              FB.api('/473600756038526/scores?fields=user,score', function(response) {
+                _this.highScores = response.data;
+                _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
+                _this.drawUpdateFB();
+              });
+            });
+          }
+        }
+        else {
+          _this.drawUpdate();
+        }
+      });
+    });
+  }
+  else {
+    _this.drawUpdate();
+  }
 };
   
 GameManager.prototype.drawUpdateFB = function() {
