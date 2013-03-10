@@ -113,7 +113,7 @@ function GameManager() {
   ';
 
   this.templates["newhigh_fb"] = '\
-    <center><font class="highScore">NEW HIGH SCORE!</font></center>\
+    <center><font class="highScore">NEW HIGH SCORE!</font><br /><a class="greenButton" href="javascript:gMyGameManager.shareFB();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a></center>\
   ';
 
 //    <center>\
@@ -219,7 +219,6 @@ GameManager.prototype.drawUpdateFB = function() {
   if( this.currentScore !== null ) {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
 
-alert(this.playerScore + 'vs' + this.currentScore);
     if( this.playerScore !== null && this.playerScore <= this.currentScore ) {
 alert("here");
       content += this.prepTemplate(this.templates["newhigh_fb"]);
