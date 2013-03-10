@@ -176,6 +176,7 @@ function GameManager() {
 }
 
 GameManager.prototype.update = function(checkStatus) {
+alert('update');
   var _this;
 
   _this = this;	// Async calls change the regular "this" pointer
@@ -211,14 +212,18 @@ GameManager.prototype.update = function(checkStatus) {
 };
 
 GameManager.prototype.updateAsync = function() {
+alert('update async');
   var _this, foundPlayerScore, opts;
 
   _this = this;
 
   if( response.status === 'connected' ) {
+alert('1');
     FB.api('/me?fields=name', function(response) {
+alert('2');
       _this.player = response;
       FB.api('/me/scores', function(response) {
+alert('3');
         foundPlayerScore = 0;
         for( var i = 0; i < response.data.length; i++ ) {
           if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
@@ -227,12 +232,16 @@ GameManager.prototype.updateAsync = function() {
           }
         }
         if( foundPlayerScore === 1 ) {
+alert('4');
           _this.playerScore = response.data[i]["score"];
           if( _this.currentScore !== null && _this.currentScore > _this.playerScore ) {
+alert('5');
             _this.playerScore = _this.currentScore;
             opts = {score: this.currentScore};
             FB.api('/me/scores', 'post', opts, function(response) {
+alert('6');
               FB.api('/473600756038526/scores?fields=user,score', function(response) {
+alert('7');
                 _this.highScores = response.data;
                 _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
                 _this.drawUpdateFB();
@@ -252,6 +261,7 @@ GameManager.prototype.updateAsync = function() {
 };
   
 GameManager.prototype.drawUpdateFB = function() {
+alert('Draw Update Facebook');
   var i, content;
 
   content = this.prepTemplate(this.templates["highscores_fb_prefix"]);
@@ -281,6 +291,7 @@ GameManager.prototype.drawUpdateFB = function() {
 };
 
 GameManager.prototype.drawUpdate = function() {
+alert('Draw Update');
   var content;
 
   content = this.prepTemplate(this.templates["highscores_nofb"]);
