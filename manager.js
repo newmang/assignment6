@@ -218,7 +218,7 @@ GameManager.prototype.drawUpdateFB = function() {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
 
 alert(this.playerScore + 'vs' + this.currentScore);
-    if( this.playerScore !== null && this.playerScore === this.currentScore ) {
+    if( this.playerScore !== null && this.playerScore <= this.currentScore ) {
 alert("here");
       content += this.prepTempalte(this.templates["newhigh_fb"]);
     }
