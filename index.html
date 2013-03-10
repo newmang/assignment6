@@ -229,7 +229,7 @@ GameManager.prototype.updateAsync = function(response) {
           _this.playerScore = response.data[i]["score"];
           if( _this.currentScore !== null && _this.currentScore > _this.playerScore ) {
             _this.playerScore = _this.currentScore;
-            opts = {score: this.currentScore};
+            opts = {score: _this.currentScore};
             FB.api('/me/scores', 'post', opts, function(response) {
               _this.updateAsync2();
             });
