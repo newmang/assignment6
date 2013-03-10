@@ -205,9 +205,8 @@ alert("update");
 alert(JSON.stringify(response));
     if( response.status === 'connected' ) {
 alert('1');
-      FB.api('/me/permissions?fields=publish_actions', function(response) {
-alert(JSON.stringify(response));
-        if( response.data[0]["publish_actions"] == 1 ) {
+//      FB.api('/me/permissions?fields=publish_actions', function(response) {
+//        if( response.data[0]["publish_actions"] == 1 ) {
 alert('2');
           FB.api('/me?fields=name', function(response) {
 alert(JSON.stringify(response));
@@ -238,12 +237,12 @@ alert('a');
               }
             });
           });
-        }
-        else {
-alert('b');
-          _this.drawUpdate();
-        }
-      });
+//        }
+//        else {
+//alert('b');
+//          _this.drawUpdate();
+//        }
+//      });
     }
     else {
 alert('c');
