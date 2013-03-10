@@ -170,13 +170,10 @@ GameManager.prototype.updateAsync = function(response) {
         }
         if( foundPlayerScore === 1 ) {
           _this.playerScore = response.data[i]["score"];
-alert('1');
           if( _this.currentScore !== null && _this.currentScore > _this.playerScore ) {
-alert('2');
             _this.playerScore = _this.currentScore;
             opts = {score: _this.currentScore};
             FB.api('/me/scores', 'post', opts, function(response) {
-alert('3');
               _this.updateAsync2();
             });
           }
@@ -190,10 +187,11 @@ alert('3');
 };
 
 GameManager.prototype.updateAsync2 = function() {
-  var _this = this;
-alert('4');
+  var _this;
+
+  _this = this;
+
   FB.api('/473600756038526/scores?fields=user,score', function(response) {
-alert('5');
     _this.highScores = response.data;
     _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
     _this.drawUpdateFB();
