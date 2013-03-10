@@ -239,14 +239,11 @@ alert('5');
             _this.playerScore = _this.currentScore;
             opts = {score: this.currentScore};
             FB.api('/me/scores', 'post', opts, function(response) {
-alert('6');
-              FB.api('/473600756038526/scores?fields=user,score', function(response) {
-alert('7');
-                _this.highScores = response.data;
-                _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
-                _this.drawUpdateFB();
-              });
+              _this.updateAsync2();
             });
+          }
+          else {
+            _this.updateAsync2();
           }
         }
         else {
@@ -258,6 +255,16 @@ alert('7');
   else {
     _this.drawUpdate();
   }
+};
+
+GameManager.prototype.updateAsync2 = function() {
+alert('6');
+  FB.api('/473600756038526/scores?fields=user,score', function(response) {
+alert('7');
+    _this.highScores = response.data;
+    _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
+    _this.drawUpdateFB();
+  });
 };
   
 GameManager.prototype.drawUpdateFB = function() {
@@ -319,7 +326,7 @@ GameManager.prototype.loginFB = function() {
 
   _this = this;
   FB.login(function(response) {
-    _this.update();
+    _this.update(response);
   }, { scope: "publish_actions" });
 };
 
