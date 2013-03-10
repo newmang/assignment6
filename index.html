@@ -175,7 +175,7 @@ function GameManager() {
   ';
 }
 
-GameManager.prototype.update = function(response) {
+GameManager.prototype.update = function() {
   var _this;
 
   _this = this;	// Async calls change the regular "this" pointer
@@ -198,9 +198,6 @@ GameManager.prototype.update = function(response) {
     _this.todaysBest = _this.currentScore;
     window.localStorage.setItem("todaysBest", _this.currentScore);
   }
-
-  // Listen for Facebook login status changed messages
-  FB.Event.subscribe('auth.login', function(response) { _this.updateAsync(response); });
 
   // This will trigger a Facebook login status change (if the user is logged in)
   FB.getLoginStatus(function(response) { return; });
@@ -305,12 +302,7 @@ GameManager.prototype.drawUpdate = function() {
 };
 
 GameManager.prototype.loginFB = function() {
-  var _this;
-
-  _this = this;
-  FB.login(function(response) {
-//    _this.update(response);
-  }, { scope: "publish_actions" });
+  FB.login(function(response) { return; }, { scope: "publish_actions" });
 };
 
 GameManager.prototype.logoutFB = function() {
@@ -323,7 +315,7 @@ GameManager.prototype.logoutFB = function() {
 };
 
 GameManager.prototype.shareFB = function(score) {
-  var params;
+  var params, _this;
 
   params = {
     method: 'feed',
@@ -332,9 +324,10 @@ GameManager.prototype.shareFB = function(score) {
     caption: score
   };
 
+  _this = this;
   FB.ui(params, function(response) {
-    this.scoreShared = 1;
-    this.update();
+    _this.scoreShared = 1;
+    _this.update();
   });
 };
 
@@ -383,6 +376,7 @@ var gMyGameManager = new GameManager;
 document.addEventListener('deviceready', function() {
   document.addEventListener("backbutton", function() { return; }, false);
   FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
+  FB.Event.subscribe('auth.login', function(response) { gMyGameManager.updateAsync(response); });
   gMyGameManager.update();
 }, false);
 
