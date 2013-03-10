@@ -221,9 +221,10 @@ alert(this.playerScore + 'vs' + this.currentScore);
     if( this.playerScore !== null && this.playerScore <= this.currentScore ) {
 alert("here");
       content += this.prepTempalte(this.templates["newhigh_fb"]);
+alert(content);
     }
   }
-
+alert('write');
   this.writeElement(document.getElementById("highscores"), content);
 
   // All async calls have completed
