@@ -204,7 +204,7 @@ alert('update');
   if( response === undefined ) {
     FB.getLoginStatus(function(response) {
       FB.Event.subscribe('auth.login', function(response) { _this.updateAsync(response); });
-      _this.updateAsync(response);
+//      _this.updateAsync(response);
     });
   }
   else {
