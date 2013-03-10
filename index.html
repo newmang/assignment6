@@ -203,7 +203,7 @@ alert('update');
   // These variables require async Facebook API calls
   if( checkStatus === 1 ) {
     FB.getLoginStatus(function(response) {
-      _this.updateAsync();
+      _this.updateAsync(response);
     });
   }
   else {
@@ -211,13 +211,13 @@ alert('update');
   }
 };
 
-GameManager.prototype.updateAsync = function() {
+GameManager.prototype.updateAsync = function(response) {
 alert('update async');
   var _this, foundPlayerScore, opts;
 
   _this = this;
 
-  if( response.status === 'connected' ) {
+  if( response !== undefined && response.status === 'connected' ) {
 alert('1');
     FB.api('/me?fields=name', function(response) {
 alert('2');
