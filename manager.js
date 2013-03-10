@@ -205,7 +205,12 @@ GameManager.prototype.drawUpdateFB = function() {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
 
     if( this.playerScore !== null && this.playerScore <= this.currentScore ) {
-      content += this.prepTemplate(this.templates["newhigh_fb"]);
+      if( this.scoreShared === 1 ) {
+        content += this.prepTemplate(this.templates["newhigh"]);
+      }
+      else {
+        content += this.prepTemplate(this.templates["newhigh_fb"]);
+      }
     }
   }
 
@@ -248,21 +253,21 @@ GameManager.prototype.logoutFB = function() {
 GameManager.prototype.shareFB = function(score) {
   var params, line, _this;
 
-  line = 'I just got a score of ' + score + ' in Newmang Squares!';
+  line = 'I just got a new high score of ' + score + '!';
 
   params = {
     method: 'feed',
     link: 'https://build.phonegap.com/apps/297033',
-    picture: 'http://www.anarchyarcade.com/cse/mobile/icon.png',
-    name: 'NEW HIGH SCORE',
+    picture: 'http://www.anarchyarcade.com/cse/mobile/icon.jpg',
+    name: 'Newmang Squares',
     caption: line,
-    description: 'Think you got what it takes to top that? Try Newmang Squares today!'
+    description: 'Think you got what it takes to top that?'
   };
 
   _this = this;
   FB.ui(params, function(response) {
     _this.scoreShared = 1;
-    _this.update();
+//    _this.update();
   });
 };
 
