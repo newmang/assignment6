@@ -208,7 +208,8 @@ alert('1');
 //      FB.api('/me/permissions?fields=publish_actions', function(response) {
 //        if( response.data[0]["publish_actions"] == 1 ) {
 alert('2');
-          FB.api('/me?fields=name', function(response) {
+//          FB.api('/me?fields=name', function(response) {
+          FB.api('/me', function(response) {
 alert(JSON.stringify(response));
             _this.player = response;
             FB.api('/me/scores', function(response) {
