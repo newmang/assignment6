@@ -206,7 +206,7 @@ GameManager.prototype.update = function(response) {
   FB.getLoginStatus(function(response) { return; });
 
   // Draw the non-Facebook screen right now. (It will get replaced by the Facebook screen if needed)
-  _this.updateAsync();
+  _this.drawUpdate();
 };
 
 GameManager.prototype.updateAsync = function(response) {
@@ -214,7 +214,7 @@ GameManager.prototype.updateAsync = function(response) {
 
   _this = this;
 
-  if( response !== undefined && response.status === 'connected' ) {
+  if( response === undefined && response.status === 'connected' ) {
     FB.api('/me?fields=name', function(response) {
       _this.player = response;
       FB.api('/me/scores', function(response) {
@@ -238,14 +238,8 @@ GameManager.prototype.updateAsync = function(response) {
             _this.updateAsync2();
           }
         }
-        else {
-          _this.drawUpdate();
-        }
       });
     });
-  }
-  else {
-    _this.drawUpdate();
   }
 };
 
