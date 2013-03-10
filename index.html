@@ -202,18 +202,13 @@ alert("update");
 
   // These variables require async Facebook API calls
   FB.getLoginStatus(function(response) {
-alert(JSON.stringify(response));
     if( response.status === 'connected' ) {
-alert('1');
-//      FB.api('/me/permissions?fields=publish_actions', function(response) {
+      FB.api('/me/permissions?fields=publish_actions', function(response) {
 //        if( response.data[0]["publish_actions"] == 1 ) {
-alert('2');
-//          FB.api('/me?fields=name', function(response) {
-          FB.api('/me', function(response) {
+          FB.api('/me?fields=name', function(response) {
 alert(JSON.stringify(response));
             _this.player = response;
             FB.api('/me/scores', function(response) {
-alert(JSON.stringify(response));
               foundPlayerScore = 0;
               for( var i = 0; i < response.data.length; i++ ) {
                 if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
@@ -221,19 +216,15 @@ alert(JSON.stringify(response));
                   break;
                 }
               }
-alert('7');
               if( foundPlayerScore === 1 ) {
-alert('8');
                 _this.playerScore = response.data[i]["score"];
                 FB.api('/473600756038526/scores?fields=user,score', function(response) {
-alert(JSON.stringify(response));
                   _this.highScores = response.data;
                   _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
                   _this.drawUpdateFB();
                 });
               }
               else {
-alert('a');
                 _this.drawUpdate();
               }
             });
@@ -243,10 +234,9 @@ alert('a');
 //alert('b');
 //          _this.drawUpdate();
 //        }
-//      });
+      });
     }
     else {
-alert('c');
       _this.drawUpdate();
     }
   });
