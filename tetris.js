@@ -191,7 +191,7 @@ Tetris.prototype.gameOver = function() {
   window.localStorage.setItem("currentScore", this.score);
   window.localStorage.setItem("currentLevel", this.level);
   window.localStorage.setItem("currentLines", this.lines);
-  window.location = "index.html";
+  window.history.back();
 };
 
 Tetris.prototype.chooseNextPiece = function() {
