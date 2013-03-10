@@ -125,9 +125,9 @@ GameManager.prototype.update = function() {
 
   _this = this;	// Async calls change the regular "this" pointer
 
-  if( _this.busy === 1 ) {
-    return;
-  }
+//  if( _this.busy === 1 ) {
+//    return;
+//  }
 
   _this.busy = 1;
 
@@ -190,8 +190,9 @@ GameManager.prototype.updateAsync2 = function() {
   var _this;
 
   _this = this;
-
+alert('a');
   FB.api('/473600756038526/scores?fields=user,score', function(response) {
+alert('b');
     _this.highScores = response.data;
     _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
     _this.drawUpdateFB();
@@ -216,7 +217,8 @@ GameManager.prototype.drawUpdateFB = function() {
   if( this.currentScore !== null ) {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
 
-    if( this.playerScore !== null && this.playerScore === this.currentScore ) {
+alert(this.playerScore + 'vs' + this.currentScore);
+    if( this.playerScore !== null && this.playerScore == this.currentScore ) {
       content += this.prepTempalte(this.templates["newhigh_fb"]);
     }
   }
