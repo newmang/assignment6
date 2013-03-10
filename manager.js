@@ -170,10 +170,13 @@ GameManager.prototype.updateAsync = function(response) {
         }
         if( foundPlayerScore === 1 ) {
           _this.playerScore = response.data[i]["score"];
+alert('1');
           if( _this.currentScore !== null && _this.currentScore > _this.playerScore ) {
+alert('2');
             _this.playerScore = _this.currentScore;
             opts = {score: _this.currentScore};
             FB.api('/me/scores', 'post', opts, function(response) {
+alert('3');
               _this.updateAsync2();
             });
           }
