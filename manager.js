@@ -10,8 +10,6 @@ function GameManager() {
   this.playerScore = null;
   this.highScores = null;
 
-  this.busy = 0;
-
   this.templates = new Array();
 
   this.templates["highscores_nofb"] = '\
@@ -113,25 +111,14 @@ function GameManager() {
   ';
 
   this.templates["newhigh_fb"] = '\
-    <center><font class="highScore">NEW HIGH SCORE!</font><br /><a class="greenButton" href="javascript:gMyGameManager.shareFB();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a></center>\
+    <center><font class="highScore">NEW HIGH SCORE!</font><br /><a class="greenButton" href="javascript:gMyGameManager.shareFB(gMyGameManager.playerScore);"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a></center>\
   ';
-
-//    <center>\
-//      <font class="highScore">NEW HIGH SCORE!</font><br />\
-//      <a class="greenButton" href="javascript:gMyGameManager.shareFB();"><span class="greenButtonText" style="font-size: 18px;">Share on Facebook</span></a>\
-//    </center>\
 }
 
 GameManager.prototype.update = function() {
   var _this;
 
   _this = this;	// Async calls change the regular "this" pointer
-
-//  if( _this.busy === 1 ) {
-//    return;
-//  }
-
-  _this.busy = 1;
 
   // These variables are ready right away
   _this.scoreSubmitted = window.localStorage.getItem("scoreSubmitted");
@@ -192,9 +179,7 @@ GameManager.prototype.updateAsync2 = function() {
   var _this;
 
   _this = this;
-alert('a');
   FB.api('/473600756038526/scores?fields=user,score', function(response) {
-alert('b');
     _this.highScores = response.data;
     _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
     _this.drawUpdateFB();
@@ -220,16 +205,11 @@ GameManager.prototype.drawUpdateFB = function() {
     content += this.prepTemplate(this.templates["lastgame"], this.currentScore, this.currentLines, this.currentLevel);
 
     if( this.playerScore !== null && this.playerScore <= this.currentScore ) {
-alert("here");
       content += this.prepTemplate(this.templates["newhigh_fb"]);
-alert(content);
     }
   }
-alert('write');
-  this.writeElement(document.getElementById("highscores"), content);
 
-  // All async calls have completed
-  this.busy = 0;
+  this.writeElement(document.getElementById("highscores"), content);
 };
 
 GameManager.prototype.drawUpdate = function() {
@@ -250,9 +230,6 @@ GameManager.prototype.drawUpdate = function() {
   }
 
   this.writeElement(document.getElementById("highscores"), content);
-
-  // All async calls have completed
-  this.busy = 0;
 };
 
 GameManager.prototype.loginFB = function() {
