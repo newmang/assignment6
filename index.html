@@ -200,11 +200,13 @@ alert('update');
     window.localStorage.setItem("todaysBest", _this.currentScore);
   }
 
-  // These variables require async Facebook API calls
+  // Listen for Facebook login status changed messages
   FB.Event.subscribe('auth.login', function(response) { _this.updateAsync(response); });
-  FB.getLoginStatus(function(response) {
-//    _this.updateAsync();
-  });
+
+  // This will trigger a Facebook login status change (if the user is logged in)
+  FB.getLoginStatus(function(response) { return; });
+
+  // Draw the non-Facebook screen right now. (It will get replaced by the Facebook screen if needed)
   _this.updateAsync();
 };
 
