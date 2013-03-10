@@ -1,3 +1,12 @@
+// <!-- General documentation is in readme.txt -->
+// File: block.js
+// Class: Block
+//
+// Purpose:
+// A block element for the gameplay. Some logic functions
+// that determine gameplay here, such as which moves are
+// possible.
+
 function Block(type)
 {
   this.x = 4;

@@ -1,3 +1,10 @@
+// <!-- General documentation is in readme.txt -->
+// File: tetris.js
+// Class: Tetris
+//
+// Purpose:
+// This object gets created in tetris.html. It handles all of the gameplay.
+
 function Tetris(canvas){
   this.cellSize = 25;
   this.interval = 600;	// milliseconds
