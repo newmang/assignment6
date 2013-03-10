@@ -256,7 +256,7 @@ GameManager.prototype.shareFB = function(score) {
     picture: 'http://www.anarchyarcade.com/cse/mobile/icon.png',
     name: 'NEW HIGH SCORE',
     caption: line,
-    description: 'Think you got what it takes to top that? Try Newmang Squares today!';
+    description: 'Think you got what it takes to top that? Try Newmang Squares today!'
   };
 
   _this = this;
