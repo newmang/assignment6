@@ -246,13 +246,17 @@ GameManager.prototype.logoutFB = function() {
 };
 
 GameManager.prototype.shareFB = function(score) {
-  var params, _this;
+  var params, line, _this;
+
+  line = 'I just got a score of ' + score + ' in Newmang Squares!';
 
   params = {
     method: 'feed',
-    name: 'NEW HIGH SCORE',
+    link: 'https://build.phonegap.com/apps/297033',
     picture: 'http://www.anarchyarcade.com/cse/mobile/icon.png',
-    caption: score
+    name: 'NEW HIGH SCORE',
+    caption: line,
+    description: 'Think you got what it takes to top that? Try Newmang Squares today!';
   };
 
   _this = this;
