@@ -201,18 +201,11 @@ alert('update');
   }
 
   // These variables require async Facebook API calls
-  if( response === undefined ) {
-    FB.Event.subscribe('auth.login', function(response) { alert('callback'); _this.updateAsync(response); });
-    FB.getLoginStatus(function(response) {
-//alert('alpha');
-//      _this.updateAsync(response);
-      _this.updateAsync();
-    });
-  }
-  else {
-alert('zeta');
-    _this.updateAsync(response);
-  }
+  FB.Event.subscribe('auth.login', function(response) { _this.updateAsync(response); });
+  FB.getLoginStatus(function(response) {
+//    _this.updateAsync();
+  });
+  _this.updateAsync();
 };
 
 GameManager.prototype.updateAsync = function(response) {
@@ -222,12 +215,9 @@ alert('update async');
   _this = this;
 
   if( response !== undefined && response.status === 'connected' ) {
-alert('1');
     FB.api('/me?fields=name', function(response) {
-alert('2');
       _this.player = response;
       FB.api('/me/scores', function(response) {
-alert('3');
         foundPlayerScore = 0;
         for( var i = 0; i < response.data.length; i++ ) {
           if( response.data[i]["application"] != undefined && response.data[i]["application"]["id"] == "473600756038526" ) {
@@ -236,10 +226,8 @@ alert('3');
           }
         }
         if( foundPlayerScore === 1 ) {
-alert('4');
           _this.playerScore = response.data[i]["score"];
           if( _this.currentScore !== null && _this.currentScore > _this.playerScore ) {
-alert('5');
             _this.playerScore = _this.currentScore;
             opts = {score: this.currentScore};
             FB.api('/me/scores', 'post', opts, function(response) {
@@ -263,9 +251,7 @@ alert('5');
 
 GameManager.prototype.updateAsync2 = function() {
 var _this = this;
-alert('6');
   FB.api('/473600756038526/scores?fields=user,score', function(response) {
-alert('7');
     _this.highScores = response.data;
     _this.highScores.sort(function(a,b) { return b["score"] - a["score"]; });
     _this.drawUpdateFB();
@@ -273,7 +259,6 @@ alert('7');
 };
   
 GameManager.prototype.drawUpdateFB = function() {
-alert('Draw Update Facebook');
   var i, content;
 
   content = this.prepTemplate(this.templates["highscores_fb_prefix"]);
@@ -303,7 +288,6 @@ alert('Draw Update Facebook');
 };
 
 GameManager.prototype.drawUpdate = function() {
-alert('Draw Update');
   var content;
 
   content = this.prepTemplate(this.templates["highscores_nofb"]);
