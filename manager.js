@@ -220,7 +220,7 @@ GameManager.prototype.drawUpdateFB = function() {
 alert(this.playerScore + 'vs' + this.currentScore);
     if( this.playerScore !== null && this.playerScore <= this.currentScore ) {
 alert("here");
-//      content += this.prepTempalte(this.templates["newhigh"]);
+      content += this.prepTemplate(this.templates["newhigh"]);
 alert(content);
     }
   }
