@@ -202,10 +202,10 @@ alert('update');
 
   // These variables require async Facebook API calls
   if( response === undefined ) {
+    FB.Event.subscribe('auth.login', function(response) { alert('callback'); _this.updateAsync(response); });
     FB.getLoginStatus(function(response) {
-      FB.Event.subscribe('auth.login', function(response) { alert('callback'); _this.updateAsync(response); });
-alert('alpha');
-      _this.updateAsync(response);
+//alert('alpha');
+//      _this.updateAsync(response);
     });
   }
   else {
