@@ -175,7 +175,7 @@ function GameManager() {
   ';
 }
 
-GameManager.prototype.update = function() {
+GameManager.prototype.update = function(checkStatus) {
   var _this;
 
   _this = this;	// Async calls change the regular "this" pointer
@@ -200,9 +200,14 @@ GameManager.prototype.update = function() {
   }
 
   // These variables require async Facebook API calls
-  FB.getLoginStatus(function(response) {
+  if( checkStatus === 1 ) {
+    FB.getLoginStatus(function(response) {
+      _this.updateAsync();
+    });
+  }
+  else {
     _this.updateAsync();
-  });
+  }
 };
 
 GameManager.prototype.updateAsync = function() {
@@ -377,7 +382,7 @@ var gMyGameManager = new GameManager;
 document.addEventListener('deviceready', function() {
   document.addEventListener("backbutton", function() { return; }, false);
   FB.init({ appId: "473600756038526", nativeInterface: CDV.FB, useCachedDialogs: false });
-  gMyGameManager.update();
+  gMyGameManager.update(1);
 }, false);
 
 </script>
