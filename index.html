@@ -176,7 +176,6 @@ function GameManager() {
 }
 
 GameManager.prototype.update = function() {
-alert("update");
   var _this, foundPlayerScore;
 
   _this = this;	// Async calls change the regular "this" pointer
@@ -204,9 +203,9 @@ alert("update");
   FB.getLoginStatus(function(response) {
     if( response.status === 'connected' ) {
       FB.api('/me/permissions?fields=publish_actions', function(response) {
-//        if( response.data[0]["publish_actions"] == 1 ) {
+//alert(JSON.stringify(response));
+        if( response.data[0]["publish_actions"] == 1 ) {
           FB.api('/me?fields=name', function(response) {
-alert(JSON.stringify(response));
             _this.player = response;
             FB.api('/me/scores', function(response) {
               foundPlayerScore = 0;
@@ -229,11 +228,10 @@ alert(JSON.stringify(response));
               }
             });
           });
-//        }
-//        else {
-//alert('b');
-//          _this.drawUpdate();
-//        }
+        }
+        else {
+          _this.drawUpdate();
+        }
       });
     }
     else {
@@ -243,7 +241,6 @@ alert(JSON.stringify(response));
 };
   
 GameManager.prototype.drawUpdateFB = function() {
-alert("Draw Facebook Update");
   var i, content, opts, _this;
 
   content = this.prepTemplate(this.templates["highscores_fb_prefix"]);
@@ -283,8 +280,6 @@ alert("Draw Facebook Update");
 };
 
 GameManager.prototype.drawUpdate = function() {
-alert("Draw Update");
-
   var content;
 
   content = this.prepTemplate(this.templates["highscores_nofb"]);
