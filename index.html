@@ -202,12 +202,10 @@ GameManager.prototype.update = function() {
   // This will trigger a Facebook login status change (if the user is logged in)
   FB.getLoginStatus(function(response) {
     if( response.status !== 'connected' ) {
+alert('blah');
       _this.drawUpdate();
     }
   });
-
-  // Draw the non-Facebook screen right now. (It will get replaced by the Facebook screen if needed)
-//  _this.drawUpdate();
 };
 
 GameManager.prototype.updateAsync = function(response) {
